@@ -42,12 +42,16 @@
 
   :plugins [] 
 
+  ;profiles identify different build scenarios
   :profiles
   {:uberjar {:omit-source true
              :aot :all
              :uberjar-name "clj-blog.jar"
+             ;source paths and resource paths are very lightweight & specific
+             ;prod/clj does not include support for starting and stopping the server within REPL for example
              :source-paths ["env/prod/clj" ]
              :resource-paths ["env/prod/resources"]}
+   ;uberjar packages application for deployment
 
    :dev           [:project/dev :profiles/dev]
    :test          [:project/dev :project/test :profiles/test]

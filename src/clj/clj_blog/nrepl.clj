@@ -10,7 +10,7 @@
   clojure.tools.nrepl.server/start-server as they are."
   [{:keys [port bind transport-fn handler ack-port greeting-fn]}]
   (try
-    (log/info "starting nREPL server on port" port)
+    (log/info "starting nREPL server on port " port)
     (nrepl/start-server :port port
                         :bind bind
                         :transport-fn transport-fn

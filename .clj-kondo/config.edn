@@ -1,0 +1,13 @@
+{:lint-as {mount.core/defstate clojure.core/def
+           failjure.core/attempt-all clojure.core/let}
+ :linters {:unused-namespace {:exclude [aclaimant.common.utils.logging]}
+           :unresolved-var {:exclude [clojure.core.async/<!!
+                                      clojure.core.async/>!!
+                                      clojure.core.async/alts!!
+                                      meander.epsilon/pred]}
+           :unresolved-symbol
+           {:exclude [(clojure.test/is [match? superset?])
+                      (meander.epsilon/match)
+                      (meander.epsilon/search)
+                      (meander.epsilon/find)
+                      (meander.epsilon/pred)]}}}

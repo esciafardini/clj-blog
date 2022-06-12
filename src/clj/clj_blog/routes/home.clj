@@ -13,8 +13,7 @@
   (layout/render request "home.html"  (merge 
                                         {:messages (db/get-messages)}
                                         (select-keys flash [:name :message :errors]))))
-;;;;; leaving chunka key here to show that any key can be utilized by Bulma
-;TODO : delete when this doesn't feel relevant anymore
+
 (defn about-page [request]
   (layout/render request "about.html"))
 
