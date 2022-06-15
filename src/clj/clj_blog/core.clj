@@ -7,6 +7,7 @@
    [clj-blog.config :refer [env]]
    [clojure.tools.cli :refer [parse-opts]]
    [clojure.tools.logging :as log]
+   [mount.tools.graph :as graph]
    [mount.core :as mount])
   (:gen-class))
 
@@ -35,7 +36,14 @@
 ;
 ;; these are fired up on run
 
-;;                 on-reload noop means this will not be reloaded while app is running
+;; :on-reload :noop means this will not be reloaded when namespaces are refreshed
+
+(comment
+  (graph/states-with-deps) 
+  
+  )
+
+
 (mount/defstate ^{:on-reload :noop} http-server
   ;mount/start is tight bc it automatically determines the order in which
   ;; resources need to be initialized

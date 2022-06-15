@@ -1,7 +1,12 @@
 {:lint-as {mount.core/defstate clojure.core/def
            failjure.core/attempt-all clojure.core/let}
  :linters {:unused-namespace {:exclude [aclaimant.common.utils.logging]}
-           :unresolved-var {:exclude [clojure.core.async/<!!
+           :clojure-lsp/unused-public-var {:exclude [clj-blog.handler/init-app]}
+           :unresolved-var {:exclude [ajax.core/GET
+                                      ajax.core/POST
+                                      clj-blog.db.core/get-messages
+                                      clj-blog.db.core/save-message!
+                                      clojure.core.async/<!!
                                       clojure.core.async/>!!
                                       clojure.core.async/alts!!
                                       meander.epsilon/pred]}

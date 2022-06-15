@@ -9,16 +9,22 @@
     [clj-blog.env :refer [defaults]]
     [mount.core :as mount]))
 
+;This namespace is responsible for transforming all route declarations into a single ring ring-handler
+;; wraps them with shared middleware
+
 (mount/defstate init-app
   :start ((or (:init defaults) (fn [])))
   :stop  ((or (:stop defaults) (fn []))))
 
+;;any additional routes needed within app will be added here
 (mount/defstate app-routes
   :start
   (ring/ring-handler
-    (ring/router
+    ;`ring/router` aggregates routes for handling all requests to our app into a reitit router
+    (ring/router 
       [(home-routes)])
     (ring/routes
+      ;default ring handler:
       (ring/create-resource-handler
         {:path "/"})
       (wrap-content-type

@@ -1,14 +1,18 @@
 (ns clj-blog.db.core
   (:require
     [cheshire.core :refer [generate-string parse-string]]
+    [java-time :refer [java-date]]
     [next.jdbc.date-time]
     [next.jdbc.prepare]
     [next.jdbc.result-set]
     [clojure.tools.logging :as log]
     [conman.core :as conman]
     [clj-blog.config :refer [env]]
-    [mount.core :refer [defstate]])
+    [mount.core :refer [defstate]]
+    [ajax.transit :as t])
   (:import (org.postgresql.util PGobject)))
+
+;; The model describes the data stored by the application and the relationship btw individual data elements
 
 (defstate ^:dynamic *db*
   :start (if-let [jdbc-url (env :database-url)]
@@ -18,7 +22,17 @@
              *db*))
   :stop (conman/disconnect! *db*))
 
-(conman/bind-connection *db* "sql/queries.sql")
+(conman/bind-connection *db* "sql/queries.sql") ;eventually, move sql queries into seperate files - conman accepts &filenames
+
+(defn sql-timestamp->inst 
+  "for use in extend-protocol for timestamps.
+  This is a lossy conversion since we are losing time information
+  TO CONFIRM: this does not effect DB data, only what's returned from DB" 
+  [t]
+  (-> t
+      .toLocalDateTime
+      (.atZone (java.time.ZoneId/systemDefault))
+      java-date)) ;warning: using java-time classes strips away nuanced time information
 
 (defn pgobj->clj [^org.postgresql.util.PGobject pgobj]
   (let [type (.getType pgobj)
@@ -32,9 +46,9 @@
 (extend-protocol next.jdbc.result-set/ReadableColumn
   java.sql.Timestamp
   (read-column-by-label [^java.sql.Timestamp v _]
-    (.toLocalDateTime v))
+    (sql-timestamp->inst v))
   (read-column-by-index [^java.sql.Timestamp v _2 _3]
-    (.toLocalDateTime v))
+    (sql-timestamp->inst v))
   java.sql.Date
   (read-column-by-label [^java.sql.Date v _]
     (.toLocalDate v))
