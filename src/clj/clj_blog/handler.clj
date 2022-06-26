@@ -1,13 +1,14 @@
 (ns clj-blog.handler
   (:require
-    [clj-blog.middleware :as middleware]
-    [clj-blog.layout :refer [error-page]]
-    [clj-blog.routes.home :refer [home-routes]]
-    [reitit.ring :as ring]
-    [ring.middleware.content-type :refer [wrap-content-type]]
-    [ring.middleware.webjars :refer [wrap-webjars]]
-    [clj-blog.env :refer [defaults]]
-    [mount.core :as mount]))
+   [clj-blog.env :refer [defaults]]
+   [clj-blog.layout :refer [error-page]]
+   [clj-blog.middleware :as middleware]
+   [clj-blog.routes.home :refer [home-routes]]
+   [clj-blog.routes.services :refer [service-routes]]
+   [mount.core :as mount]
+   [reitit.ring :as ring]
+   [ring.middleware.content-type :refer [wrap-content-type]]
+   [ring.middleware.webjars :refer [wrap-webjars]]))
 
 ;This namespace is responsible for transforming all route declarations into a single ring ring-handler
 ;; wraps them with shared middleware
@@ -22,7 +23,8 @@
   (ring/ring-handler
     ;`ring/router` aggregates routes for handling all requests to our app into a reitit router
     (ring/router 
-      [(home-routes)])
+      [(home-routes)
+       (service-routes)])
     (ring/routes
       ;default ring handler:
       (ring/create-resource-handler

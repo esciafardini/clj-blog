@@ -47,7 +47,7 @@
   "Recieves a reagent atom that stores messages
   Notice: this doesn't require csrf protection"
   []
-  (GET "/messages"
+  (GET "/api/messages"
     {:headers {"Accept" "application/transit+json"}
     ;:handler (fn [response] (reset! messages (:messages response)))  ;;Reagent Remnant
      :handler (fn [response]
@@ -56,7 +56,7 @@
 (defn send-message! [fields errors]
   (if-let [validation-errors (validate-message @fields)]
     (reset! errors validation-errors)
-    (POST "/message"
+    (POST "/api/message"
       {:format :json
        :headers
        {"Accept" "application/transit+json" ;transit tags clojure data structures when they're encoded
