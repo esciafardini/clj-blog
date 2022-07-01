@@ -1,22 +1,29 @@
 (ns clj-blog.routes.services
   (:require
-   [clj-blog.layout :as layout]
    [clj-blog.messages :as msg]
-   [clj-blog.middleware :as middleware]
+   [clj-blog.middleware.formats :as formats]
+   [reitit.coercion.spec :as spec-coercion]
+   [reitit.ring.coercion :as coercion]
+   [reitit.ring.middleware.exception :as exception]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.parameters :as parameters]
+   [reitit.ring.middleware.multipart :as multipart]
+   [reitit.swagger :as swagger]
+   [reitit.swagger-ui :as swagger-ui]
    [ring.util.http-response :as response]))
 
-;;the save-message! and message-list fns in this namespace are HTTP specific
-(defn message-list 
-  "HTTP means of fetching messages from the psql database" 
+;;the save-message! and get-message-list fns in this namespace are HTTP specific
+(defn get-messages
+  "HTTP means of fetching messages from the psql database"
   [_]
-  (response/ok (msg/message-list)))
+  (response/ok (msg/get-messages)))
 
-(defn save-message! 
-  "HTTP means of saving a message to the psql database" 
-  [{:keys [params]}]
+(defn save-message!
+  "HTTP means of saving a message to the psql database"
+  [{{params :body} :parameters}] ;; interesting map destructuring
   (try
-    (msg/save-message! params)
-    (response/ok {:status :ok})
+    (msg/save-message! params) ;touches db
+    (response/ok {:status :ok}) ;http response map
     (catch Exception e
       (let [{id :clj-blog/error-id
              errors :errors} (ex-data e)] ;;;interesting destructure here - let bindings created via keywords
@@ -25,12 +32,52 @@
           (response/bad-request {:errors errors})
           ;;else
           (response/internal-server-error
-            {:errors {:server-error ["Failed to save message!"]}}))))))
+           {:errors {:server-error ["Failed to save message!"]}}))))))
 
-(defn service-routes []
+(defn service-routes
+  "Reitit routes for /api with lots of middleware.  Descriptions in comments."
+  []
   ["/api"
-   {:middleware [middleware/wrap-formats]}
+   {:middleware [parameters/parameters-middleware       ;query params, form params
+                 muuntaja/format-negotiate-middleware   ;content negotiation
+                 muuntaja/format-response-middleware    ;encoding response body
+                 exception/exception-middleware         ;exception handling
+                 muuntaja/format-request-middleware     ;decoding request body
+                 coercion/coerce-response-middleware    ;coercing request parameters
+                 coercion/coerce-request-middleware     ;coercing request parameters
+                 multipart/multipart-middleware]        ;multipart params
+    ;with muuntaja and coercion, reitit enriches middleware
+    :muuntaja formats/instance ;luminus provides this custom muuntaja instance
+    :coercion spec-coercion/coercion ;used by reitit's coercion middleware
+    :swagger {:id ::api}} ;swagger keyword is inherited by all child routes, designates them with ID ::api
+   ["" {:no-doc true}
+    ["/swagger.json"
+     {:get (swagger/create-swagger-handler)}]
+    ["/swagger-ui*"
+     {:get (swagger-ui/create-swagger-ui-handler ;Swagger UI offers the ability to visualize and interact with our services API
+            {:url "/api/swagger.json"})}]]
    ["/messages"
-    {:get message-list}]
+    {:get
+     {:responses
+      {200
+       {:body  ;; Data Spec for response body - provides a specification for each route's params and responses
+        {:messages
+         [{:id pos-int?
+           :name string?
+           :message string?
+           :timestamp inst?}]}}}
+      :handler get-messages}}]
    ["/message"
-    {:post save-message!}]])
+    {:post
+     {:parameters
+      {:body ;; Data Spec for Request body parameters 
+       {:name string?
+        :message string?}}
+      :responses
+      {200
+       {:body map?}
+       400
+       {:body map?}
+       500
+       {:errors map?}}
+      :handler save-message!}}]])

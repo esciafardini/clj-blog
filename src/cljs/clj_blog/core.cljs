@@ -9,6 +9,9 @@
 ;;; one of the main goals of rf is to remove state and logic from components
 ;;  separation of logic & components makes for easier testing, more composable components
 
+(comment
+  (js/alert "h"))
+
 (rf/reg-event-fx
   ;;a handler fn and a keyword that identifies it
  :app/initialize
@@ -26,7 +29,7 @@
               :messages/list messages))))
 
 (rf/reg-event-db
- :messages/add
+ :message/add
  (fn [db [_ message]]
    (update db :messages/list conj message)))
 
@@ -63,14 +66,9 @@
         "x-csrf-token" (.-value (.getElementById js/document "token"))}
        :params @fields
        :handler (fn [_]
-                  (rf/dispatch [:messages/add (assoc @fields :timestamp (js/Date.))])
+                  (rf/dispatch [:message/add (assoc @fields :timestamp (js/Date.))])
                   (reset! errors nil)
                   (reset! fields nil))
-     ; :handler (fn [res]
-     ;            (reset! errors nil)
-     ;            (reset! fields nil)
-     ;            (swap! messages conj (assoc @fields :timestamp (js/Date.))) ;conj a new map onto the vector
-     ;            (.log js/console res))
        :error-handler
        (fn [res]
          (let [error-map (-> res
@@ -130,8 +128,6 @@
   Reagent atoms can be used to observe the current value of the model by components with no awareness as to how it was populated."
   []
   (let [messages (rf/subscribe [:messages/list])]
-    (rf/dispatch [:app/initialize])
-    (get-messages)
     (fn []
       (if @(rf/subscribe [:messages/loading?])
         [:div>div.row>div.span12>h3 "Loading messages"]
@@ -140,13 +136,23 @@
           [:h3 "Messages"]
           [message-list messages]]
          [:div.columns>div.column
-          [message-form messages]]]))))
+          [message-form]]]))))
+
+(defn ^:dev/after-load mount-components []
+  (rf/clear-subscription-cache!)
+  (.log js/console "Mounting Components...")
+  (dom/render [home] (.getElementById js/document "content"))
+  (.log js/console "Components Mounted!"))
+
+(defn init! []
+  (.log js/console "Initializing App...")
+  (rf/dispatch [:app/initialize])
+  (get-messages)
+  (mount-components))
 
 ;reagent.dom/render takes two arguments
 ;; 1. A component to render
 ;; 2. The target DOM node
-(dom/render
+#_(dom/render
  [home]
  (.getElementById js/document "content"))
-
-#_[:div#hello.content>h1 "Another Way To Say It"]

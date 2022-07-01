@@ -1,0 +1,10 @@
+{:nrepl {:port 7772}
+ :builds {:app {:target :browser
+                :output-dir "target/cljsbuild/public/js"
+                :asset-path "/js"
+                :modules {:app {:entries [clj_blog.app]}}
+                :devtools {:watch-dir "resources/public"}}
+          :test {:target :node-test, :output-to "target/test/test.js"
+                 :autorun true}}
+ :lein true}
+

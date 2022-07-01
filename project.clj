@@ -3,11 +3,11 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
-  :dependencies [[binaryage/devtools "1.0.6"]
-                 [ch.qos.logback/logback-classic "1.2.3"]
+  :dependencies [[ch.qos.logback/logback-classic "1.2.3"]
                  [cheshire "5.10.0"]
                  [clojure.java-time "0.3.2"]
                  [cljs-ajax "0.8.1"]
+                 [com.google.javascript/closure-compiler-unshaded "v20200830" :scope "provided"]
                  [conman "0.9.1"]
                  [cprop "0.1.17"]
                  [expound "0.8.7"]
@@ -24,6 +24,7 @@
                  [nrepl "0.8.3"]
                  [org.clojure/clojure "1.10.1"]
                  [org.clojure/clojurescript "1.10.764" :scope "provided"]
+                 [org.clojure/google-closure-library "0.0-20191016-6ae1f72f" :scope "provided"]
                  [org.clojure/tools.cli "1.0.194"]
                  [org.clojure/tools.logging "1.1.0"]
                  [org.postgresql/postgresql "42.2.18"]
@@ -35,38 +36,18 @@
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.8.2"]
                  [ring/ring-defaults "0.3.2"]
-                 [selmer "1.12.31"]]
+                 [selmer "1.12.31"]
+                 [thheller/shadow-cljs "2.19.5" :scope "provided"]]
 
   :min-lein-version "2.0.0"
 
-  :source-paths ["src/clj" "src/cljc"]
+  :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]
   :target-path "target/%s/"
   :main ^:skip-aot clj-blog.core
 
-  :plugins [[lein-cljsbuild "1.1.8"]]
-
-  :cljsbuild
-  {:builds
-   {:app {:source-paths ["src/cljs" "src/cljc"]
-          :compiler {:output-to "target/cljsbuild/public/js/app.js"
-                     :output-dir "target/cljsbuild/public/js/out"
-                     :preloads [devtools.preload]
-                     :external-config {:devtools/config {:dont-detect-custom-formatters true}}
-                     :main "clj-blog.core"
-                     :asset-path "/js/out"
-                     :optimizations :none
-                     :source-map true
-                     :pretty-print true}}}}
-
-  :clean-targets
-  ^{:protect false}
-  [:target-path
-   [:cljsbuild :builds :app :compiler :output-dir]
-   [:cljsbuild :builds :app :compiler :output-to]]
-
-  ;profiles identify different build scenarios
+;profiles identify different build scenarios
   :profiles
   {:uberjar {:omit-source true
              :aot :all
@@ -81,14 +62,15 @@
    :test          [:project/dev :project/test :profiles/test]
 
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"]
-                  :dependencies [[pjstadig/humane-test-output "0.10.0"]
+                  :dependencies [[binaryage/devtools "1.0.6"]
+                                 [pjstadig/humane-test-output "0.10.0"]
                                  [prone "2020-01-17"]
                                  [ring/ring-devel "1.8.2"]
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.1"]
                                  [jonase/eastwood "0.3.5"]]
 
-                  :source-paths ["env/dev/clj"]
+                  :source-paths ["env/dev/clj" "env/dev/cljs" "env/dev/cljc"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user
                                  :timeout 120000}

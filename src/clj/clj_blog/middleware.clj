@@ -6,14 +6,13 @@
     [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
     [clj-blog.middleware.formats :as formats]
     [muuntaja.middleware :refer [wrap-format wrap-params]]
-    [clj-blog.config :refer [env]]
     [ring-ttl-session.core :refer [ttl-memory-store]]
     [ring.middleware.defaults :refer [site-defaults wrap-defaults]]))
 
 ;This namespace is reserved for any wrapper functions that are used to modify the requests and responses
 ;a central place for handling common tasks such as CSRF protection
 
-(defn wrap-internal-error 
+(defn wrap-internal-error
   "Middleware Fns in Clojure are higher order Functions.
   wrap-internal-error receives a handler function
   handler functions take requests
@@ -21,7 +20,7 @@
   THEN calls the handler on the request
   augmented with a try-catch.
   This is the common higher-order function form of middleware functions.
-  NOTICE: if no error is thrown, the handler is called on the request as normal" 
+  NOTICE: if no error is thrown, the handler is called on the request as normal"
   [handler]
   (fn [req]
     (try
@@ -41,9 +40,9 @@
         :title "Invalid anti-forgery token"})}))
 
 
-(defn wrap-formats 
+(defn wrap-formats
   "The pattern is visible here as well.
-  The original handler is called on the request, but differently under certain conditions" 
+  The original handler is called on the request, but differently under certain conditions"
   [handler]
   (let [wrapped (-> handler wrap-params (wrap-format formats/instance))]
     (fn [request]

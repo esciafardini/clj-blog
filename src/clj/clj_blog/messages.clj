@@ -7,7 +7,7 @@
 ;; now these can be utilized by other services
 ;;this is the messages `model`
 
-(defn message-list []
+(defn get-messages []
   {:messages (vec (db/get-messages))})
 
 (defn save-message! [message]
