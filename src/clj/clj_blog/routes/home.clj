@@ -1,9 +1,7 @@
 (ns clj-blog.routes.home
   (:require
    [clj-blog.layout :as layout]
-   [clj-blog.messages :as msg]
-   [clj-blog.middleware :as middleware]
-   [ring.util.http-response :as response]))
+   [clj-blog.middleware :as middleware]))
 
 ;; Application routes represent URIs that a client can call to perform an action or retrieve some data
 ;;  specific workflows will group all routes into singular namespaces (like home)

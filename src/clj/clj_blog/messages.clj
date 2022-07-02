@@ -5,7 +5,7 @@
 ;;Notice: nothing related to HTTP
 ;; why?
 ;; now these can be utilized by other services
-;;this is the messages `model`
+;;this is the comments `model`
 
 (defn get-messages []
   {:messages (vec (db/get-messages))})

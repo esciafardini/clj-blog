@@ -13,7 +13,9 @@
               (fn [x] (and (string? x) (> (count x) 10)))]]])
 
 (defn validate-message 
-  "receives a map `params` with kv pairs - not nested"
+  "Receives a map `params` keys :name & :message => {:name \"Johnny\" :message \"how are you today?\"}
+   Returns nil if no errors
+   Returns a map otherwise"
   [params]
   (-> message-schema
       (m/explain params)

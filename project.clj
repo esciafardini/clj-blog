@@ -7,7 +7,8 @@
                  [cheshire "5.10.0"]
                  [clojure.java-time "0.3.2"]
                  [cljs-ajax "0.8.1"]
-                 [com.google.javascript/closure-compiler-unshaded "v20220601" :scope "provided"]
+                 [com.google.javascript/closure-compiler-unshaded "v20200830" :scope "provided"]
+                 [com.taoensso/sente "1.16.0"]
                  [conman "0.9.1"]
                  [cprop "0.1.17"]
                  [expound "0.8.7"]
@@ -22,8 +23,8 @@
                  [metosin/ring-http-response "0.9.1"]
                  [mount "0.1.16"]
                  [nrepl "0.8.3"]
-                 [org.clojure/clojure "1.11.1"]
-                 [org.clojure/clojurescript "1.11.60" :scope "provided"]
+                 [org.clojure/clojure "1.10.1"]
+                 [org.clojure/clojurescript "1.10.773" :scope "provided"]
                  [org.clojure/google-closure-library "0.0-20191016-6ae1f72f" :scope "provided"]
                  [org.clojure/tools.cli "1.0.194"]
                  [org.clojure/tools.logging "1.1.0"]
@@ -37,7 +38,7 @@
                  [ring/ring-core "1.8.2"]
                  [ring/ring-defaults "0.3.2"]
                  [selmer "1.12.31"]
-                 [thheller/shadow-cljs "2.19.5" :scope "provided"]]
+                 [thheller/shadow-cljs "2.11.14" :scope "provided"]]
 
   :min-lein-version "2.0.0"
 
