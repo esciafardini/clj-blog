@@ -2,12 +2,12 @@
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
-
+  
   :dependencies [[ch.qos.logback/logback-classic "1.2.3"]
                  [cheshire "5.10.0"]
                  [clojure.java-time "0.3.2"]
                  [cljs-ajax "0.8.1"]
-                 [com.google.javascript/closure-compiler-unshaded "v20200830" :scope "provided"]
+                 [com.google.javascript/closure-compiler-unshaded "v20220601" :scope "provided"]
                  [conman "0.9.1"]
                  [cprop "0.1.17"]
                  [expound "0.8.7"]
@@ -22,8 +22,8 @@
                  [metosin/ring-http-response "0.9.1"]
                  [mount "0.1.16"]
                  [nrepl "0.8.3"]
-                 [org.clojure/clojure "1.10.1"]
-                 [org.clojure/clojurescript "1.10.764" :scope "provided"]
+                 [org.clojure/clojure "1.11.1"]
+                 [org.clojure/clojurescript "1.11.60" :scope "provided"]
                  [org.clojure/google-closure-library "0.0-20191016-6ae1f72f" :scope "provided"]
                  [org.clojure/tools.cli "1.0.194"]
                  [org.clojure/tools.logging "1.1.0"]
@@ -54,8 +54,9 @@
              :uberjar-name "clj-blog.jar"
              ;source paths and resource paths are very lightweight & specific
              ;prod/clj does not include support for starting and stopping the server within REPL for example
-             :source-paths ["env/prod/clj"]
-             :resource-paths ["env/prod/resources"]}
+             :source-paths ["env/prod/clj" "env/prod/cljc" "env/prod/cljs"]
+             :resource-paths ["env/prod/resources"]
+             :prep-tasks ["compile" ["run" "-m" "shadow.cljs.devtools.cli" "release" "app"]]}
    ;uberjar packages application for deployment
 
    :dev           [:project/dev :profiles/dev]
@@ -63,6 +64,8 @@
 
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"]
                   :dependencies [[binaryage/devtools "1.0.6"]
+                                 [day8.re-frame/re-frame-10x "1.4.1"]
+                                 [day8.re-frame/tracing "0.6.2"]
                                  [pjstadig/humane-test-output "0.10.0"]
                                  [prone "2020-01-17"]
                                  [ring/ring-devel "1.8.2"]
