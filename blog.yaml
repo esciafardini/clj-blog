@@ -1,0 +1,17 @@
+version: '3'
+  
+services:
+  blogdb:
+    image: postgres
+    container_name: full-stack-blogdb-1
+    ports:
+      - 8080:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: blog_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+volumes:
+  postgres-data:
+    driver: local
