@@ -1,16 +1,23 @@
--- :name get-authors :? :*
--- :doc returns all authors in db
-SELECT * FROM authors;
+-- :name get-blog-posts :? :*
+-- :doc returns all blog posts in db
+SELECT * FROM blog_posts;
 
--- :name get-author-by-id :? :1
--- :doc returns all authors in db
-SELECT * FROM authors
+-- :name get-blog-post-by-id :? :1
+-- :doc returns all blog_posts in db
+SELECT * FROM blog_posts
 WHERE id = :id;
 
--- :name create-author! :! :n
--- :doc creates a new author record
-INSERT INTO authors (first_name, last_name, user_name, email)
+-- :name create-blog-post! :! :n
+-- :doc creates a new blog-post record
+INSERT INTO authors (title, component_function, email)
 VALUES (:first_name, :last_name, :user_name, :email);
+
+
+ id                 | integer                |           | not null | nextval('blog_posts_id_seq'::regclass)
+ title              | character varying(500) |           |          |
+ date_created       | date                   |           |          |
+ component_function | character varying(200) |           |          |
+ tags
 
 -- :name update-author-by-id! :! :n
 -- :doc updates an existing author record

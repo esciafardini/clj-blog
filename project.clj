@@ -17,6 +17,7 @@
                  [luminus-transit "0.1.2"]
                  [luminus/ring-ttl-session "0.3.3"]
                  [markdown-clj "1.10.5"]
+                 [markdown-to-hiccup "0.6.2"]
                  [metosin/malli "0.8.4"]
                  [metosin/muuntaja "0.6.7"]
                  [metosin/reitit "0.5.10"]
@@ -38,7 +39,8 @@
                  [ring/ring-core "1.8.2"]
                  [ring/ring-defaults "0.3.2"]
                  [selmer "1.12.31"]
-                 [thheller/shadow-cljs "2.11.14" :scope "provided"]]
+                 [thheller/shadow-cljs "2.11.14" :scope "provided"]
+                 [zprint "1.2.3"]]
 
   :min-lein-version "2.0.0"
 

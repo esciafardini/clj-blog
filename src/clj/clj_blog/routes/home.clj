@@ -15,6 +15,9 @@
 (defn about-page [request]
   (layout/render request "about.html"))
 
+(defn messages-page [request]
+  (layout/render request "messages.html"))
+
 ;;Pages are defined by creating routes
 ;; One route can respond to GET requests and return HTML to be rendered by the browser
 ;; Another route can respond to POST requests and make submissions to the DB
@@ -24,5 +27,6 @@
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/" {:get home-page}]
-   ["/about" {:get about-page}]])
+   ["/about" {:get about-page}]
+   ["/messages"] {:get messages-page}])
 

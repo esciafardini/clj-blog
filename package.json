@@ -3,7 +3,7 @@
     "shadow-cljs": "^2.19.5"
   },
   "dependencies": {
-    "highlight.js": "11.5.1",
+    "highlight.js": "^11.5.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "xregexp": "^4.4.1"

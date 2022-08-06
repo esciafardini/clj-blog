@@ -1,12 +1,14 @@
 (ns clj-blog.core
-  (:require [reagent.core :as r]
-            [reagent.dom :as dom]
-            [re-frame.core :as rf]
-            [ajax.core :refer [GET POST]]
-            [clojure.string :as string]
-            [clj-blog.validation :refer [validate-message]]
-            [clj-blog.websockets :as ws]
-            [mount.core :as mount]))
+  (:require
+   [ajax.core :refer [GET]]
+   [clj-blog.blog-posts.blog-components-01 :refer [first-entry]]
+   [clj-blog.blog-posts.blog-components-templates :refer [blog-post]]
+   [clj-blog.validation :refer [validate-message]]
+   [clojure.string :as string]
+   [mount.core :as mount]
+   [re-frame.core :as rf]
+   [reagent.core :as r]
+   [reagent.dom :as dom]))
 
 ;https://github.com/react-syntax-highlighter/react-syntax-highlighter
 ;https://github.com/kkinnear/zprint
@@ -249,18 +251,29 @@
        "Loading messages..."
        "Refresh Messages")]))
 
+(defn blog-1 []
+  [:div "I AM BLOG 1"])
+
+(def mock-data 
+  {:date "07-02-2022"
+   :title "The First Blog Entry"
+   :content-component blog-1
+   :tags ["clojure" "sql" "full-stack"]})
+
 (defn home []
   (let [messages (rf/subscribe [:messages/list])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
-       [:div
-        [:div.columns>div.column
-         [:h3 "Messages"]
-         [message-list messages]]
-        [:div.columns>div.column
-         [reload-messages-button]]
-        [:div.columns>div.column
-         [message-form]]]])))
+       [first-entry]
+       #_[blog-post mock-data]
+       #_[:div
+          [:div.columns>div.column
+           [:h3 "Messages"]
+           [message-list messages]]
+          [:div.columns>div.column
+           [reload-messages-button]]
+          [:div.columns>div.column
+           [message-form]]]])))
 
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)
@@ -269,9 +282,9 @@
   (.log js/console "Components Mounted!"))
 
 (defn init!
-  "Actions dinvolving data are moved to a Re-Frame event [:app/initialize]"
+  "Actions involving data are moved to a Re-Frame event [:app/initialize]"
   []
-  (.log js/console "Initializing App...")
+  (.log js/console "Here she comes...")
   (mount/start)
   (rf/dispatch [:app/initialize])
   (mount-components))
