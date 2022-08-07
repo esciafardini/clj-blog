@@ -1,8 +1,7 @@
 (ns clj-blog.core
   (:require
    [ajax.core :refer [GET]]
-   [clj-blog.blog-posts.blog-components-01 :refer [first-entry]]
-   [clj-blog.blog-posts.blog-components-templates :refer [blog-post]]
+   [clj-blog.blog-posts.blog-components-01 :refer [first-entry hljs-themes]]
    [clj-blog.validation :refer [validate-message]]
    [clojure.string :as string]
    [mount.core :as mount]
@@ -264,16 +263,7 @@
   (let [messages (rf/subscribe [:messages/list])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
-       [first-entry]
-       #_[blog-post mock-data]
-       #_[:div
-          [:div.columns>div.column
-           [:h3 "Messages"]
-           [message-list messages]]
-          [:div.columns>div.column
-           [reload-messages-button]]
-          [:div.columns>div.column
-           [message-form]]]])))
+       [first-entry]])))
 
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)

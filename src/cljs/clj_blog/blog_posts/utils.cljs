@@ -3,25 +3,32 @@
    [clojure.string :as string]
    ["react-syntax-highlighter" :as rsh :default SyntaxHighlighter]
    ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
-   #_["react-syntax-highlighter/dist/esm/styles/prism" :as przm]
    [zprint.core :as zp]))
 
-(defn zprint-code [string]
+(defn format-code [string]
   (->> (zp/zprint string
-                  {:parse-string? true})
+                  {:parse-string? true
+                   :map {:comma? false :sort? false :force-nl? true}
+                   :vector {:respect-nl? true}
+                   :list {:respect-nl? true}})
        with-out-str
-       (drop-last 2)
+       (drop-last 1) ;remove added \n
        string/join))
+
+(format-code "(def x 4) (def v 7)")
 
 (defn codeblock
   "Adds syntax highlighting and formatting to code snippets for rendering"
-  ([code] (codeblock code "clojure"))
-  ([code language]
+  ([code] (codeblock code true "clojure" hljs/androidstudio))
+  ([code format?] (codeblock code format? "clojure" hljs/androidstudio))
+  ([code format? language style]
    [:> SyntaxHighlighter
     {:language language
      :showLineNumbers true
-     :style hljs/androidstudio}
-    (zprint-code code)]))
+     :style style}
+    (if format?
+      (format-code code)
+      code)]))
 
 ;; JS code
 ;;

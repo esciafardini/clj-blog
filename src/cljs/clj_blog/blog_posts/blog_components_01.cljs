@@ -1,40 +1,242 @@
 (ns clj-blog.blog-posts.blog-components-01
-
   (:require
-   [clj-blog.blog-posts.utils :refer [codeblock]]))
+   ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
+   [clj-blog.blog-posts.utils :refer [codeblock format-code]]))
+
+(def theme-maps
+  [{:symbol hljs/a11yDark
+    :name "a11yDark"}
+   {:symbol hljs/a11yLight
+    :name "a11yLight"}
+   {:symbol hljs/agate
+    :name "agate"}
+   {:symbol hljs/anOldHope
+    :name "anOldHope"}
+   {:symbol hljs/androidstudio
+    :name "androidstudio"}
+   {:symbol hljs/arduinoLight
+    :name "arduinoLight"}
+   {:symbol hljs/arta
+    :name "arta"}
+   {:symbol hljs/ascetic
+    :name "ascetic"}
+   {:symbol hljs/atelierCaveDark
+    :name "atelierCaveDark"}
+   {:symbol hljs/atelierCaveLight
+    :name "atelierCaveLight"}
+   {:symbol hljs/atelierDuneDark
+    :name "atelierDuneDark"}
+   {:symbol hljs/atelierDuneLight
+    :name "atelierDuneLight"}
+   {:symbol hljs/atelierEstuaryDark
+    :name "atelierEstuaryDark"}
+   {:symbol hljs/atelierEstuaryLight
+    :name "atelierEstuaryLight"}
+   {:symbol hljs/atelierForestDark
+    :name "atelierForestDark"}
+   {:symbol hljs/atelierForestLight
+    :name "atelierForestLight"}
+   {:symbol hljs/atelierHeathDark
+    :name "atelierHeathDark"}
+   {:symbol hljs/atelierHeathLight
+    :name "atelierHeathLight"}
+   {:symbol hljs/atelierLakesideDark
+    :name "atelierLakesideDark"}
+   {:symbol hljs/atelierLakesideLight
+    :name "atelierLakesideLight"}
+   {:symbol hljs/atelierPlateauDark
+    :name "atelierPlateauDark"}
+   {:symbol hljs/atelierPlateauLight
+    :name "atelierPlateauLight"}
+   {:symbol hljs/atelierSavannaDark
+    :name "atelierSavannaDark"}
+   {:symbol hljs/atelierSavannaLight
+    :name "atelierSavannaLight"}
+   {:symbol hljs/atelierSeasideDark
+    :name "atelierSeasideDark"}
+   {:symbol hljs/atelierSeasideLight
+    :name "atelierSeasideLight"}
+   {:symbol hljs/atelierSulphurpoolDark
+    :name "atelierSulphurpoolDark"}
+   {:symbol hljs/atelierSulphurpoolLight
+    :name "atelierSulphurpoolLight"}
+   {:symbol hljs/atomOneDarkReasonable
+    :name "atomOneDarkReasonable"}
+   {:symbol hljs/atomOneDark
+    :name "atomOneDark"}
+   {:symbol hljs/atomOneLight
+    :name "atomOneLight"}
+   {:symbol hljs/codepenEmbed
+    :name "codepenEmbed"}
+   {:symbol hljs/colorBrewer
+    :name "colorBrewer"}
+   {:symbol hljs/darcula
+    :name "darcula"}
+   {:symbol hljs/dark
+    :name "dark"}
+   {:symbol hljs/defaultStyle
+    :name "defaultStyle"}
+   {:symbol hljs/docco
+    :name "docco"}
+   {:symbol hljs/dracula
+    :name "dracula"}
+   {:symbol hljs/far
+    :name "far"}
+   {:symbol hljs/foundation
+    :name "foundation"}
+   {:symbol hljs/githubGist
+    :name "githubGist"}
+   {:symbol hljs/github
+    :name "github"}
+   {:symbol hljs/gml
+    :name "gml"}
+   {:symbol hljs/googlecode
+    :name "googlecode"}
+   {:symbol hljs/gradientDark
+    :name "gradientDark"}
+   {:symbol hljs/gradientLight
+    :name "gradientLight"}
+   {:symbol hljs/grayscale
+    :name "grayscale"}
+   {:symbol hljs/gruvboxDark
+    :name "gruvboxDark"}
+   {:symbol hljs/gruvboxLight
+    :name "gruvboxLight"}
+   {:symbol hljs/hopscotch
+    :name "hopscotch"}
+   {:symbol hljs/hybrid
+    :name "hybrid"}
+   {:symbol hljs/idea
+    :name "idea"}
+   {:symbol hljs/irBlack
+    :name "irBlack"}
+   {:symbol hljs/isblEditorDark
+    :name "isblEditorDark"}
+   {:symbol hljs/isblEditorLight
+    :name "isblEditorLight"}
+   {:symbol hljs/kimbieDark
+    :name "kimbieDark"}
+   {:symbol hljs/kimbieLight
+    :name "kimbieLight"}
+   {:symbol hljs/lightfair
+    :name "lightfair"}
+   {:symbol hljs/lioshi
+    :name "lioshi"}
+   {:symbol hljs/magula
+    :name "magula"}
+   {:symbol hljs/monoBlue
+    :name "monoBlue"}
+   {:symbol hljs/monokaiSublime
+    :name "monokaiSublime"}
+   {:symbol hljs/monokai
+    :name "monokai"}
+   {:symbol hljs/nightOwl
+    :name "nightOwl"}
+   {:symbol hljs/nnfxDark
+    :name "nnfxDark"}
+   {:symbol hljs/nnfx
+    :name "nnfx"}
+   {:symbol hljs/nord
+    :name "nord"}
+   {:symbol hljs/obsidian
+    :name "obsidian"}
+   {:symbol hljs/ocean
+    :name "ocean"}
+   {:symbol hljs/paraisoDark
+    :name "paraisoDark"}
+   {:symbol hljs/paraisoLight
+    :name "paraisoLight"}
+   {:symbol hljs/purebasic
+    :name "purebasic"}
+   {:symbol hljs/qtcreatorDark
+    :name "qtcreatorDark"}
+   {:symbol hljs/qtcreatorLight
+    :name "qtcreatorLight"}
+   {:symbol hljs/railscasts
+    :name "railscasts"}
+   {:symbol hljs/rainbow
+    :name "rainbow"}
+   {:symbol hljs/routeros
+    :name "routeros"}
+   {:symbol hljs/shadesOfPurple
+    :name "shadesOfPurple"}
+   {:symbol hljs/solarizedDark
+    :name "solarizedDark"}
+   {:symbol hljs/solarizedLight
+    :name "solarizedLight"}
+   {:symbol hljs/srcery
+    :name "srcery"}
+   {:symbol hljs/stackoverflowDark
+    :name "stackoverflowDark"}
+   {:symbol hljs/stackoverflowLight
+    :name "stackoverflowLight"}
+   {:symbol hljs/sunburst
+    :name "sunburst"}
+   {:symbol hljs/tomorrowNightBlue
+    :name "tomorrowNightBlue"}
+   {:symbol hljs/tomorrowNightBright
+    :name "tomorrowNightBright"}
+   {:symbol hljs/tomorrowNightEighties
+    :name "tomorrowNightEighties"}
+   {:symbol hljs/tomorrowNight
+    :name "tomorrowNight"}
+   {:symbol hljs/tomorrow
+    :name "tomorrow"}
+   {:symbol hljs/vs
+    :name "vs"}
+   {:symbol hljs/vs2015
+    :name "vs2015"}
+   {:symbol hljs/xcode
+    :name "xcode"}
+   {:symbol hljs/xt256
+    :name "xt256"}
+   {:symbol hljs/zenburn
+    :name "zenburn"}])
+
+(defn color-palette []
+  [:<>
+   (for [theme theme-maps]
+     ^{:key theme}
+     [:div
+      [:h3 (:name theme)]
+      [codeblock
+       (pr-str
+        '(defn render
+           "renders the HTML template located relative to resources/html"
+           [request template & [params]]
+           (content-type
+            (ok
+             (parser/render-file
+              template
+              (assoc params
+                     :page template
+                     :csrf-token *anti-forgery-token*)))
+            "text/html; charset=utf-8")))
+       true "clojure" (:symbol theme)]])])
+
+(defn hljs-themes []
+  [:div.blogpost
+   [color-palette]])
 
 (defn first-entry []
   [:div.blogpost
    [:h1 "Why did I make this?"]
    [:p.date "Apr 16th, 2022"]
    [:p "As a relatively new developer, I am very interested in becoming
-       a relatively good developer.  When asking the experienced and 
-       wizard-streaked developers in my circle, there are a two responses 
-       that are given almost every time, one hundred percent of the time(?)"]
-   [:ul
+       a relatively good developer."]
+   [:div "Waking up at 4AM jaws clenched and mind screaming \"How can I get better at software development?\""]
+   [:p "Scraping reddit threads and googling for answers to this question..."]
+   [:p "All the responses I've come across can be condensed into two suggestions:"]
+   [:ol
     [:li [:b "Build Projects"]]
     [:li [:b "Read Documentation & Books"]]]
-   [:p "And so it is - this blogg is bullet point 1 in action. The intention is to 
-       track my progress working on various projects (bullet point 1) and document 
-       some documentation in a way that is readable to myself and other beginners 
-       (bullet point 2)."]
-   [:p "I am attempting to feed two birds with one scone."]
+   [:div "So here I am, building a project (this blog) where I will document and recount my experiences:"]
+   [:ol
+    [:li [:b "Building Projects (like this blog)"]]
+    [:li [:b "Reading Documentation & Books"]]]
    [:<>
-    [codeblock
-     (pr-str
-      '(defn codeblock
-         "Adds syntax highlighting and formatting to code snippets for rendering"
-         ([code] (codeblock code "clojure"))
-         ([code language]
-          [:div.code
-           [:> SyntaxHighlighter
-            {:language language
-             :showLineNumbers true
-             :style docco}
-            (zprint-code code)]])))]]
-   [:p "Hell Yea Fckn RITE"]
-   [:<>
-    [codeblock "(defn neverhood-blogg \"I think I know why I exist?\" [concepts] (for [concept concepts] (blogg-post concept)))"]]])
+    [codeblock "(defn blogg \n \"I think I know why I exist?\" \n [concepts] \n (for [concept concepts]\n  (blogg-post concept)))\n\n; Obnoxious theme used in celebration of my first blog entry :)"
+     false "clojure" hljs/gradientLight]]])
 
 (defn higher-order-functions []
   [:div.blogpost
