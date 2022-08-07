@@ -3,9 +3,14 @@
     "shadow-cljs": "^2.19.5"
   },
   "dependencies": {
-    "highlight.js": "^11.5.1",
+    "@babel/runtime": "^7.3.1",
+    "highlight.js": "^10.7.3",
+    "lowlight": "^1.17.0",
+    "prismjs": "^1.27.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "refractor": "^3.6.0",
     "xregexp": "^4.4.1"
   }
 }

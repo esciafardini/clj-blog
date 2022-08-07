@@ -1,7 +1,6 @@
-(ns clj-blog.core
+(ns clj-blog.messages
   (:require
    [ajax.core :refer [GET]]
-   [clj-blog.blog-posts.blog-components-01 :refer [first-entry]]
    [clj-blog.blog-posts.blog-components-templates :refer [blog-post]]
    [clj-blog.validation :refer [validate-message]]
    [clojure.string :as string]
@@ -29,7 +28,7 @@
 
 (rf/reg-event-fx
  ;;actions involving data should happen here rather than the init! fn
- :app/initialize
+ :messages/initialize
  (fn [_ _]
    {:db {:messages/loading? true}
     :dispatch [:messages/load]}))
@@ -251,40 +250,29 @@
        "Loading messages..."
        "Refresh Messages")]))
 
-(defn blog-1 []
-  [:div "I AM BLOG 1"])
-
-(def mock-data
-  {:date "07-02-2022"
-   :title "The First Blog Entry"
-   :content-component blog-1
-   :tags ["clojure" "sql" "full-stack"]})
-
 (defn home []
   (let [messages (rf/subscribe [:messages/list])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
-       [first-entry]
-       #_[blog-post mock-data]
-       #_[:div
-          [:div.columns>div.column
-           [:h3 "Messages"]
-           [message-list messages]]
-          [:div.columns>div.column
-           [reload-messages-button]]
-          [:div.columns>div.column
-           [message-form]]]])))
+       [:div
+        [:div.columns>div.column
+         [:h3 "Messages"]
+         [message-list messages]]
+        [:div.columns>div.column
+         [reload-messages-button]]
+        [:div.columns>div.column
+         [message-form]]]])))
 
-(defn ^:dev/after-load mount-components []
+#_(defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)
   (.log js/console "Mounting Components...")
-  (dom/render [#'home] (.getElementById js/document "content"))
+  (dom/render [#'home] (.getElementById js/document "messages"))
   (.log js/console "Components Mounted!"))
 
-(defn init!
+#_(defn init!
   "Actions involving data are moved to a Re-Frame event [:app/initialize]"
   []
   (.log js/console "Here she comes...")
   (mount/start)
-  (rf/dispatch [:app/initialize])
+  (rf/dispatch [:messages/initialize])
   (mount-components))
