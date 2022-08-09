@@ -1,6 +1,7 @@
 (ns clj-blog.routes.services
   (:require
    [clj-blog.messages :as msg]
+   [clj-blog.blog-posts :as blog]
    [clj-blog.middleware.formats :as formats]
    [reitit.coercion.spec :as spec-coercion]
    [reitit.ring.coercion :as coercion]
@@ -34,6 +35,11 @@
           (response/internal-server-error
            {:errors {:server-error ["Failed to save message!"]}}))))))
 
+(defn get-blog-posts
+  "HTTP means of fetching blog posts from the psql database"
+  [_]
+  (response/ok (blog/get-blog-posts)))
+
 (defn service-routes
   "Reitit routes for /api with lots of middleware.  Descriptions in comments."
   []
@@ -56,6 +62,19 @@
     ["/swagger-ui*"
      {:get (swagger-ui/create-swagger-ui-handler ;Swagger UI offers the ability to visualize and interact with our services API
             {:url "/api/swagger.json"})}]]
+   ["/blog-posts"
+    {:get
+     {:responses
+      {200
+       {:body  ;; Data Spec for response body - provides a specification for each route's params and responses
+        {:blog-posts
+         [{:id pos-int?
+           :title string?
+           :component_function string?
+           :namespace string?
+           :tags vector?
+           :date_created inst?}]}}}
+      :handler get-blog-posts}}]
    ["/messages"
     {:get
      {:responses

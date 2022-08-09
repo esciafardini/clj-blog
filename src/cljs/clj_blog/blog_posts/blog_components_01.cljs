@@ -224,18 +224,15 @@
    [:p.date "Apr 16th, 2022"]
    [:p "As a relatively new developer, I am very interested in becoming
        a relatively good developer."]
-   [:div "Waking up at 4AM jaws clenched and mind screaming \"How can I get better at software development?\""]
-   [:p "Scraping reddit threads and googling for answers to this question..."]
-   [:p "All the responses I've come across can be condensed into two suggestions:"]
+   [:div "It's 4AM and your mind keeps asking itself: \"How can I get better at software development?\""]
+   [:p "Scraping reddit threads and googling for answers to this question repeating itself over and o..."]
+   [:p "All the responses you come across can be condensed into two suggestions:"]
    [:ol
     [:li [:b "Build Projects"]]
     [:li [:b "Read Documentation & Books"]]]
-   [:div "So here I am, building a project (this blog) where I will document and recount my experiences:"]
-   [:ol
-    [:li [:b "Building Projects (like this blog)"]]
-    [:li [:b "Reading Documentation & Books"]]]
+   [:div "So here I am, building a project (this blog) where I will document and recount my experiences building projects, reading books, and reading documentation."]
    [:<>
-    [codeblock "(defn blogg \n \"I think I know why I exist?\" \n [concepts] \n (for [concept concepts]\n  (blogg-post concept)))\n\n; Obnoxious theme used in celebration of my first blog entry :)"
+    [codeblock "(defn blogg \n \"I think I know why I exist?\" \n [concepts] \n (for [concept concepts]\n  (blogg-post concept)))\n\n; Obnoxious theme used in celebration of my first blog entry"
      false "clojure" hljs/gradientLight]]])
 
 (defn higher-order-functions []
