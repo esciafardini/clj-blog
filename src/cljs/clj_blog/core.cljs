@@ -7,15 +7,51 @@
    [mount.core :as mount]
    [re-frame.core :as rf]
    [reagent.core :as r]
-   [reagent.dom :as dom]))
+   [reagent.dom :as dom])
+  (:import [goog.date DateTime]))
 
-(defn inst->date-str
-  "Hacky, and not great....but will work for now"
-  [time-inst]
-  (->> (string/split (str time-inst) #" ")
-       (take 4)
-       (drop 1)
-       (string/join " ")))
+(defn inst->date-str [inst-ob]
+  (.toLocaleDateString (js/Date. inst-ob) "en-US" #js {:dateStyle "long"}))
+
+
+(comment
+
+; new Date().toLocaleDateString('en-US', {dateStyle: 'long'})
+; => 'August 10, 2022'
+
+
+(inst->date-str #inst "2015-10-13T05:00:00.000-00:00")
+
+;EUREEEKAH
+(.toLocaleDateString (js/Date. #inst "2015-10-13T05:00:00.000-00:00") "en-US" #js {:dateStyle "long"})
+
+(DateTime.  (js/Date. #inst "2015-10-13T05:00:00.000-00:00"))
+(DateTime. (js/Date. "October 13, 2015"))
+
+(extend-type DateTime
+  IPrintWithWriter
+  (-pr-writer [obj writer _opts]
+    (let [normalize (fn [n len]
+                      (loop [ns (str n)]
+                        (if (< (count ns) len)
+                          (recur (str "0" ns))
+                          ns)))]
+      (write-all writer
+;                 "#inst \""
+                 \"
+                 (str (.getUTCFullYear obj))             "-"
+                 (normalize (inc (.getUTCMonth obj)) 2)  "-"
+                 (normalize (.getUTCDate obj) 2)         "T"
+                 (normalize (.getUTCHours obj) 2)        ":"
+                 (normalize (.getUTCMinutes obj) 2)      ":"
+                 (normalize (.getUTCSeconds obj) 2)      "."
+                 (normalize (.getUTCMilliseconds obj) 3) "-"
+                 \"
+;                 "00:00\""
+                 ))))
+  
+  )
+
 
 (comment
   (.log js/console "Hello From The Shadows")
