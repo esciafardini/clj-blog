@@ -1,7 +1,7 @@
 (ns clj-blog.core
   (:require
    [ajax.core :refer [GET]]
-   [clj-blog.blog-posts.blog-components-01 :refer [first-entry hljs-themes]]
+   [clj-blog.blog-posts.blog-components-01 :as blog_components_01]
    [clj-blog.validation :refer [validate-message]]
    [clojure.string :as string]
    [mount.core :as mount]
@@ -13,46 +13,40 @@
 (defn inst->date-str [inst-ob]
   (.toLocaleDateString (js/Date. inst-ob) "en-US" #js {:dateStyle "long"}))
 
-
 (comment
 
 ; new Date().toLocaleDateString('en-US', {dateStyle: 'long'})
 ; => 'August 10, 2022'
 
-
-(inst->date-str #inst "2015-10-13T05:00:00.000-00:00")
+  (inst->date-str #inst "2015-10-13T05:00:00.000-00:00")
 
 ;EUREEEKAH
-(.toLocaleDateString (js/Date. #inst "2015-10-13T05:00:00.000-00:00") "en-US" #js {:dateStyle "long"})
+  (.toLocaleDateString (js/Date. #inst "2015-10-13T05:00:00.000-00:00") "en-US" #js {:dateStyle "long"})
 
-(DateTime.  (js/Date. #inst "2015-10-13T05:00:00.000-00:00"))
-(DateTime. (js/Date. "October 13, 2015"))
+  (DateTime.  (js/Date. #inst "2015-10-13T05:00:00.000-00:00"))
+  (DateTime. (js/Date. "October 13, 2015"))
 
-(extend-type DateTime
-  IPrintWithWriter
-  (-pr-writer [obj writer _opts]
-    (let [normalize (fn [n len]
-                      (loop [ns (str n)]
-                        (if (< (count ns) len)
-                          (recur (str "0" ns))
-                          ns)))]
-      (write-all writer
+  (extend-type DateTime
+    IPrintWithWriter
+    (-pr-writer [obj writer _opts]
+      (let [normalize (fn [n len]
+                        (loop [ns (str n)]
+                          (if (< (count ns) len)
+                            (recur (str "0" ns))
+                            ns)))]
+        (write-all writer
 ;                 "#inst \""
-                 \"
-                 (str (.getUTCFullYear obj))             "-"
-                 (normalize (inc (.getUTCMonth obj)) 2)  "-"
-                 (normalize (.getUTCDate obj) 2)         "T"
-                 (normalize (.getUTCHours obj) 2)        ":"
-                 (normalize (.getUTCMinutes obj) 2)      ":"
-                 (normalize (.getUTCSeconds obj) 2)      "."
-                 (normalize (.getUTCMilliseconds obj) 3) "-"
-                 \"
+                   \"
+                   (str (.getUTCFullYear obj))             "-"
+                   (normalize (inc (.getUTCMonth obj)) 2)  "-"
+                   (normalize (.getUTCDate obj) 2)         "T"
+                   (normalize (.getUTCHours obj) 2)        ":"
+                   (normalize (.getUTCMinutes obj) 2)      ":"
+                   (normalize (.getUTCSeconds obj) 2)      "."
+                   (normalize (.getUTCMilliseconds obj) 3) "-"
+                   \"
 ;                 "00:00\""
-                 ))))
-  
-  )
-
-
+                   )))))
 (comment
   (.log js/console "Hello From The Shadows")
   (js/alert "ALERT From The Shadows"))
@@ -112,17 +106,27 @@
  (fn [db _]
    (:blog-posts/list db [])))
 
+(defn blog-post-container []
+  (fn [{:keys [title date_created component_function]}]
+    [:h1 title]))
+
 (defn home []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
       (let [_ (.log js/console @blog-posts)]
         [:div.content>div.columns.is-centered>div.column.is-two-thirds
-         (for [blog-post @blog-posts]
-           [:<>
-            [:div (:title blog-post)]
-            [:div (str (:tags blog-post))]
-            [:div (inst->date-str (:date_created blog-post))]])
-         [first-entry]]))))
+         (do
+           (for [blog-post @blog-posts
+                 :let [blog-fn (symbol (:component_function blog-post))
+                       date (:date_created blog-post)
+                       title (:title blog-post)
+                       _ (.log js/console title)]]
+             ^{:key (:title blog-post)}
+             [blog-post-container blog-post]))
+         [:hr]
+         [:div "when heaven above matches hell below, we are on earth"]
+         [:hr]
+         [blog_components_01/first-entry]]))))
 
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)

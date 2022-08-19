@@ -37,4 +37,8 @@ To start a web server for the application, run:
 To start build the front end with shadow-cljs, run:
 
     npx shadow-cljs watch app
-    !!! ATTENTION: you must have the app open in browser for cljs-repl to work!!!!
+
+To debug routes with swagger:
+
+    http://localhost:3010/api/swagger-ui
+
