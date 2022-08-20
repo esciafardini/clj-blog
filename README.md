@@ -2,6 +2,15 @@
 
 generated using Luminus version "3.91"
 
+## Deployment
+
+To deploy latest to heroku:
+    git push heroku master
+
+To run migrations in heroku:
+    heroku run java -cp target/uberjar/clj-blog.jar clojure.main -m clj-blog.core migrate
+    
+
 ## Migrations
 
 create a new migration:

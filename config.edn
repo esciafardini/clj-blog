@@ -1,0 +1,3 @@
+{:prod true
+ :port 5432 
+ :database-url (System/getenv "DATABASE_URL")}
