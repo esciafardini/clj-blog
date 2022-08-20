@@ -117,7 +117,7 @@
        [:p.date (inst->date-str date_created)]
        [component]])))
 
-(defn home []
+(defn app []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
@@ -129,7 +129,7 @@
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)
   (.log js/console "Mounting Components...")
-  (dom/render [#'home] (.getElementById js/document "content"))
+  (dom/render [#'app] (.getElementById js/document "content"))
   (.log js/console "Components Mounted!"))
 
 (defn init!

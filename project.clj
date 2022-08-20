@@ -44,6 +44,11 @@
 
   :min-lein-version "2.0.0"
 
+; I’ve figured this one out. The previous project.clj with the :cljsbuild config had its own :source-paths [“src/cljs”] entry. 
+; When switching over to shadow-cljs, we also have to add “src/cljs” to our lein :source-paths. 
+; This isn’t called out in the current version of the book and might be worth including.
+; Thanks
+
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj"]
   :resource-paths ["resources" "target/cljsbuild"]

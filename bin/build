@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+npm install
+npx shadow-cljs release app
+lein uberjar
