@@ -106,27 +106,25 @@
  (fn [db _]
    (:blog-posts/list db [])))
 
+(def component-lookup
+  {1 blog_components_01/first-entry})
+
 (defn blog-post-container []
-  (fn [{:keys [title date_created component_function]}]
-    [:h1 title]))
+  (fn [{:keys [id title date_created]}]
+    (let [component (get component-lookup id)]
+      [:div.blogpost
+       [:h1 title]
+       [:p.date (inst->date-str date_created)]
+       [component]])))
 
 (defn home []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
-      (let [_ (.log js/console @blog-posts)]
-        [:div.content>div.columns.is-centered>div.column.is-two-thirds
-         (do
-           (for [blog-post @blog-posts
-                 :let [blog-fn (symbol (:component_function blog-post))
-                       date (:date_created blog-post)
-                       title (:title blog-post)
-                       _ (.log js/console title)]]
-             ^{:key (:title blog-post)}
-             [blog-post-container blog-post]))
-         [:hr]
-         [:div "when heaven above matches hell below, we are on earth"]
-         [:hr]
-         [blog_components_01/first-entry]]))))
+      [:div.content>div.columns.is-centered>div.column.is-two-thirds
+       (do
+         (for [blog-post @blog-posts]
+           ^{:key (:title blog-post)}
+           [blog-post-container blog-post]))])))
 
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)

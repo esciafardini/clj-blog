@@ -10,7 +10,6 @@ CREATE TABLE guestbook
 CREATE TABLE blog_posts
 (id SERIAL PRIMARY KEY UNIQUE,
  title VARCHAR(500) UNIQUE,
- namespace VARCHAR (255) UNIQUE,
  date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
  component_function VARCHAR(200) UNIQUE);
 --;;

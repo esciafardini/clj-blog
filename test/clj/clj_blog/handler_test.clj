@@ -7,17 +7,17 @@
     [muuntaja.core :as m]
     [mount.core :as mount]))
 
-(defn parse-json [body]
+#_(defn parse-json [body]
   (m/decode formats/instance "application/json" body))
 
-(use-fixtures
+#_(use-fixtures
   :once
   (fn [f]
     (mount/start #'clj-blog.config/env
                  #'clj-blog.handler/app-routes)
     (f)))
 
-(deftest test-app
+#_(deftest test-app
   (testing "main route"
     (let [response ((app) (request :get "/"))]
       (is (= 200 (:status response)))))

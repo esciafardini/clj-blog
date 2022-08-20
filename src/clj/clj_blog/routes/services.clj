@@ -71,7 +71,6 @@
          [{:id pos-int?
            :title string?
            :component_function string?
-           :namespace nil? ;probably just need to delete this from db...
            :date_created inst?}]}}}
       :handler get-blog-posts}}]
    ["/messages"
