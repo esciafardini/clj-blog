@@ -2,54 +2,19 @@
   (:require
    [ajax.core :refer [GET]]
    [clj-blog.blog-posts.blog-components-01 :as blog_components_01]
-   [clj-blog.validation :refer [validate-message]]
-   [clojure.string :as string]
    [mount.core :as mount]
    [re-frame.core :as rf]
-   [reagent.core :as r]
-   [reagent.dom :as dom])
-  (:import [goog.date DateTime]))
+   [reagent.dom :as dom]))
 
-(defn inst->date-str [inst-ob]
-  (.toLocaleDateString (js/Date. inst-ob) "en-US" #js {:dateStyle "long"}))
-
-(comment
-
-; new Date().toLocaleDateString('en-US', {dateStyle: 'long'})
-; => 'August 10, 2022'
-
-  (inst->date-str #inst "2015-10-13T05:00:00.000-00:00")
-
-;EUREEEKAH
-  (.toLocaleDateString (js/Date. #inst "2015-10-13T05:00:00.000-00:00") "en-US" #js {:dateStyle "long"})
-
-  (DateTime.  (js/Date. #inst "2015-10-13T05:00:00.000-00:00"))
-  (DateTime. (js/Date. "October 13, 2015"))
-
-  (extend-type DateTime
-    IPrintWithWriter
-    (-pr-writer [obj writer _opts]
-      (let [normalize (fn [n len]
-                        (loop [ns (str n)]
-                          (if (< (count ns) len)
-                            (recur (str "0" ns))
-                            ns)))]
-        (write-all writer
-;                 "#inst \""
-                   \"
-                   (str (.getUTCFullYear obj))             "-"
-                   (normalize (inc (.getUTCMonth obj)) 2)  "-"
-                   (normalize (.getUTCDate obj) 2)         "T"
-                   (normalize (.getUTCHours obj) 2)        ":"
-                   (normalize (.getUTCMinutes obj) 2)      ":"
-                   (normalize (.getUTCSeconds obj) 2)      "."
-                   (normalize (.getUTCMilliseconds obj) 3) "-"
-                   \"
-;                 "00:00\""
-                   )))))
 (comment
   (.log js/console "Hello From The Shadows")
   (js/alert "ALERT From The Shadows"))
+
+(defn inst->date-str
+  "Takes an inst and returns a human-readable string after
+   converting it into a js/Date object."
+  [inst-ob]
+  (.toLocaleDateString (js/Date. inst-ob) "en-US" #js {:dateStyle "long"}))
 
 ;;FOR REAL -- TALKIN ABOUT EFFECTS vs. EVENTS
 ;; a strict distinction between events & effects is crucial...
@@ -107,11 +72,11 @@
    (:blog-posts/list db [])))
 
 (def component-lookup
-  {1 blog_components_01/first-entry})
+  {"blog_components_01/first-entry" blog_components_01/first-entry})
 
 (defn blog-post-container []
-  (fn [{:keys [id title date_created]}]
-    (let [component (get component-lookup id)]
+  (fn [{:keys [title date_created component_function]}]
+    (let [component (get component-lookup component_function)]
       [:div.blogpost
        [:h1 title]
        [:p.date (inst->date-str date_created)]
@@ -123,7 +88,7 @@
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        (do
          (for [blog-post @blog-posts]
-           ^{:key (:title blog-post)}
+           ^{:key (:id blog-post)}
            [blog-post-container blog-post]))])))
 
 (defn ^:dev/after-load mount-components []
