@@ -224,7 +224,7 @@
        a relatively good developer."]
    [:p "The question keeps coming up: \"How can I get better at software development?\""]
    [:p "Many nights spent searching googul and reddet for answers."]
-   [:p "All the responses I've come across can be condensed into two <li>s:"]
+   [:p "All of the knowledge I've attained from these late night excursions can be condensed into two <li>s:"]
    [:ol
     [:li [:b "Build Projects"]]
     [:li [:b "Read Documentation & Books"]]]
