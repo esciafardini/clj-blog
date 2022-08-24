@@ -1,7 +1,12 @@
 (ns clj-blog.blog-posts.blog-components-01
   (:require
    ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
-   [clj-blog.blog-posts.utils :refer [codeblock format-code]]))
+   [clj-blog.blog-posts.utils :refer [codeblock format-code]]
+   [goog.string.linkify :refer [EMAIL_RE_]]
+   #_[goog.string.linkify :as linkify])
+  (:import [goog.net XhrIo]
+           #_[goog.string linkify]
+           [goog.math #_Long Vec2 Vec3 Integer]))
 
 (def theme-maps
   [{:symbol hljs/a11yDark
@@ -283,4 +288,45 @@
       ((fn [x y] (quot y x)) 2 8)
       \n"]
 
-   [:p "CAN YOU FEEL THE POWER OF FUNCTIONS? OH MY GOD"]])
+   [:p "CAN YOU FEEL THE POWER OF FUNCTIONS?"]])
+
+(defn closure []
+  [:div "closure?"
+   [:p "Let's try using Google Closure...."]
+   [:p "Since Google Closure is available within any clojurescript project, we can leverage it to solve difficult problems.  For example, writing a REGEX for valid e-mail addresses is a difficult thing to do. Luckily, google wizards have already conjured this incantation, and we can use it for free."]
+   [:p "I haven't really found a good resource that shows practical application & usage of Closure classes within ClojureScript - so I'm writing this post as documentation for myself."]
+   [:p "To use a Closure " [:em "class: "] "use the import keyword:"]
+   [codeblock
+    "(ns closure-example.core
+      (:import [goog.net XhrIo]
+               [goog.string linkify]
+               [goog.math Integer Long Vec2 Vec3]))"]
+   [:p "The import form is specific to the use case of importing classes from the host libraries (google closure modules)."]
+   [:p "To use a specific Closure " [:em "var "] "or" [:em " function "] "- you can use the require keyword"]
+   [codeblock
+    "(ns closure-example.core
+      ;now EMAIL_RE_ variable can be used directly
+     (:require [goog.string.linkify :refer [EMAIL_RE_]]))"]
+   [:p "Note that this is also valid syntax, and will allow you to use other vars and fns within the specified Closure class:"]
+   [codeblock
+    "(ns closure-example.core
+    (:require
+       [goog.string.linkify :refer [EMAIL_RE_] :as linkify]))"]
+
+   [:p "Calling functions from imported Closure classes: "]
+   [codeblock
+    "(Long. 4 6)\n;=> #<25769803780> \n(Integer.fromString \"10\") \n;=> #<10> "
+    false]
+
+   [:p "It is also possible to import in-line with js prefix.  This bypasses the need to require/import the class."]
+   [:p "I don't know if this good practice or idiomatic - but here is an example:"]
+   [codeblock
+    "(new js/goog.math.Long 4 6)\n;=> #<25769803780>\n\n(js/goog.math.Integer.fromString \"12\")\n;=> #<12>"
+    false]
+
+   [:p "TODO: turn these into code snippets and implement the linkify emails"]
+   [:p (str (Integer.fromString "12"))]
+   [:p
+    (str (re-seq EMAIL_RE_ "Well what  haha annie@gmus.net is this utur@aol.com booter?"))]
+   [:hr]]) ; #'clj-blog.blog-posts.blog-components-01/closure
+; #'clj-blog.blog-posts.blog-components-01/closure
