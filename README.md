@@ -51,3 +51,6 @@ To debug routes with swagger:
 
     http://localhost:3010/api/swagger-ui
 
+## Shadow CLJS Dependency Issues
+According to shadow-cljs docs, many libraries don't specify dependencies in a way that is meaningful to shadow-cljs and so the specific versions required by each library used must be installed at command line via "npm install..."
+- This requires some hopping around in Github to find which specific versions need to be installed.
