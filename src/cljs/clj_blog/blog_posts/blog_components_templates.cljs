@@ -1,13 +1,12 @@
-(ns clj-blog.blog-posts.blog-components-templates 
+(ns clj-blog.blog-posts.blog-components-templates
   (:require
-   [clojure.string :as string]))
+   [clj-blog.blog-posts.utils :as utils]
+   [clj-blog.blog-posts.component-lookup :refer [component-lookup]]))
 
-
-(defn blog-post [{:keys [title date content-component tags]}]
-  ;title, date, content (a component), tags
-  [:div
-   [:h1 title]
-   [:div date]
-   (content-component)
-   [:p (string/join ", " tags)]])
-
+(defn blog-post-container []
+  (fn [{:keys [title date_created component_function]}]
+    (let [component (get component-lookup component_function)]
+      [:div.blogpost
+       [:h1 title]
+       [:p.date (utils/inst->date-str date_created)]
+       [component]])))

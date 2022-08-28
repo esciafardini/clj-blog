@@ -3,7 +3,6 @@
    ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
    [clj-blog.blog-posts.utils :refer [codeblock]]))
 
-;TODO move this ish to its own ns
 (def theme-maps
   [{:symbol hljs/a11yDark
     :name "a11yDark"}

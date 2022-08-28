@@ -23,16 +23,15 @@
     [codeblock "(defn blogg \n \"I think I know why I exist?\" \n [concepts] \n (for [concept concepts]\n  (blogg-post concept)))\n\n; Exotic gradient theme used in\ncelebrationof my first blog entry"
      false "clojure" hljs/gradientLight]]])
 
-(defn css-part-1
-  "The Box Model"
-  []
+(defn css-part-1 []
   [:<>
+   [:h2 "CSS - The Box Model"]
    [:p "When I want a holistic and therapeutic learning experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
     " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
-   [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I traverse this hell language..."]
+   [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay while I try to understand this hell language..."]
    [:p "From Odin: "
     [:em "\"Unfortunately, many learners race through learning HTML and CSS to get to JavaScript and end up missing these fundamental concepts.
-         This leads to frustration, pain, (and funny gifs) because all the JavaScript skills in the world are meaningless if you can’t stick
+         This leads to frustration and pain because all the JavaScript skills in the world are meaningless if you can’t stick
          your elements on the page where you need them to be.\""]]
    [:p "This describes my situation pretty well.  I have certainly avoided CSS and whenever I have to use it I start acting like this:"]
    [:img {:src "/img/belial.gif"}]
@@ -140,6 +139,7 @@
 
 (defn practical-google-closure []
   [:<>
+   [:h2 "Google Closure With Clojurescript"]
    [:p "The Google Closure library is available within any clojurescript project."]
    [:p "I haven't really found a good resource that shows practical application & usage of Closure classes within ClojureScript - so I'm writing this post as documentation for myself."]
    [:p "Google Closure provides 'modules' with classes, functions, and variables that we can leverage in our clojurescript projects."]
