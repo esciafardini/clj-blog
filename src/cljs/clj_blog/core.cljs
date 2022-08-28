@@ -2,19 +2,10 @@
   (:require
    [ajax.core :refer [GET]]
    [clj-blog.blog-posts.blog-components-01 :as blog_components_01]
+   [clj-blog.blog-posts.blog-components-templates :refer [blog-post-container]]
    [mount.core :as mount]
    [re-frame.core :as rf]
    [reagent.dom :as dom]))
-
-(comment
-  (.log js/console "Hello From The Shadows")
-  (js/alert "ALERT From The Shadows"))
-
-(defn inst->date-str
-  "Takes an inst and returns a human-readable string after
-   converting it into a js/Date object."
-  [inst-ob]
-  (.toLocaleDateString (js/Date. inst-ob) "en-US" #js {:dateStyle "long"}))
 
 ;;FOR REAL -- TALKIN ABOUT EFFECTS vs. EVENTS
 ;; a strict distinction between events & effects is crucial...
@@ -71,25 +62,14 @@
  (fn [db _]
    (:blog-posts/list db [])))
 
-(def component-lookup
-  {"blog_components_01/first-entry" blog_components_01/first-entry})
-
-(defn blog-post-container []
-  (fn [{:keys [title date_created component_function]}]
-    (let [component (get component-lookup component_function)]
-      [:div.blogpost
-       [:h1 title]
-       [:p.date (inst->date-str date_created)]
-       [component]])))
-
 (defn app []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        [blog_components_01/css-part-1]
        [:hr]
-       [:hr]
        [blog_components_01/practical-google-closure]
+       [:hr]
        (do
          (for [blog-post @blog-posts]
            ^{:key (:id blog-post)}

@@ -5,6 +5,12 @@
    ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
    [zprint.core :as zp]))
 
+(defn inst->date-str
+  "Takes an inst and returns a human-readable string after
+   converting it into a js/Date object."
+  [inst-ob]
+  (.toLocaleDateString (js/Date. inst-ob) "en-US" #js {:dateStyle "long"}))
+
 (defn format-code [string]
   (->> (zp/zprint string
                   {:parse-string? true
