@@ -86,7 +86,10 @@
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
-       [blog_components_01/closure]
+       [blog_components_01/css-part-1]
+       [:hr]
+       [:hr]
+       [blog_components_01/practical-google-closure]
        (do
          (for [blog-post @blog-posts]
            ^{:key (:id blog-post)}
