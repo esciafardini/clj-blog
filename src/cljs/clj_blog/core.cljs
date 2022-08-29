@@ -70,6 +70,8 @@
        [:hr]
        [blog_components_01/practical-google-closure]
        [:hr]
+       [blog_components_01/higher-order-functions]
+       [:hr]
        (do
          (for [blog-post @blog-posts]
            ^{:key (:id blog-post)}

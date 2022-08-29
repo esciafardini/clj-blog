@@ -20,29 +20,12 @@
     [:li [:b "Read Documentation & Books"]]]
    [:p "So here I am, building a project (this blog) where I will document and recount my experiences building projects, reading books, and reading documentation."]
    [:<>
-    [codeblock "(defn blogg \n \"I think I know why I exist?\" \n [concepts] \n (for [concept concepts]\n  (blogg-post concept)))\n\n; Exotic gradient theme used in\ncelebrationof my first blog entry"
+    [codeblock "(defn blogg \n \"I think I know why I exist?\" \n [concepts] \n (for [concept concepts]\n  (blogg-post concept)))\n\n;; Exotic gradient theme used in\n;; celebration of my first blog entry"
      false "clojure" hljs/gradientLight]]])
-
-(defn css-part-1 []
-  [:<>
-   [:h2 "CSS - The Box Model"]
-   [:p "When I want a holistic and therapeutic learning experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
-    " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
-   [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay while I try to understand this hell language..."]
-   [:p "From Odin: "
-    [:em "\"Unfortunately, many learners race through learning HTML and CSS to get to JavaScript and end up missing these fundamental concepts.
-         This leads to frustration and pain because all the JavaScript skills in the world are meaningless if you can’t stick
-         your elements on the page where you need them to be.\""]]
-   [:p "This describes my situation pretty well.  I have certainly avoided CSS and whenever I have to use it I start acting like this:"]
-   [:img {:src "/img/belial.gif"}]
-   [:p "I don't want to BEHAVE this way anymore."]
-   [:p "This will be the first of many CSS posts with example codes and revelations peppered in.  I intend to begin at the Box Model and finish
-       with Tailwind CSS - as this blog utilizes Tailwind CSS and that's ultimately what I want to understand."]
-   [:p "God this is going to be dull.....Let's GO!"]])
 
 (defn higher-order-functions []
   [:<>
-   [:p "Problem 46 from the 4Clojure website..."]
+   [:h2 "4Clojure Problem 46"]
    [:p "This one I found to be tricky and somewhat revealing."]
    [codeblock
     ";Write a higher-order function which
@@ -171,3 +154,21 @@
    [:p
     (str (re-seq EMAIL_RE_ "Well what  haha annie@gmus.net is this utur@aol.com booter?"))]
    [:hr]])
+
+(defn css-part-1 []
+  [:<>
+   [:h2 "CSS - The Box Model"]
+   [:p "When I want a holistic and therapeutic `learning to code` experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
+    " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
+   [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I embark on this treacherous quest."]
+   [:p "Odin told me: "
+    [:em "\"Unfortunately, many learners race through learning HTML and CSS to get to JavaScript and end up missing these fundamental concepts.
+         This leads to frustration and pain because all the JavaScript skills in the world are meaningless if you can’t stick
+         your elements on the page where you need them to be.\""]]
+   [:p "This describes my situation pretty well."]
+   [:p "I avoid CSS because whenever I deal with CSS -  I end up behaving this way:"]
+   [:img {:src "/img/belial.gif"}]
+   [:p "I don't want to BEHAVE this way anymore."]
+   [:p "This will be the first of many CSS posts with example codes and revelations peppered in.  I intend to begin at the Box Model and finish
+       with Tailwind CSS - as this blog utilizes Tailwind CSS and that's ultimately what I want to understand."]
+   [:p "God this is going to be dull.....LET'S GO!"]])
