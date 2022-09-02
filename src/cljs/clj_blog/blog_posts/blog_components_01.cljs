@@ -1,15 +1,16 @@
 (ns clj-blog.blog-posts.blog-components-01
   (:require
-   [clojure.string :as string]
-   [clojure.walk :as walk]
    ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
    [clj-blog.blog-posts.utils :refer [codeblock]]
-   [goog.string.linkify :refer [EMAIL_RE_]])
-  (:import [goog.net XhrIo]
-           [goog.math Vec2 Vec3 Integer]))
+   [clojure.string :as string]
+   [clojure.walk :as walk]
+   [goog.string.linkify :refer [EMAIL_RE_]]
+   [re-frame.core :as rf])
+  (:import
+   [goog.math Integer]))
 
 (defn first-entry []
-  [:<>
+  [:div
    [:p "As a relatively new developer, I am very interested in becoming
        a relatively good developer."]
    [:p "The question keeps coming up: \"How can I get better at software development?\""]
