@@ -43,29 +43,11 @@
  (fn [blog-posts [_ id]]
    (first (filter (fn [{blog-id :id}] (= id blog-id)) blog-posts))))
 
-(defn blog-list []
+(defn home
+  "Home screen displays the first Blogg entry"
+  []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
-      [:<>
-       [:h1 "Blog Posts"]
-       [:ul
-        (for [blog-post @blog-posts]
-          ^{:key (:title blog-post)}
-          [:li (str (inst->date-str (:date_created blog-post)) " - " (:title blog-post))])]])))
-
-(defn home []
-  (let [blog-posts (rf/subscribe [:blog-posts/list])]
-    (fn []
-
-      #_[blog_components_01/css-part-1]
-      #_[blog_components_01/practical-google-closure]
-       ; [:hr]
-       ; [blog_components_01/higher-order-functions]
-       ; [:hr]
-
-       ;TODO: Implement blog-posts/3 page
-       ;TODO: Tie on-click handlers to render them
-       ;TODO: Clean up these namespaces
       [:<>
        (for [blog-post @blog-posts
              :when (= 1 (:id blog-post))]
