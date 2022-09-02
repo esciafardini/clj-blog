@@ -171,5 +171,65 @@
    [:img {:src "/img/belial.gif"}]
    [:p "I don't want to BEHAVE this way anymore."]
    [:p "This will be the first of many CSS posts with example codes and revelations peppered in.  I intend to begin at the Box Model and finish
-       with Tailwind CSS - as this blog utilizes Tailwind CSS and that's ultimately what I want to understand."]
-   [:p "God this is going to be dull.....LET'S GO!"]])
+       with Bulma CSS - as this blog utilizes Bulma CSS and that's ultimately what I want to understand."]
+   [:p "God this is going to be dull.....LET'S GO!"]
+   [:div {:style {:border "2px solid red"}} "Every HTML element is a box.  This is a div....EVERY element is a BOX.  Ok?"]
+   [:div {:style {:padding "8px" :border "2px solid red"}} "PADDING example - Padding occurs inside the border."]
+   [:div {:style {:margin "8px" :border "2px solid red"}} "MARGIN example - Margin occurs outside of the border."]
+   [:div {:style {:width "100px" :border "2px solid red"}} "Width? Specifying Height & Width will specify height & width inside of padding"]
+   [:p "Here's a weird and annoying CSS-ism:  Margin is shared between elements."]
+   [:div {:style {:height "40px" :border "2px solid red"}} "This is an element with height 40px"]
+   [:div {:style {:margin "40px" :border "2px solid red"}} "A box element with 40px margin.."]
+   [:div {:style {:margin "40px" :border "2px solid red"}} "A box element with 40px margin..."]
+   [:p "As you can see - despite the two elements above having 40px margin - there is only 40px of space between them.  This is because margin collapses between two elements that are next to eachother."]
+   [:p "If one element has a larger margin, this larger margin will take precedence.  Pretty annoying, huh?"]
+   [:p "The concept of margins being `shared` also applies to negative margins.  If one shared margin is negative and one is postive, the resulting margin will be [positive margin] - [negative margin]"]
+   [:p "If there are two negative margins (i.e. -40 and -50) - the resulting margin will be -50 since that is the greater scalar quantity."]
+   [:p "This is weird & confusing...it's called `Margin Collapsing`.  It only happens to the top & bottom margins - NOT left & right."]
+   [:p "Why margin collapsing is good:"]
+   [:p "This prevents empty elements from adding extra, usually undesirable, vertical margin space. It keeps spacing consistent between header elements and paragraphs.
+        It applies to nested elements which prevents unreasonably large and unexpected margins between nested elements."]
+   [:p "Main takeaways:"]
+   [:p {:style {:margin "18px" :border "2px solid red"}} "Use margin to separate distinct elements from one another."]
+   [:p {:style {:padding "18px" :border "2px solid red"}} "Use padding to create space within an element."]
+   [:p "Setting box-sizing to `border-box` is common practice because it allows you to be explicit about height and width of elements."]
+   [:p {:style {:box-sizing "content-box" :height "300px" :width "300px" :padding "40px" :border "20px solid red"}}
+    "Default CSS box-sizing is set to \"content-box\" Observe this in Chrome dev tools. Even though height is set to 200px and width is set to 500px,
+    the actual height and width are higher because `content-box` adds padding and border to the height and width."]
+   [:p {:style {:box-sizing "border-box" :height "300px" :width "300px" :padding "40px" :border "20px solid red"}}
+    "This div has box-sizing set to \"border-box\".  This way, user defined height and width is not appended to with padding and margin."]
+   [:p "How do we do the mental math to find the actual height & width of an element with box-sizing set to `content-box`?
+       We disregard margin, as that spacing exists outside of height & width.  Padding must be added to height and width twice as it is added to all 4 sides of the element.
+       Border must also be added to height and width twice for the same reason."]
+   [:p "The following css codeblocks are identical.  Margin will fill in top & bottom or left & right if only two values are provided."]
+   [codeblock
+    ".box {margin: 0 1.5em;}"
+    false "css" hljs/androidstudio]
+   [:p "Notice that the code above is a condensed version of the code below."]
+   [codeblock
+    ".box {margin: 0 1.5em 0 1.5em;}"
+    false "css" hljs/androidstudio]
+   [:h3 "Inline vs. Block Elements"]
+   [:p "An inline element is one that does not break onto a new line - like `span` or `em`."]
+   [:p "A block element is one that does break onto a new line - like `div` or `p`."]
+   [:p "Using `display: inline-block` on an inline element will do something special.  The element will not break onto a new line - but height and width will be respected."]
+   [:h3 "Aligning Elements"]
+   [:p "In vanilla CSS, the following code will align items to the center:"]
+   [codeblock
+    ".box {\nmargin: 0 auto;\nwidth: 50%;\n}"
+    false "css" hljs/androidstudio]
+   [:p "It is very important to set a width when aligning this way, otherwise it will not work. This is because the default width of a block element is 100% of the page."]
+   [:p {:style {:margin "0 auto" :width "50%" :border "2px solid red" :text-align "center"}} "am I middling?"]
+   [:h3 "CSS Bulma"]
+   [:p {:style {:margin-top "1rem"}} "Since Bulma is available here, we can use Bulma columns to right align:"]
+   [codeblock
+    "[:div.columns
+      [:div.column.is-one-third]
+      [:div.column \"Am I middling?\"]
+      [:div.column.is-one-third]]"]
+   [:div.columns {:style {:margin-top "5px"}}
+    [:div.column.is-one-third]
+    [:div.column
+     {:style {:border "2px solid red" :text-align "center"}} "Am I middling?"]
+    [:div.column.is-one-third]]])
+

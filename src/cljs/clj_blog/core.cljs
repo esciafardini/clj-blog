@@ -100,8 +100,7 @@
            "About"]
           [:a.navbar-item
            {:href "/#/blog-list"}
-           "Posts"]
-          ]]]])))
+           "Posts"]]]]])))
 
 (defn home-page []
   [:div
@@ -199,10 +198,10 @@
    on-navigate
    {:use-fragment true}))
 
-(defn nav [{:keys [router current-route]}]
-  [:<>
-   [navbar]
-   #_(into
+#_(defn nav [{:keys [router current-route]}]
+    [:<>
+     [navbar]
+     (into
       [:ul]
       (for [route-name (reitit/route-names router)
             :let       [route (reitit/match-by-name router route-name)
@@ -213,104 +212,28 @@
       ;; Create a normal links that user can click
          [:a {:href (href route-name)} text]]))])
 
-(defn router-component [{:keys [router]}]
+(defn main-page []
   (let [current-route @(rf/subscribe [::current-route])]
     [:<>
-     [nav {:router router :current-route current-route}]
+     [navbar]
      (when current-route
        [:section.section
         [:div.container
          [:div.content>div.columns.is-centered>div.column.is-two-thirds
           [(-> current-route :data :view)]]]])]))
 
-;;; Setup ;;;
-
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)
   (.log js/console "Mounting Components...")
-  (init-routes!) ;; Reset routes on figwheel reload
-  (dom/render [router-component {:router router}]
+  (init-routes!)
+  (dom/render [main-page #_{:router router}]
               (.getElementById js/document "content"))
   (.log js/console "Components Mounted!"))
 
-(defn init! []
+(defn init!
+  "Actions involving data are moved to a Re-Frame event [:app/initialize-db]"
+  []
+  (.log js/console "Here she comes...")
   (mount/start)
   (rf/dispatch-sync [:app/initialize-db])
   (mount-components))
-
-;
-;
-;
-;
-; ;;;;
-; (rf/reg-event-fx
-;  ;;actions involving data should happen here rather than the init! fn
-;  :app/initialize
-;  (fn [_ _]
-;    {:db {:blog-posts/loading? true}
-;     :dispatch [:blog-posts/load]}))
-;
-; ;;;ROUTING FRONT END
-;
-; (rf/reg-sub
-;  :router/current-route
-;  (fn [db]
-;    (:router/current-route db)))
-;
-; (def router
-;   (rtf/router
-;    (app-routes)
-;    {:data {:coercion reitit-spec/coercion}}))
-;
-;
-; (rf/reg-event-db
-;  :router/navigated
-;  (fn [db [_ new-match]]
-;    (do
-;      (.log js/console new-match)
-;      (assoc db :router/current-route new-match))))
-;
-; (rf/reg-sub
-;  :router/current-route
-;  (fn [db]
-;    (:router/current-route db)))
-;
-; (defn page [{{:keys [view name]} :data
-;              path                :path
-;              :as                 match}]
-;   [:section.section>div.container
-;    (if view
-;      [view match]
-;      [:div "No view specified for route: " name " (" path ")"])])
-;
-; (defn app []
-;   (let [current-route @(rf/subscribe [:router/current-route])
-;         _ (.log js/console (:path current-route))
-;         _ (.log js/console (:data current-route))]
-;     [:div.app
-;      [navbar]
-;      [page current-route]]))
-;
-; (defn init-routes! []
-;   (rtfe/start!
-;    router
-;    (fn [new-match]
-;      (when new-match
-;        (rf/dispatch [:router/navigated new-match])))
-;    {:user-fragment false}))
-;
-; (defn ^:dev/after-load mount-components []
-;   (rf/clear-subscription-cache!)
-;   (.log js/console "Mounting Components...")
-;   (init-routes!)
-;   #_(dom/render [#'app] (.getElementById js/document "content"))
-;   (dom/render [#'app {:router router}] (.getElementById js/document "content"))
-;   (.log js/console "Components Mounted!"))
-;
-; (defn init!
-;   "Actions involving data are moved to a Re-Frame event [:app/initialize]"
-;   []
-;   (.log js/console "Here she comes...")
-;   (mount/start)
-;   (rf/dispatch [:app/initialize])
-;   (mount-components))

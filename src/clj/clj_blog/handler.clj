@@ -3,7 +3,7 @@
    [clj-blog.env :refer [defaults]]
    [clj-blog.layout :refer [error-page]]
    [clj-blog.middleware :as middleware]
-   [clj-blog.routes.home :refer [home-routes]]
+   [clj-blog.routes.app :refer [app-routes]]
    [clj-blog.routes.services :refer [service-routes]]
    [clj-blog.routes.websockets :refer [websocket-routes]]
    [mount.core :as mount]
@@ -20,13 +20,13 @@
   :stop  ((or (:stop defaults) (fn []))))
 
 ;;any additional routes needed within app will be added here
-(mount/defstate app-routes
+(mount/defstate routes
   :start
   (middleware/wrap-base
    (ring/ring-handler
     ;`ring/router` aggregates routes for handling all requests to our app into a reitit router
     (ring/router
-     [(home-routes)
+     [(app-routes)
       (service-routes)
       (websocket-routes)]
      #_{:reitit.middleware/transform dev/print-request-diffs}) ;un-comment to log reitit middleware
