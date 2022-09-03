@@ -65,7 +65,9 @@
         :view #'blog-list/blog-list
         :link-text "Blog List"
         :controllers
-        [{:start (fn [] (js/console.log "Entering bloglist"))
+        [{:start (fn [] (do
+                          (rf/dispatch [:blog-posts/load])
+                          (js/console.log "Entering bloglist")))
           :stop  (fn [] (js/console.log "Leaving bloglist"))}]}]
       ["blog-posts/:id"
        {:name ::blog-post
@@ -73,8 +75,7 @@
         :link-text "Blog Post"
         :controllers
         [{:parameters {:path [:id]}
-          :start (fn [params] (let [blog-post (rf/subscribe [:blog-posts/blog-post (-> params :path :id)])]
-                                (.log js/console (-> params :path :id))
-                                (rf/dispatch [:blog-post/load])
-                                (rf/dispatch [:blog-post/select-blog-post blog-post #_(-> params :path :id)])))
-          :stop (fn [_params] (rf/dispatch [:blog-post/select-blog-post nil]))}]}]]))
+          :start (fn [params] (do
+                                (rf/dispatch [:blog-posts/load])
+                                (.log js/console (str "Going to Blog Post: " (-> params :path :id)))))
+          :stop (fn [_params] (.log js/console "Leaving Blog Post"))}]}]]))

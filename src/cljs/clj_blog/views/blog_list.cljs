@@ -13,6 +13,7 @@
         (for [blog-post @blog-posts]
           ^{:key (:title blog-post)}
           [:li
+           {:on-click #(rf/dispatch [:blog-post/select-blog-post blog-post])}
            [:a {:href (str "/#/blog-posts/" (:id blog-post))}
            (str (inst->date-str (:date_created blog-post)) " - " (:title blog-post))]])]])))
 

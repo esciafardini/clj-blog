@@ -1,5 +1,6 @@
 (ns clj-blog.views.blog-post
   (:require
+   [clj-blog.blog-posts.blog-components-templates :refer [blog-post-container]]
    [re-frame.core :as rf]))
 
 (rf/reg-event-db
@@ -15,8 +16,9 @@
 (defn blog-post []
   (let [blog-post (rf/subscribe [:blog-post/current-blog-post])]
     (fn []
-      [:div
-       [:div "BLOGPOST VIEW"]
-       [:div "ERR:"]
-       [:div (str (:id @blog-post))]
-       [:a {:href "/#/"} "Return home"]])))
+      [:<>
+       (when blog-post
+         [blog-post-container @blog-post])
+       [:hr]
+       [:div {:style {:text-align "center"}}
+        [:a {:href "/#/"} "Return Home"]]])))
