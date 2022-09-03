@@ -10,16 +10,16 @@
 
 #?(:cljs
    (rf/reg-event-db
-    :front-end-routes/navigated
+    :router/navigated
     (fn [db [_ new-match]]
       (.log js/console new-match)
-      (assoc db :current-route new-match))))
+      (assoc db :router/current-route new-match))))
 
 #?(:cljs
    (rf/reg-sub
-    :front-end-routes/current-route
+    :router/current-route
     (fn [db]
-      (:current-route db))))
+      (:router/current-route db))))
 
 #?(:clj
    (defn home-page [request]
@@ -31,51 +31,39 @@
   [""
    #?(:clj {:middleware [middleware/wrap-csrf]
             :get home-page})
-   ;
-   ;this is required for the initial http request to web server
    ["/"
     (merge
      {:name ::home}
      #?(:cljs
-        {:view #'home/home}))]])
-
-#?(:cljs
-   (def front-end-routes
-     ["/"
-      [""
-       {:name      ::home
-        :view      #'home/home
-        :link-text "Home"
-        :controllers
-        [{;; Do whatever initialization needed for home page
-       ;; I.e (re-frame/dispatch [::events/load-something-with-ajax])
-          :start (fn []
-                   (rf/dispatch [:blog-posts/load])
-                   (js/console.log "Entering home page"))
-       ;; teardown can be done here.
-          :stop  (fn [] (js/console.log "Leaving home page"))}]}]
-      ["about"
-       {:name ::about
-        :view #'about/about
-        :controllers
-        [{:start (fn [] (js/console.log "Entering about page"))
-          :stop  (fn [] (js/console.log "Leaving about page"))}]}]
-      ["blog-list"
-       {:name ::blog-list
-        :view #'blog-list/blog-list
-        :link-text "Blog List"
-        :controllers
-        [{:start (fn [] (do
-                          (rf/dispatch [:blog-posts/load])
-                          (js/console.log "Entering bloglist")))
-          :stop  (fn [] (js/console.log "Leaving bloglist"))}]}]
-      ["blog-posts/:id"
-       {:name ::blog-post
-        :view #'blog-post/blog-post
-        :link-text "Blog Post"
-        :controllers
-        [{:parameters {:path [:id]}
-          :start (fn [params] (do
-                                (rf/dispatch [:blog-posts/load])
-                                (.log js/console (str "Going to Blog Post: " (-> params :path :id)))))
-          :stop (fn [_params] (.log js/console "Leaving Blog Post"))}]}]]))
+        {:controllers
+         [{:start (fn []
+                    (rf/dispatch [:blog-posts/load])
+                    (js/console.log "Entering home page"))
+           :stop  (fn [] (js/console.log "Leaving home page"))}]
+         :view #'home/home}))]
+   ["/about"
+    (merge
+     {:name ::about}
+     #?(:cljs {:controllers
+               [{:start (fn [] (js/console.log "Entering about page"))
+                 :stop  (fn [] (js/console.log "Leaving about page"))}]
+               :view #'about/about}))]
+   ["/blog-list"
+    (merge
+     {:name ::blog-list}
+     #?(:cljs {:controllers
+               [{:start (fn [] (do
+                                 (rf/dispatch [:blog-posts/load])
+                                 (js/console.log "Entering bloglist")))
+                 :stop  (fn [] (js/console.log "Leaving bloglist"))}]
+               :view #'blog-list/blog-list}))]
+   ["blog-posts/:id"
+    (merge
+     {:name ::blog-post}
+     #?(:cljs {:controllers
+               [{:parameters {:path [:id]}
+                 :start (fn [params] (do
+                                       (rf/dispatch [:blog-posts/load])
+                                       (.log js/console (str "Going to Blog Post: " (-> params :path :id)))))
+                 :stop (fn [_params] (.log js/console "Leaving Blog Post"))}]
+               :view #'blog-post/blog-post}))]])

@@ -1,13 +1,13 @@
 (ns clj-blog.core
   (:require
-   [clj-blog.routes.app :as app-routes]
+   [clj-blog.routes.app :refer [app-routes]]
    [mount.core :as mount]
    [re-frame.core :as rf]
    [reagent.core :as r]
    [reagent.dom :as dom]
-   [reitit.coercion.spec :as rss]
+   [reitit.coercion.spec :as reitit-spec]
    [reitit.frontend :as reitit-fe]
-   [reitit.frontend.controllers :as reitit-c]
+   [reitit.frontend.controllers :as reitit-controllers]
    [reitit.frontend.easy :as reitit-fee]))
 
 (rf/reg-event-db
@@ -48,51 +48,54 @@
          {:class (when @burger-active "is-active")}
          [:div.navbar-start
           [:a.navbar-item
-           {:href "/#"}
+           {:href "/"}
            "Home"]
           [:a.navbar-item
-           {:href "/#/about"}
+           {:href "/about"}
            "About"]
           [:a.navbar-item
-           {:href "/#/blog-list"}
+           {:href "/blog-list"}
            "Posts"]]]]])))
 
-(defn on-navigate [new-match]
-  (let [old-match (rf/subscribe [:front-end-routes/current-route])]
-    (.log js/console new-match)
-    (when new-match
-      (let [cs (reitit-c/apply-controllers (:controllers @old-match) new-match)
-            m  (assoc new-match :controllers cs)]
-        (rf/dispatch [:front-end-routes/navigated m])))))
-
 (def front-end-router
+  ;;looks good
   (reitit-fe/router
-   app-routes/front-end-routes
-   {:data {:coercion rss/coercion}}))
+   (app-routes)
+   {:data {:coercion reitit-spec/coercion}}))
+
+(defn on-navigate [new-match]
+  (.log js/console new-match)
+  (when new-match
+    (let [{controllers :controllers} @(rf/subscribe [:router/current-route])
+          new-match-with-controllers (assoc new-match :controllers (reitit-controllers/apply-controllers controllers new-match))]
+      (rf/dispatch [:router/navigated new-match-with-controllers]))))
 
 (defn init-routes! []
   (js/console.log "initializing routes")
   (reitit-fee/start!
    front-end-router
    on-navigate
-   {:use-fragment true}))
+   {:use-fragment false}))
+
+(defn page [{{:keys [view name]} :data
+             path                :path}]
+  [:section.section>div.container
+   (if view
+     [:div.content>div.columns.is-centered>div.column.is-two-thirds
+      [view]]
+     [:div (str "No view specified for route: " name " on " path)])])
 
 (defn main-page []
-  (let [current-route @(rf/subscribe [:front-end-routes/current-route])]
+  (let [current-route @(rf/subscribe [:router/current-route])]
     [:<>
      [navbar]
-     (when current-route
-       [:section.section
-        [:div.container
-         [:div.content>div.columns.is-centered>div.column.is-two-thirds
-          [(-> current-route :data :view)]]]])]))
+     [page current-route]]))
 
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)
   (.log js/console "Mounting Components...")
   (init-routes!)
-  (dom/render [main-page]
-              (.getElementById js/document "content"))
+  (dom/render [#'main-page] (.getElementById js/document "content"))
   (.log js/console "Components Mounted!"))
 
 (defn init!
