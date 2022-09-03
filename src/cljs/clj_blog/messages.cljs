@@ -69,6 +69,7 @@
                             #(rf/dispatch
                               (conj success-event
                                     (if success-path
+                                      ;the success path is key-path to data in response
                                       (get-in % success-path)
                                       %))))
        error-event (assoc :error-handler

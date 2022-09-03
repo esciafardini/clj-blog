@@ -25,38 +25,6 @@
                :success-path [:blog-posts]
                :success-event [:blog-posts/set]}}))
 
-;;; Views ;;;
-
-(defn navbar []
-  (let [burger-active (r/atom false)]
-    (fn []
-      [:nav.navbar.is-info
-       [:div.container
-        [:div.navbar-brand
-         [:a.navbar-item
-          {:href "/"
-           :style {:font-weight "bold"}}
-          "FP BLOGG"]
-         [:span.navbar-burger.burger
-          {:data-target "nav-menu"
-           :on-click #(swap! burger-active not)
-           :class (when @burger-active "is-active")}
-          [:span]
-          [:span]
-          [:span]]]
-        [:div#nav-menu.navbar-menu
-         {:class (when @burger-active "is-active")}
-         [:div.navbar-start
-          [:a.navbar-item
-           {:href "/"}
-           "Home"]
-          [:a.navbar-item
-           {:href "/about"}
-           "About"]
-          [:a.navbar-item
-           {:href "/blog-list"}
-           "Posts"]]]]])))
-
 (def front-end-router
   ;;looks good
   (reitit-fe/router
@@ -76,13 +44,45 @@
    on-navigate
    {:use-fragment false}))
 
-(defn page [{{:keys [view name]} :data
-             path                :path}]
+;;; Views ;;;
+
+(defn nav-item [on-click href link-text]
+  [:a.navbar-item
+   {:on-click on-click
+    :href href}
+   link-text])
+
+(defn navbar []
+  (let [burger-active (r/atom false)
+        on-click #(swap! burger-active not)]
+    (fn []
+      [:nav.navbar.is-info
+       [:div.container
+        [:div.navbar-brand
+         [:a.navbar-item
+          {:href "/"
+           :style {:font-weight "bold"}}
+          "FP BLOGG"]
+         [:span.navbar-burger.burger
+          {:data-target "nav-menu"
+           :on-click on-click
+           :class (when @burger-active "is-active")}
+          [:span]
+          [:span]
+          [:span]]]
+        [:div#nav-menu.navbar-menu
+         {:class (when @burger-active "is-active")}
+         [:div.navbar-start
+          [nav-item on-click "/" "Home"]
+          [nav-item on-click "/about" "About"]
+          [nav-item on-click "/blog-list" "Posts"]]]]])))
+
+(defn page [{{:keys [view]} :data}]
   [:section.section>div.container
    (if view
      [:div.content>div.columns.is-centered>div.column.is-two-thirds
       [view]]
-     [:div (str "No view specified for route: " name " on " path)])])
+     [:<>])])
 
 (defn main-page []
   (let [current-route @(rf/subscribe [:router/current-route])]

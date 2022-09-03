@@ -5,6 +5,7 @@
        :cljs [[re-frame.core :as rf]
               [clj-blog.views.blog-post :as blog-post]
               [clj-blog.views.blog-list :as blog-list]
+              [clj-blog.blog-posts.blog-themes :as themes] ;TODO move to a view component
               [clj-blog.views.about :as about]
               [clj-blog.views.home :as home]])))
 
@@ -65,5 +66,15 @@
                           (do
                             (rf/dispatch [:blog-post/select-blog-post id])
                             (.log js/console (str "Going to Blog Post: " id))))
-                 :stop (fn [_params] (.log js/console "Leaving Blog Post"))}]
-               :view #'blog-post/blog-post}))]])
+                 :stop (fn [_params]
+                         (do
+                           (rf/dispatch [:blog-post/set nil])
+                           (.log js/console "Leaving Blog Post")))}]
+               :view #'blog-post/blog-post}))]
+   ["/themes"
+    (merge
+     {:name ::themes}
+     #?(:cljs {:controllers
+               [{:start (fn [] (js/console.log "Entering themes page"))
+                 :stop  (fn [] (js/console.log "Leaving themes page"))}]
+               :view #'themes/color-palette}))]])

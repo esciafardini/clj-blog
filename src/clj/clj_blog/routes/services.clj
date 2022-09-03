@@ -83,11 +83,11 @@
        :responses
        {200
         {:body  ;; Data Spec for response body - provides a specification for each route's params and responses
-         {:blog-posts
-          [{:id pos-int?
-            :title string?
-            :component_function string?
-            :date_created inst?}]}}}
+         {:blog-post
+          {:id pos-int?
+           :title string?
+           :component_function string?
+           :date_created inst?}}}}
        :handler get-blog-post-by-id}}]]
    ["/messages"
     {:get

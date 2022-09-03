@@ -1,6 +1,7 @@
 -- :name get-blog-posts :? :*
 -- :doc returns all blog posts in db
-SELECT * FROM blog_posts;
+SELECT * FROM blog_posts
+ORDER BY date_created DESC;
 
 -- :name get-blog-post-by-id :? :*
 -- :doc returns all blog_posts in db on id
@@ -13,11 +14,11 @@ INSERT INTO authors (title, component_function, email)
 VALUES (:first_name, :last_name, :user_name, :email);
 
 
- id                 | integer                |           | not null | nextval('blog_posts_id_seq'::regclass)
- title              | character varying(500) |           |          |
- date_created       | date                   |           |          |
- component_function | character varying(200) |           |          |
- tags
+ -- id                 | integer                |           | not null | nextval('blog_posts_id_seq'::regclass)
+ -- title              | character varying(500) |           |          |
+ -- date_created       | date                   |           |          |
+ -- component_function | character varying(200) |           |          |
+ -- tags
 
 -- :name update-author-by-id! :! :n
 -- :doc updates an existing author record
@@ -40,9 +41,9 @@ WHERE user_name = :user_name;
 -- :doc creates a new message using the name and keys
 INSERT INTO guestbook
 (name, message)
-VALUES (:name, :message)
+VALUES (:name, :message);
 
 -- :name get-messages :? :*
 -- :doc selects all available messages
-SELECT * FROM guestbook
+SELECT * FROM guestbook;
 

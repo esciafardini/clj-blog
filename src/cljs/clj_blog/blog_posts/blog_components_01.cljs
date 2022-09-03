@@ -26,17 +26,9 @@
 
 (defn higher-order-functions []
   [:<>
-   [:h2 "4Clojure Problem 46"]
    [:p "This one I found to be tricky and somewhat revealing."]
    [codeblock
-    ";Write a higher-order function which
-      ;flips the order of the arguments of an input function.
-      \n
-      \t(= 3 ((_ nth) 2 [1 2 3 4 5]))\n\n
-      \t(= true ((_ >) 7 8))\n\n
-      \t(= 4 ((__ quot) 2 8))\n\n
-      \t(= [1 2 3] ((_ take) [1 2 3 4 5] 3))
-      \n"
+    ";Write a higher-order function which\n;flips the order of the arguments of an input function.\n\n(= 3 ((_ nth) 2 [1 2 3 4 5]))\n(= true ((_ >) 7 8))\n\n(= 4 ((__ quot) 2 8))\n\n(= [1 2 3] ((_ take) [1 2 3 4 5] 3))"
     false]
    [:p "Being that functions are first class citizens in Clojure, we can pass in functions to functions
         and return new functions......uhhhh"]

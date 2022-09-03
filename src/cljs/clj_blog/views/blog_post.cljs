@@ -8,14 +8,14 @@
  (fn [db [_ blog-post]]
    (-> db
        (assoc :blog-post/loading? false
-              :blog-post/current-blog-post (first blog-post)))))
+              :blog-post/current-blog-post blog-post))))
 
 (rf/reg-event-fx
  :blog-post/select-blog-post
  (fn [{:keys [db]} [_ id]]
    {:db (assoc db :blog-post/loading? true)
     :ajax/get {:url (str "/api/blog-posts/by/" id)
-               :success-path [:blog-posts]
+               :success-path [:blog-post]
                :success-event [:blog-post/set]}}))
 
 (rf/reg-sub
@@ -35,11 +35,12 @@
       [:<>
        (cond
          @loading?
-         [:div "Loading"]
+         [:<>]
          (nil? @blog-post)
          [:div "No blog post"]
          :else
-         [blog-post-container @blog-post])
-       [:hr]
-       [:div {:style {:text-align "center"}}
-        [:a {:href "/"} "Return Home"]]])))
+         [:<>
+          [blog-post-container @blog-post]
+          [:hr]
+          [:div {:style {:text-align "center"}}
+           [:a {:href "/blog-list"} "Return To Blog List"]]])])))

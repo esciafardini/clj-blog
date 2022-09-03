@@ -10,4 +10,4 @@
   {:blog-posts (vec (db/get-blog-posts))})
 
 (defn blog-post-by-id [id]
-  {:blog-posts (vec (db/get-blog-post-by-id {:id id}))})
+  {:blog-post (first (db/get-blog-post-by-id {:id id}))})
