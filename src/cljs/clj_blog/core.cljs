@@ -56,7 +56,7 @@
   (let [burger-active (r/atom false)
         on-click #(swap! burger-active not)]
     (fn []
-      [:nav.navbar.is-info
+      [:nav.navbar.is-dark
        [:div.container
         [:div.navbar-brand
          [:a.navbar-item
@@ -80,7 +80,7 @@
 (defn page [{{:keys [view]} :data}]
   [:section.section>div.container
    (if view
-     [:div.content>div.columns.is-centered>div.column.is-two-thirds
+     [:div.content>div.columns.is-centered
       [view]]
      [:<>])])
 

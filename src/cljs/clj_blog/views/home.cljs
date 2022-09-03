@@ -48,8 +48,8 @@
   []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
-      [:<>
+      [:div.column.is-two-thirds
        (for [blog-post @blog-posts
              :when (= 1 (:id blog-post))]
          ^{:key (:id blog-post)}
-         [blog-post-container blog-post])])))
+         [blog-post-container (merge {:home-page? true} blog-post)])])))

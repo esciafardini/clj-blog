@@ -4,9 +4,11 @@
    [clj-blog.blog-posts.component-lookup :refer [component-lookup]]))
 
 (defn blog-post-container []
-  (fn [{:keys [title date_created component_function]}]
+  (fn [{:keys [title date_created component_function home-page?]}]
     (let [component (get component-lookup component_function)]
-       [:div.blogpost
+      [:div.blogpost
        [:h1 title]
-       [:p.date (utils/inst->date-str date_created)]
+       (if home-page?
+         [:p {:style {:margin-top "2rem"}}]
+         [:p.date (utils/inst->date-str date_created)])
        [component]])))

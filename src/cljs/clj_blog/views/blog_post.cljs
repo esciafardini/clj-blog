@@ -32,7 +32,7 @@
   (let [loading? (rf/subscribe [:blog-post/loading?])
         blog-post (rf/subscribe [:blog-post/current-blog-post])]
     (fn []
-      [:<>
+      [:div.column.is-two-thirds
        (cond
          @loading?
          [:<>]

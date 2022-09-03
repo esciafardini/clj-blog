@@ -6,8 +6,8 @@
 (defn blog-list []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
-      [:<>
-       [:h1 "Blog Posts"]
+      [:div.column.is-two-thirds
+       [:h1 "Blogg Posts"]
        [:ul
         (for [blog-post @blog-posts]
           ^{:key (:title blog-post)}
