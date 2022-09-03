@@ -38,7 +38,11 @@
 (defn get-blog-posts
   "HTTP means of fetching blog posts from the psql database"
   [_]
-  (response/ok (blog/get-blog-posts)))
+  (response/ok (blog/blog-post-list)))
+
+(defn get-blog-post-by-id
+  [{{{:keys [id]} :path} :parameters}]
+  (response/ok (blog/blog-post-by-id id)))
 
 (defn service-routes
   "Reitit routes for /api with lots of middleware.  Descriptions in comments."
@@ -63,16 +67,28 @@
      {:get (swagger-ui/create-swagger-ui-handler ;Swagger UI offers the ability to visualize and interact with our services API
             {:url "/api/swagger.json"})}]]
    ["/blog-posts"
-    {:get
-     {:responses
-      {200
-       {:body  ;; Data Spec for response body - provides a specification for each route's params and responses
-        {:blog-posts
-         [{:id pos-int?
-           :title string?
-           :component_function string?
-           :date_created inst?}]}}}
-      :handler get-blog-posts}}]
+    ["" {:get
+         {:responses
+          {200
+           {:body  ;; Data Spec for response body - provides a specification for each route's params and responses
+            {:blog-posts
+             [{:id pos-int?
+               :title string?
+               :component_function string?
+               :date_created inst?}]}}}
+          :handler get-blog-posts}}]
+    ["/by/:id"
+     {:get
+      {:parameters {:path {:id int?}}
+       :responses
+       {200
+        {:body  ;; Data Spec for response body - provides a specification for each route's params and responses
+         {:blog-posts
+          [{:id pos-int?
+            :title string?
+            :component_function string?
+            :date_created inst?}]}}}
+       :handler get-blog-post-by-id}}]]
    ["/messages"
     {:get
      {:responses
@@ -87,7 +103,7 @@
    ["/message"
     {:post
      {:parameters
-      {:body ;; Data Spec for Request body parameters 
+      {:body ;; Data Spec for Request body parameters
        {:name string?
         :message string?}}
       :responses

@@ -64,7 +64,6 @@
    {:data {:coercion reitit-spec/coercion}}))
 
 (defn on-navigate [new-match]
-  (.log js/console new-match)
   (when new-match
     (let [{controllers :controllers} @(rf/subscribe [:router/current-route])
           new-match-with-controllers (assoc new-match :controllers (reitit-controllers/apply-controllers controllers new-match))]

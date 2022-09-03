@@ -6,5 +6,8 @@
 ;; now these can be utilized by other services
 ;;this is the `model`
 
-(defn get-blog-posts []
+(defn blog-post-list []
   {:blog-posts (vec (db/get-blog-posts))})
+
+(defn blog-post-by-id [id]
+  {:blog-posts (vec (db/get-blog-post-by-id {:id id}))})

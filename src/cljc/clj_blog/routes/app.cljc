@@ -12,7 +12,6 @@
    (rf/reg-event-db
     :router/navigated
     (fn [db [_ new-match]]
-      (.log js/console new-match)
       (assoc db :router/current-route new-match))))
 
 #?(:cljs
@@ -57,13 +56,14 @@
                                  (js/console.log "Entering bloglist")))
                  :stop  (fn [] (js/console.log "Leaving bloglist"))}]
                :view #'blog-list/blog-list}))]
-   ["blog-posts/:id"
+   ["/blog-posts/:id"
     (merge
-     {:name ::blog-post}
+     {:name ::blog-posts}
      #?(:cljs {:controllers
                [{:parameters {:path [:id]}
-                 :start (fn [params] (do
-                                       (rf/dispatch [:blog-posts/load])
-                                       (.log js/console (str "Going to Blog Post: " (-> params :path :id)))))
+                 :start (fn [{{:keys [id]} :path}]
+                          (do
+                            (rf/dispatch [:blog-post/select-blog-post id])
+                            (.log js/console (str "Going to Blog Post: " id))))
                  :stop (fn [_params] (.log js/console "Leaving Blog Post"))}]
                :view #'blog-post/blog-post}))]])

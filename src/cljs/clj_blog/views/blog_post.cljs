@@ -4,21 +4,42 @@
    [re-frame.core :as rf]))
 
 (rf/reg-event-db
+ :blog-post/set
+ (fn [db [_ blog-post]]
+   (-> db
+       (assoc :blog-post/loading? false
+              :blog-post/current-blog-post (first blog-post)))))
+
+(rf/reg-event-fx
  :blog-post/select-blog-post
- (fn [db [_ blog]]
-   (assoc db :blog-post/current-blog-post blog)))
+ (fn [{:keys [db]} [_ id]]
+   {:db (assoc db :blog-post/loading? true)
+    :ajax/get {:url (str "/api/blog-posts/by/" id)
+               :success-path [:blog-posts]
+               :success-event [:blog-post/set]}}))
 
 (rf/reg-sub
  :blog-post/current-blog-post
  (fn [db]
    (:blog-post/current-blog-post db)))
 
+(rf/reg-sub
+ :blog-post/loading?
+ (fn [db]
+   (:blog-post/loading? db)))
+
 (defn blog-post []
-  (let [blog-post (rf/subscribe [:blog-post/current-blog-post])]
+  (let [loading? (rf/subscribe [:blog-post/loading?])
+        blog-post (rf/subscribe [:blog-post/current-blog-post])]
     (fn []
       [:<>
-       (when blog-post
+       (cond
+         @loading?
+         [:div "Loading"]
+         (nil? @blog-post)
+         [:div "No blog post"]
+         :else
          [blog-post-container @blog-post])
        [:hr]
        [:div {:style {:text-align "center"}}
-        [:a {:href "/#/"} "Return Home"]]])))
+        [:a {:href "/"} "Return Home"]]])))

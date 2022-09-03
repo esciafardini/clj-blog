@@ -2,8 +2,8 @@
 -- :doc returns all blog posts in db
 SELECT * FROM blog_posts;
 
--- :name get-blog-post-by-id :? :1
--- :doc returns all blog_posts in db
+-- :name get-blog-post-by-id :? :*
+-- :doc returns all blog_posts in db on id
 SELECT * FROM blog_posts
 WHERE id = :id;
 
@@ -27,7 +27,7 @@ WHERE id = :id;
 
 -- :name delete-author-by-user-name! :! :n
 -- :doc deletes an author
-DELETE FROM authors 
+DELETE FROM authors
 WHERE user_name = :user_name;
 
 
