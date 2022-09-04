@@ -1,9 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-<!-- hidden element for csrf token -->
-<input id="token" type="hidden" value="{{csrf-token}}" />
-<div id="messages"></div>
-{% endblock %}
-{% block page-scripts %}
-{% script "/js/app.js" %}
-{% endblock %}

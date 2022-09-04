@@ -7,6 +7,7 @@
               [clj-blog.views.blog-list :as blog-list]
               [clj-blog.blog-posts.blog-themes :as themes] ;TODO move to a view component
               [clj-blog.views.about :as about]
+              [clj-blog.views.resources :as resources]
               [clj-blog.views.home :as home]])))
 
 #?(:cljs
@@ -41,6 +42,13 @@
                     (js/console.log "Entering home page"))
            :stop  (fn [] (js/console.log "Leaving home page"))}]
          :view #'home/home}))]
+   ["/resources"
+    (merge
+     {:name ::resources}
+     #?(:cljs {:controllers
+               [{:start (fn [] (js/console.log "Entering resources"))
+                 :stop  (fn [] (js/console.log "Leaving resources"))}]
+               :view #'resources/resources}))]
    ["/about"
     (merge
      {:name ::about}

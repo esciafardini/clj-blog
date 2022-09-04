@@ -75,6 +75,7 @@
          [:div.navbar-start
           [nav-item on-click "/" "Home"]
           [nav-item on-click "/about" "About"]
+          [nav-item on-click "/resources" "Resources"]
           [nav-item on-click "/blog-list" "Posts"]]]]])))
 
 (defn page [{{:keys [view]} :data}]
