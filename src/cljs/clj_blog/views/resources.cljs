@@ -49,5 +49,14 @@
      [:a {:href "https://podcasts.apple.com/us/podcast/lost-in-lambduhhs/id1566620738"} "Lost In Lambduhhs Podcast"]
      " - Great Clojure talks."]
     [:li
+     [:a {:href "https://github.com/functional-koans/clojure-koans"} "Clojure Koans"]
+     " - Zen themed clojure practice"]
+    [:li
+     [:a {:href "https://exercism.org/"} "Exercism"]
+     " - Coding challenges with Clojure track and free mentorship."]
+    [:li
+     [:a {:href "https://4clojure.oxal.org/"} "4Clojure"]
+     " - Coding challenges in Clojure."]
+    [:li
      [:a {:href "https://www.evalapply.org/"} "Eval/Apply Blog"]
      " - Huge inspiration for this Blogg."]]])
