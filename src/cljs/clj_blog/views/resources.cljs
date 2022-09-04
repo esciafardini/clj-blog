@@ -50,7 +50,7 @@
      " - Great Clojure talks."]
     [:li
      [:a {:href "https://github.com/functional-koans/clojure-koans"} "Clojure Koans"]
-     " - Zen themed clojure practice"]
+     " - Zen themed clojure practice."]
     [:li
      [:a {:href "https://exercism.org/"} "Exercism"]
      " - Coding challenges with Clojure track and free mentorship."]
