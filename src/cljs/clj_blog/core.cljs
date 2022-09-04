@@ -76,7 +76,7 @@
           [nav-item on-click "/" "Home"]
           [nav-item on-click "/about" "About"]
           [nav-item on-click "/resources" "Resources"]
-          [nav-item on-click "/blog-list" "Posts"]]]]])))
+          [nav-item on-click "/blog-list" "Blogg"]]]]])))
 
 (defn page [{{:keys [view]} :data}]
   [:section.section>div.container

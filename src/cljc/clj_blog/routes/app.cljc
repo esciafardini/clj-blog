@@ -5,6 +5,7 @@
        :cljs [[re-frame.core :as rf]
               [clj-blog.views.blog-post :as blog-post]
               [clj-blog.views.blog-list :as blog-list]
+              [clj-blog.views.messages :as messages]
               [clj-blog.blog-posts.blog-themes :as themes] ;TODO move to a view component
               [clj-blog.views.about :as about]
               [clj-blog.views.resources :as resources]
@@ -79,6 +80,15 @@
                            (rf/dispatch [:blog-post/set nil])
                            (.log js/console "Leaving Blog Post")))}]
                :view #'blog-post/blog-post}))]
+   ["/the-chat"
+    (merge
+     {:name ::the-chat}
+     #?(:cljs {:controllers
+               [{:start (fn [] (do
+                                 (rf/dispatch [:messages/load])
+                                 (js/console.log "Entering messages page")))
+                 :stop  (fn [] (js/console.log "Leaving messages page"))}]
+               :view #'messages/messages}))]
    ["/themes"
     (merge
      {:name ::themes}
