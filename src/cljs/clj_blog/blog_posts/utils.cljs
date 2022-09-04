@@ -25,7 +25,7 @@
 
 (defn codeblock
   "Adds syntax highlighting and formatting to code snippets for rendering"
-  ([code] (codeblock code true "clojure" hljs/androidstudio))
+  ([code] (codeblock code true "clojure" hljs/nightOwl))
   ([code format?] (codeblock code format? "clojure" hljs/nightOwl))
   ([code format? language style]
    [:> SyntaxHighlighter

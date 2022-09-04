@@ -61,7 +61,7 @@
         [:div.navbar-brand
          [:a.navbar-item
           {:href "/"
-           :style {:font-weight "bold"}}
+           :style {:font-family "VT323" :font-size "28px" :font-weight "bold"}}
           "FP BLOGG"]
          [:span.navbar-burger.burger
           {:data-target "nav-menu"

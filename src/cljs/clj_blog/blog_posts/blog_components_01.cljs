@@ -26,46 +26,42 @@
 
 (defn higher-order-functions []
   [:<>
-   [:p "This one I found to be tricky and somewhat revealing."]
+   [:p "This one taught me a valuable lesson."]
    [codeblock
-    ";Write a higher-order function which\n;flips the order of the arguments of an input function.\n\n(= 3 ((_ nth) 2 [1 2 3 4 5]))\n(= true ((_ >) 7 8))\n\n(= 4 ((__ quot) 2 8))\n\n(= [1 2 3] ((_ take) [1 2 3 4 5] 3))"
+    ";Write a higher-order function which flips the order \n;of the arguments of an input function.\n\n(= 3 ((____ nth) 2 [1 2 3 4 5]))\n\n(= true ((____ >) 7 8))\n\n(= 4 ((____ quot) 2 8))\n\n(= [1 2 3] ((____ take) [1 2 3 4 5] 3))"
     false]
-   [:p "Being that functions are first class citizens in Clojure, we can pass in functions to functions
-        and return new functions......uhhhh"]
-   [:p "Let's do a visualization exercise to explain...envision a computer monitor....visualize yourself reading a blog post....."]
-   [:p "If we look at where the function we are writing is...it should only take one parameter."]
-   [:p "So what is the parameter?  We have nth, >, quot, and take."]
+   [:p "Being that functions are first class citizens in Clojure, we can pass functions into functions and we can return new functions.  This has always felt a little tricky to me, so I want to slow down."]
+   [:p "If we look at the ____ space where our function will live...we see it only takes one parameter."]
+   [:p "And what type of parameter will the function take?  We have nth, >, quot, and take.  These are all Clojure functions.  We are writing a function that takes a function as an argument."]
+   [:p "It's important to note the arity of these functions.  Here is how they would normally be called:"]
    [codeblock
-    ";so it takes a function f.....\n
-      (fn [f] (.......)) \n
-      ;But then what?
-
-      ((fn [f] (...something....) take) [1 2 3 4 5] 3)
-      "
+    "(take 3 [1 2 3 4 5])\n;=>\n'(1 2 3)\n\n(nth [1 2 3 4 5] 2)\n;=>\n3\n\n(quot 8 2)\n;=>\n4\n\n(> 8 7)\n;=>\ntrue"
     false]
-   [:p "It looks like....we want to take that function into our black box....and turn it into a slightly janked version of itself."]
-   [:p "What does janked mean?"]
-   [:p "In this context the terminology indicates a directional acyclical graph shift via parameterization of schematic index order traversal......"]
-   [:p "Just kidding it means the args get reversed."]
-   [:p "Return the function so that when it is called, it takes the second argument first & the first argument second."]
-   [:p "This is a good exercise in functional thinking OKAY:"]
+   [:p "If we look at the 4Clojure problem, we see that the arguments are being passed into the function in reverse order.  So what do we want to do to our function?"]
+   [:p "Something like turning the function (f [a b] ...) into a function (f [b a] ...) where the result is the same, but the arguments are swapped."]
+   [:p "This is a good exercise in functional thinking:"]
    [codeblock
-    ";if I give you the func, are you gonna take it?
-      ((fn [f] (fn [arg1 arg2] (f arg2 arg1)) take) [1 2 3 4 5] 3) ;=> (1 2 3)"
+    "((fn [f] (fn [arg1 arg2] (f arg2 arg1)) take) [1 2 3 4 5] 3)\n;=>\n'(1 2 3)"
     false]
-   [:p "WHOA"]
-   [:p "What happened? The outer function takes the function - and that makes sense because in each example listed in 4clojure, the fn we are writing takes a single function"]
-   [:p "The next part is a little strange to think about - but it will begin to make sense if you keep pulling clumps of your hair out and staring at the screen."]
-   [:p "What is returned ultimately is a NEW function comprised of the OLD function passed into it."]
+   [:p "What happened? The outer function takes the function - and that makes sense because in each example listed in 4Clojure, the fn we are writing takes a single function.
+        What is returned ultimately is a" [:em " new "] "function comprised of the" [:em " old "] "function passed into it.  It's always a little clearer to me to see fns in a defn:"]
    [codeblock
-    ";Let me show you what I mean:\n
-      ((fn [n coll] (nth coll n)) 2 [1 2 3 4 5])\n
-      ((fn [x y] (> y x)) 7 8)\n
-      ((fn [coll n] (take n coll)) [1 2 3 4 5] 3)\n
-      ((fn [x y] (quot y x)) 2 8)
-      \n"
+    "(defn reverse-args [f]
+    (fn [a b] (f b a)))"]
+   [:p "A function comes in & a function goes out."]
+   [:p "This solution works fine for two args, but let's take it a step further and see about reversing multiple args."]
+   [:p "It's common convention to use [& args] for variadic functions (functions that take a variable number of parameters).  This converts the arguments coming into the function into a sequence.
+       The cool thing is that this sequence is like any other Clojure sequence & can be manipulated as such."]
+   [:p "Try this out in your REPL if that doesn't make sense:"]
+   [codeblock
+    "(fn [& args] (println args) (println (reverse args))) 1 2 3 4)]\n;=>\n;(out): '(1 2 3 4)\n;(out): '(4 3 2 1)"
     false]
-   [:p "I can feel the power of functions..."]])
+   [:p "The function took in four arguments, and the & symbol turned them into a sequence.  The sequence was reversed in the example above, but any functions that can be called on sequences can be
+       called on args - because args is a sequence.  With that in mind, we can deal with multi-arity argument flipping:"]
+   [codeblock
+    "(defn reverse-args [f]\n  (fn [& args] (apply f (reverse args))))\n\n(=\n (range 0 20 2)\n ((reverse-args range) 2 20 0))\n;=> true"
+    false]
+   [:p "I can feel the power of functions. I understand the need for a higher order."]])
 
 (defn ^:private string->hiccup-with-links
   [s]
