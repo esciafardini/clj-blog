@@ -22,6 +22,9 @@
    [:h3 "Tutorials"]
    [:ul
     [:li
+     [:a {:href "https://www.theodinproject.com/"} "The Odin Project"]
+     " - The best resource for learning Web Development."]
+    [:li
      [:a {:href "https://ericnormand.me/clojure"} "Eric Normand"]
      " - Fountain of knowledge, great courses for beginners (not free, but payment plans and discounts offered)."]
     [:li
@@ -42,6 +45,9 @@
     [:li
      [:a {:href "https://theclouncil.com/"} "The Clouncil"]
      " - Meetups for Beginners to ask Clojure questions to experts."]
+    [:li
+     [:a {:href "https://podcasts.apple.com/us/podcast/lost-in-lambduhhs/id1566620738"} "Lost In Lambduhhs Podcast"]
+     " - Great Clojure talks."]
     [:li
      [:a {:href "https://www.evalapply.org/"} "Eval/Apply Blog"]
      " - Huge inspiration for this Blogg."]]])
