@@ -43,4 +43,4 @@
           [blog-post-container @blog-post]
           [:hr]
           [:div {:style {:text-align "center"}}
-           [:a {:href "/blog-list"} "Go To Blog List"]]])])))
+           [:a {:href "/blog-list"} "Go To Blog Posts"]]])])))
