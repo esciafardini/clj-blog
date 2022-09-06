@@ -39,10 +39,22 @@
      #?(:cljs
         {:controllers
          [{:start (fn []
+                    (rf/dispatch [:blog-post/select-blog-post 1])
+                    (js/console.log "Entering home page"))
+           :stop  (fn [] (js/console.log "Leaving home page"))}]
+         :view #'blog-post/blog-post}))]
+   ["/blog-list"
+    (merge
+     {:name ::blog-list}
+     #?(:cljs
+        {:controllers
+         [{:start (fn []
                     (rf/dispatch [:blog-posts/load])
                     (js/console.log "Entering home page"))
            :stop  (fn [] (js/console.log "Leaving home page"))}]
-         :view #'home/home}))]
+         :view #'blog-list/blog-list}))]
+
+
    ["/blog-posts/:id"
     (merge
      {:name ::blog-posts}
