@@ -194,7 +194,7 @@
     :name "zenburn"}])
 
 (defn color-palette []
-  [:<>
+  [:div
    (for [theme theme-maps]
      ^{:key theme}
      [:div

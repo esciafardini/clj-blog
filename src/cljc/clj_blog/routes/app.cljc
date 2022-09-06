@@ -43,29 +43,6 @@
                     (js/console.log "Entering home page"))
            :stop  (fn [] (js/console.log "Leaving home page"))}]
          :view #'home/home}))]
-   ["/resources"
-    (merge
-     {:name ::resources}
-     #?(:cljs {:controllers
-               [{:start (fn [] (js/console.log "Entering resources"))
-                 :stop  (fn [] (js/console.log "Leaving resources"))}]
-               :view #'resources/resources}))]
-   ["/about"
-    (merge
-     {:name ::about}
-     #?(:cljs {:controllers
-               [{:start (fn [] (js/console.log "Entering about page"))
-                 :stop  (fn [] (js/console.log "Leaving about page"))}]
-               :view #'about/about}))]
-   ["/blog-list"
-    (merge
-     {:name ::blog-list}
-     #?(:cljs {:controllers
-               [{:start (fn [] (do
-                                 (rf/dispatch [:blog-posts/load])
-                                 (js/console.log "Entering bloglist")))
-                 :stop  (fn [] (js/console.log "Leaving bloglist"))}]
-               :view #'blog-list/blog-list}))]
    ["/blog-posts/:id"
     (merge
      {:name ::blog-posts}
@@ -80,6 +57,20 @@
                            (rf/dispatch [:blog-post/set nil])
                            (.log js/console "Leaving Blog Post")))}]
                :view #'blog-post/blog-post}))]
+   ["/resources"
+    (merge
+     {:name ::resources}
+     #?(:cljs {:controllers
+               [{:start (fn [] (js/console.log "Entering resources"))
+                 :stop  (fn [] (js/console.log "Leaving resources"))}]
+               :view #'resources/resources}))]
+   ["/about"
+    (merge
+     {:name ::about}
+     #?(:cljs {:controllers
+               [{:start (fn [] (js/console.log "Entering about page"))
+                 :stop  (fn [] (js/console.log "Leaving about page"))}]
+               :view #'about/about}))]
    ["/the-chat"
     (merge
      {:name ::the-chat}

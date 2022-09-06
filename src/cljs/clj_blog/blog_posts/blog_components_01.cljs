@@ -109,6 +109,7 @@
                      node))
                  hiccup))
 
+
 (defn practical-google-closure []
   [:<>
    [:h2 "Google Closure With Clojurescript"]
@@ -144,9 +145,10 @@
     (str (re-seq EMAIL_RE_ "Well what  haha annie@gmus.net is this utur@aol.com booter?"))]
    [:hr]])
 
-(defn css-part-1 []
+(defn css-quest-1 []
   [:<>
-   [:h2 "CSS - The Box Model"]
+   [:h2 "CSS Quest - Chapter 1"]
+   [:h3 "The Box Model"]
    [:p "When I want a holistic and therapeutic `learning to code` experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
     " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
    [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I embark on this treacherous quest."]
@@ -220,4 +222,10 @@
     [:div.column
      {:style {:border "2px solid red" :text-align "center"}} "Am I middling?"]
     [:div.column.is-one-third]]])
+
+(defn css-quest-2 []
+  [:<>
+   [:h2 "CSS Quest - Chapter 2"]
+   [:h3 "Flexbox"]
+   [:p "Flexbox is the modern way to move things around on a webpage."]])
 

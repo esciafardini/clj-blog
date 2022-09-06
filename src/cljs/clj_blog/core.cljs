@@ -1,15 +1,16 @@
 (ns clj-blog.core
   (:require
    [clj-blog.routes.app :refer [app-routes]]
+   [clj-blog.views.navbar :refer [navbar]]
    [mount.core :as mount]
    [re-frame.core :as rf]
-   [reagent.core :as r]
    [reagent.dom :as dom]
    [reitit.coercion.spec :as reitit-spec]
    [reitit.frontend :as reitit-fe]
    [reitit.frontend.controllers :as reitit-controllers]
    [reitit.frontend.easy :as reitit-fee]))
 
+; Events
 (rf/reg-event-db
  :app/initialize
  (fn [_ _]
@@ -25,6 +26,21 @@
                :success-path [:blog-posts]
                :success-event [:blog-posts/set]}}))
 
+; Views
+(defn page [{{:keys [view]} :data}]
+  [:section.section>div.container
+   (if view
+     [:div.content>div.columns.is-centered
+      [view]]
+     [:<>])])
+
+(defn main-page []
+  (let [current-route @(rf/subscribe [:router/current-route])]
+    [:<>
+     [navbar]
+     [page current-route]]))
+
+; Frontend Routes
 (def front-end-router
   ;;looks good
   (reitit-fe/router
@@ -44,53 +60,7 @@
    on-navigate
    {:use-fragment false}))
 
-;;; Views ;;;
-
-(defn nav-item [on-click href link-text]
-  [:a.navbar-item
-   {:on-click on-click
-    :href href}
-   link-text])
-
-(defn navbar []
-  (let [burger-active (r/atom false)
-        on-click #(swap! burger-active not)]
-    (fn []
-      [:nav.navbar.is-dark
-       [:div.container
-        [:div.navbar-brand
-         [:a.navbar-item
-          {:href "/"
-           :style {:font-family "VT323" :font-size "28px" :font-weight "bold"}}
-          "FP BLOGG"]
-         [:span.navbar-burger.burger
-          {:data-target "nav-menu"
-           :on-click on-click
-           :class (when @burger-active "is-active")}
-          [:span]
-          [:span]
-          [:span]]]
-        [:div#nav-menu.navbar-menu
-         {:class (when @burger-active "is-active")}
-         [:div.navbar-start
-          [nav-item on-click "/" "Home"]
-          [nav-item on-click "/about" "About"]
-          [nav-item on-click "/resources" "Resources"]
-          [nav-item on-click "/blog-list" "Blogg"]]]]])))
-
-(defn page [{{:keys [view]} :data}]
-  [:section.section>div.container
-   (if view
-     [:div.content>div.columns.is-centered
-      [view]]
-     [:<>])])
-
-(defn main-page []
-  (let [current-route @(rf/subscribe [:router/current-route])]
-    [:<>
-     [navbar]
-     [page current-route]]))
-
+; Initialize App
 (defn ^:dev/after-load mount-components []
   (rf/clear-subscription-cache!)
   (.log js/console "Mounting Components...")

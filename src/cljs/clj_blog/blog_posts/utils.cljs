@@ -27,6 +27,7 @@
   "Adds syntax highlighting and formatting to code snippets for rendering"
   ([code] (codeblock code true "clojure" hljs/nightOwl))
   ([code format?] (codeblock code format? "clojure" hljs/nightOwl))
+  ([code format? language] (codeblock code format? language hljs/nightOwl))
   ([code format? language style]
    [:> SyntaxHighlighter
     {:language language

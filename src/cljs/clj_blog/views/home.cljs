@@ -1,8 +1,7 @@
 (ns clj-blog.views.home
   (:require
-   [clj-blog.blog-posts.blog-components-templates :refer [blog-post-container]]
+   [clj-blog.blog-posts.blog-components-01 :refer [css-quest-2]]
    [clj-blog.blog-posts.utils :refer [inst->date-str]]
-   [clj-blog.ajax :as ajax]
    [re-frame.core :as rf]))
 
 ;;EFFECTS vs. EVENTS
@@ -37,19 +36,17 @@
  (fn [db _]
    (:blog-posts/list db [])))
 
-(rf/reg-sub
- :blog-posts/blog-post
- :<- [:blog-posts/list]
- (fn [blog-posts [_ id]]
-   (first (filter (fn [{blog-id :id}] (= id blog-id)) blog-posts))))
-
-(defn home
-  "Home screen displays the first Blogg entry"
-  []
+(defn home []
   (let [blog-posts (rf/subscribe [:blog-posts/list])]
     (fn []
       [:div.column.is-two-thirds
-       (for [blog-post @blog-posts
-             :when (= 1 (:id blog-post))]
-         ^{:key (:id blog-post)}
-         [blog-post-container (merge {:home-page? true} blog-post)])])))
+       [:h1 "Blogg Posts"]
+       [:ul
+        (for [blog-post @blog-posts]
+          ^{:key (:title blog-post)}
+          [:li
+           {:on-click #(rf/dispatch [:blog-post/select-blog-post (:id blog-post)])}
+           [:a {:href (str "/blog-posts/" (:id blog-post))}
+            (str (inst->date-str (:date_created blog-post)) " - " (:title blog-post))]])]]
+      #_[:div.column.is-two-thirds
+       [css-quest-2]])))
