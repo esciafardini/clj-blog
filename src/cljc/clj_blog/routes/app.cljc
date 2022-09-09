@@ -2,14 +2,14 @@
   (:require
    #?@(:clj [[clj-blog.layout :as layout]
              [clj-blog.middleware :as middleware]]
-       :cljs [[re-frame.core :as rf]
+       :cljs [[clj-blog.views.about :as about]
               [clj-blog.views.blog-post :as blog-post]
               [clj-blog.views.blog-list :as blog-list]
+              [clj-blog.views.blog-themes :as themes]
               [clj-blog.views.messages :as messages]
-              [clj-blog.blog-posts.blog-themes :as themes] ;TODO move to a view component
-              [clj-blog.views.about :as about]
               [clj-blog.views.resources :as resources]
-              [clj-blog.views.home :as home]])))
+              [clj-blog.views.test :as test-view]
+              [re-frame.core :as rf]])))
 
 #?(:cljs
    (rf/reg-event-db
@@ -49,11 +49,10 @@
      #?(:cljs
         {:controllers
          [{:start (fn []
-                    (rf/dispatch [:blog-posts/load])
-                    (js/console.log "Entering home page"))
-           :stop  (fn [] (js/console.log "Leaving home page"))}]
+                    (rf/dispatch [:blog-list/load])
+                    (js/console.log "Entering Blog List"))
+           :stop  (fn [] (js/console.log "Leaving Blog List"))}]
          :view #'blog-list/blog-list}))]
-
 
    ["/blog-posts/:id"
     (merge
@@ -76,6 +75,13 @@
                [{:start (fn [] (js/console.log "Entering resources"))
                  :stop  (fn [] (js/console.log "Leaving resources"))}]
                :view #'resources/resources}))]
+   ["/test"
+    (merge
+     {:name ::testing}
+     #?(:cljs {:controllers
+               [{:start (fn [] (js/console.log "Entering test page"))
+                 :stop  (fn [] (js/console.log "Leaving test page"))}]
+               :view #'test-view/test-view}))]
    ["/about"
     (merge
      {:name ::about}

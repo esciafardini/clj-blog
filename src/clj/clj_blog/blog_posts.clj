@@ -7,7 +7,7 @@
 ;;this is the `model`
 
 (defn blog-post-list []
-  {:blog-posts (vec (db/get-blog-posts))})
+  {:blog-list (vec (db/get-blog-posts))})
 
 (defn blog-post-by-id [id]
   {:blog-post (first (db/get-blog-post-by-id {:id id}))})

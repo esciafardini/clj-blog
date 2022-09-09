@@ -1,6 +1,8 @@
 (ns clj-blog.views.blog-post
   (:require
-   [clj-blog.blog-posts.blog-components-templates :refer [blog-post-container]]
+   [clj-blog.blog-posts.utils :as utils]
+   [clj-blog.blog-posts.component-lookup :refer [component-lookup]]
+   [clj-blog.ajax :as ajax] ;;CAREFUL - this needs to be here even tho LSP thinks it doesn't
    [re-frame.core :as rf]))
 
 (rf/reg-event-db
@@ -27,6 +29,16 @@
  :blog-post/loading?
  (fn [db]
    (:blog-post/loading? db)))
+
+(defn blog-post-container []
+  (fn [{:keys [title date_created component_function home-page?]}]
+    (let [component (get component-lookup component_function)]
+      [:div.blogpost
+       [:h1 title]
+       (if home-page?
+         [:p {:style {:margin-top "2rem"}}]
+         [:p.date (utils/inst->date-str date_created)])
+       [component]])))
 
 (defn blog-post []
   (let [loading? (rf/subscribe [:blog-post/loading?])

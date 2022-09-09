@@ -71,7 +71,7 @@
          {:responses
           {200
            {:body  ;; Data Spec for response body - provides a specification for each route's params and responses
-            {:blog-posts
+            {:blog-list
              [{:id pos-int?
                :title string?
                :component_function string?

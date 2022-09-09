@@ -1,9 +1,10 @@
 (ns clj-blog.core
   (:require
    [clj-blog.routes.app :refer [app-routes]]
-   [clj-blog.views.navbar :refer [navbar]]
+   [clj-blog.views.navbar :as navbar]
    [mount.core :as mount]
    [re-frame.core :as rf]
+   [clj-blog.ajax :as ajax] ;;CAREFUL - this needs to be here even tho LSP thinks it doesn't
    [reagent.dom :as dom]
    [reitit.coercion.spec :as reitit-spec]
    [reitit.frontend :as reitit-fe]
@@ -21,10 +22,10 @@
 (rf/reg-event-fx
  :blog-post/load
  (fn [{:keys [db]} _]
-   {:db (assoc db :blog-posts/loading? true)
+   {:db (assoc db :blog-post/loading? true)
     :ajax/get {:url "/api/blog-posts"
-               :success-path [:blog-posts]
-               :success-event [:blog-posts/set]}}))
+               :success-path [:blog-list]
+               :success-event [:blog-posts/list]}}))
 
 ; Views
 (defn page [{{:keys [view]} :data}]
@@ -37,7 +38,7 @@
 (defn main-page []
   (let [current-route @(rf/subscribe [:router/current-route])]
     [:<>
-     [navbar]
+     [navbar/navbar]
      [page current-route]]))
 
 ; Frontend Routes
