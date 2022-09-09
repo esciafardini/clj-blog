@@ -6,7 +6,7 @@
    [:p "This Blogg was built using the Luminus framework. The frontend is Re-Frame and Reagent and the backend is a PostgreSQL instance.
        This is my first fully realized & deployed full stack project.  It is meant to be a learning resource for myself and other people who are new to
        Web Development and Functional Programming (like me). I relied heavily on the book Web Development In Clojure (3rd Edition), YouTube (Kelvin Mai & On The Code Again), my co-workers,
-       and the Clojurians Slack.  Much gratitude to all."]
+       and the Clojurians Slack.  Much gratitude to all. Here's the " [:a {:href "https://github.com/esciafardini/clj-blog"} "Github Repo"] "."]
    [:p "I will be BLOGGing about the languages and frameworks that were used to build this BLOGG:"]
    [:ul
     [:li "Clojure(Script)"]

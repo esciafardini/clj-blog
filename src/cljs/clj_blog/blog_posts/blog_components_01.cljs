@@ -109,7 +109,6 @@
                      node))
                  hiccup))
 
-
 (defn practical-google-closure []
   [:<>
    [:h2 "Google Closure With Clojurescript"]
@@ -149,6 +148,7 @@
   [:<>
    [:h2 "CSS Quest - Chapter 1"]
    [:h3 "The Box Model"]
+   [:div "WARNING: This Blogg entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
    [:p "When I want a holistic and therapeutic `learning to code` experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
     " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
    [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I embark on this treacherous quest."]
@@ -223,9 +223,45 @@
      {:style {:border "2px solid red" :text-align "center"}} "Am I middling?"]
     [:div.column.is-one-third]]])
 
+(defn flex-box-navbar-example []
+  [:div.fb-tutorial-menu-container
+   [:div.fb-tutorial-menu
+    [:div.fb-tutorial-date "Jan 14, 1979"]
+    [:div.fb-tutorial-links
+     [:div.fb-tutorial-signup "Sign Up"]
+     [:div.fb-tutorial-login "Login"]]]])
+
 (defn css-quest-2 []
   [:<>
    [:h2 "CSS Quest - Chapter 2"]
    [:h3 "Flexbox"]
-   [:p "Flexbox is the modern way to move things around on a webpage."]])
+   [:p "Flexbox is the modern way to move things around on a webpage. There is a key distinction between containers and items within said containers."]
+   [:p "The first step to flexboxing is to set the container to have " [:em "display: flex;"] ". Flex Items can be Flex Containers - which is a little weird but very utilitarian.
+       Also worth noting: The display property is the same one we used to set to " [:em "block"] " and " [:em "inline"] ". This is a new use case for the display property."]
+   [:p "Flexbox containers are made by setting display to flex.  Flexbox items are made by nesting elements within a container."]
+   [:p "Here is a block of divs nested within a flex container:"]
+   [codeblock
+    (pr-str
+     [:div.fb-tutorial-flex-container
+      [:div]
+      [:div]
+      [:div]
+      [:div]])]
+   [:div.fb-tutorial-flex-container
+    [:div]
+    [:div]
+    [:div]
+    [:div]]
+   [:p]
+   [:p "The navbar at the top of this Blogg was made using Bulma CSS...but let's look at how to build a navbar with Flexbox"]
+
+   [:p "I will be following this tutorial: " [:a [:href "https://www.internetingishard.com/html-and-css/flexbox/"]]]
+   [:p "Flexbox containers hold flexbox items and manage how they are laid out on the page. These decisions are made by the CONTAINER."]
+   [flex-box-navbar-example]
+   [:img {:src "/img/bite.png" :style {:object-fit "cover" :width "200px" :height "100px"}}]
+   [:p
+    "Flex containers only define rules for their children - not their grandchildren.  The rules only apply to elements one level deep. This can be used to our advantage.
+    Let's take a look..."]
+   [:p "Ended here " [:a [:href "https://www.internetingishard.com/html-and-css/flexbox/"]] " at grouping flex items"]
+   ])
 

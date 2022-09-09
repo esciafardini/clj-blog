@@ -1,23 +1,25 @@
 html,
 body {
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
   src: url(/assets/material-icons/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
-  src: local('Material Icons'),
-       local('MaterialIcons-Regular'),
-       url(/assets/material-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
-       url(/assets/material-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
-       url(/assets/material-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+  src: local('Material Icons'), local('MaterialIcons-Regular'),
+    url(/assets/material-icons/iconfont/MaterialIcons-Regular.woff2)
+      format('woff2'),
+    url(/assets/material-icons/iconfont/MaterialIcons-Regular.woff)
+      format('woff'),
+    url(/assets/material-icons/iconfont/MaterialIcons-Regular.ttf)
+      format('truetype');
 }
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  font-size: 24px; /* Preferred icon size */
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -45,4 +47,44 @@ ul.messages li:last-child {
 li time {
   font-size: 0.75em;
   color: rgba(0, 0, 0, 0.5);
+}
+
+/* FLEXBOX LESSONS */
+.fb-tutorial-flex-container {
+  display: flex;
+}
+
+/* this selector selects all divs inside of .flex-container */
+.fb-tutorial-flex-container div {
+  background: peachpuff;
+  border: 4px solid brown;
+  backgroud: lightblue;
+  height: 100px;
+  flex: 1;
+}
+
+.fb-tutorial-menu-container {
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  background-color: #5995da; /* Blue */
+  padding: 20px 0;
+}
+
+.fb-tutorial-links {
+  border: 1px solid #fff; /* For debugging */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fb-tutorial-login {
+  margin-left: 20px;
+}
+
+.fb-tutorial-menu {
+  /*This is also a container - be aware*/
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #fff; /* For debugging */
+  width: 500px;
 }
