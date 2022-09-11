@@ -144,11 +144,11 @@
     (str (re-seq EMAIL_RE_ "Well what  haha annie@gmus.net is this utur@aol.com booter?"))]
    [:hr]])
 
-(defn css-quest-1 []
+(defn css-quest-chapter-1 []
   [:<>
-   [:h2 "CSS Quest - Chapter 1"]
+   [:div [:span.warning "WARNING: "]]
+   [:p "This Blogg Entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
    [:h3 "The Box Model"]
-   [:div [:span.warning "WARNING: "] "This Blogg entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
    [:p "When I want a holistic and therapeutic `learning to code` experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
     " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
    [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I embark on this treacherous quest."]
@@ -226,7 +226,8 @@
 (defn flex-box-navbar-example []
   [:div.fb-menu-container
    [:div.fb-menu
-    [:div.fb-date "Jan 14, 1979"]
+    [:div.fb-title "FLEXBOX BLOGG"]
+    [:div]
     [:div.fb-links
      [:div.fb-signup "Sign Up"]
      [:div.fb-login "Login"]]]])
@@ -236,7 +237,7 @@
    [:div {:class "fb-header"}
     [:div {:class "fb-subscribe"} "Subscribe ▾"]
     [:div {:class "fb-logo"}
-     [:img {:src "/img/awesome-logo.svg"}]]
+     [:div "( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)"]]
     [:div {:class "fb-social"}
      [:img {:src "/img/social-icons.svg"}]]]])
 
@@ -254,9 +255,10 @@
     [:div {:class "fb-photo-grid-item last-item"}
      [:img {:src "/img/five.svg"}]]]])
 
-(defn css-quest-2 []
+(defn css-quest-chapter-2  []
   [:<>
-   [:h2 "CSS Quest - Chapter 2"]
+   [:div [:span.warning "WARNING: "]]
+   [:p "This Blogg Entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
    [:h3 "Flexbox"]
    [:p "Flexbox is the modern way to move things around on a webpage. There is a key distinction between containers and items within said containers."]
    [:p "The first step to flexboxing is to set the container to have " [:em "display: flex;"] ". Flex Items can be Flex Containers - which is a little weird but very utilitarian.
