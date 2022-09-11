@@ -148,7 +148,7 @@
   [:<>
    [:h2 "CSS Quest - Chapter 1"]
    [:h3 "The Box Model"]
-   [:div "WARNING: This Blogg entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
+   [:div [:span.warning "WARNING: "] "This Blogg entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
    [:p "When I want a holistic and therapeutic `learning to code` experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
     " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
    [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I embark on this treacherous quest."]
@@ -224,12 +224,35 @@
     [:div.column.is-one-third]]])
 
 (defn flex-box-navbar-example []
-  [:div.fb-tutorial-menu-container
-   [:div.fb-tutorial-menu
-    [:div.fb-tutorial-date "Jan 14, 1979"]
-    [:div.fb-tutorial-links
-     [:div.fb-tutorial-signup "Sign Up"]
-     [:div.fb-tutorial-login "Login"]]]])
+  [:div.fb-menu-container
+   [:div.fb-menu
+    [:div.fb-date "Jan 14, 1979"]
+    [:div.fb-links
+     [:div.fb-signup "Sign Up"]
+     [:div.fb-login "Login"]]]])
+
+(defn flex-box-header-example []
+  [:div {:class "fb-header-container"}
+   [:div {:class "fb-header"}
+    [:div {:class "fb-subscribe"} "Subscribe ▾"]
+    [:div {:class "fb-logo"}
+     [:img {:src "/img/awesome-logo.svg"}]]
+    [:div {:class "fb-social"}
+     [:img {:src "/img/social-icons.svg"}]]]])
+
+(defn flex-box-wrapping-example []
+  [:div {:class "fb-photo-grid-container"}
+   [:div {:class "fb-photo-grid"}
+    [:div {:class "fb-photo-grid-item first-item"}
+     [:img {:src "/img/one.svg"}]]
+    [:div {:class "fb-photo-grid-item"}
+     [:img {:src "/img/two.svg"}]]
+    [:div {:class "fb-photo-grid-item"}
+     [:img {:src "/img/three.svg"}]]
+    [:div {:class "fb-photo-grid-item"}
+     [:img {:src "/img/four.svg"}]]
+    [:div {:class "fb-photo-grid-item last-item"}
+     [:img {:src "/img/five.svg"}]]]])
 
 (defn css-quest-2 []
   [:<>
@@ -242,26 +265,42 @@
    [:p "Here is a block of divs nested within a flex container:"]
    [codeblock
     (pr-str
-     [:div.fb-tutorial-flex-container
+     [:div.fb-flex-container
       [:div]
       [:div]
       [:div]
       [:div]])]
-   [:div.fb-tutorial-flex-container
+   [:div.fb-flex-container
     [:div]
     [:div]
     [:div]
     [:div]]
    [:p]
    [:p "The navbar at the top of this Blogg was made using Bulma CSS...but let's look at how to build a navbar with Flexbox"]
-
    [:p "I will be following this tutorial: " [:a [:href "https://www.internetingishard.com/html-and-css/flexbox/"]]]
    [:p "Flexbox containers hold flexbox items and manage how they are laid out on the page. These decisions are made by the CONTAINER."]
    [flex-box-navbar-example]
-   [:img {:src "/img/bite.png" :style {:object-fit "cover" :width "200px" :height "100px"}}]
-   [:p
-    "Flex containers only define rules for their children - not their grandchildren.  The rules only apply to elements one level deep. This can be used to our advantage.
-    Let's take a look..."]
-   [:p "Ended here " [:a [:href "https://www.internetingishard.com/html-and-css/flexbox/"]] " at grouping flex items"]
+   [flex-box-header-example]
+   [:p "I'd advise going through this process yourself.  Here is what I learned from the process (gotchas included): "]
+   [:ul
+    [:li "Changing the width of an element will undo all flexbox rules (why?)"]
+    [:li "Justify Content <- justifies horizontally ->"]
+    [:li "Align Items \\/ aligns vertically /\\"]
+    [:li "Flex containers only define rules for their children - not their grandchildren.  The rules only apply to elements one level deep."]]
+
+   [:p "I will now go thru the god damn wrapping example.  This post really needs some polish lol."]
+   [flex-box-wrapping-example]
+
+
+   [:p "Here is what I learned from the process (gotchas included): "]
+   [:ul
+    [:li "Wrapping flex-box items allows us to easily handle over-flowing elements."]
+    [:li "Justify Content & Align Items mean different things depending on what flex-direction is set to (column || row)."]
+    [:li "It's easy to reverse order of elements with flex-direction (row-reverse || column-reverse)."]
+    [:li "The default value for 'order' is set to 0 on all flexbox items.  This can be modified on an individual basis to change order of elements."]
+    [:li "Giving a flexbox item a value of 1 for 'order' will move it to the end."]
+    [:li "Giving a flexbox item a value of -1 for 'order' will move it to the front."] ]
+   [:p "The order values in flexbox items isn't very well explained in the tutorial linked above, so here is a little more depth: " [:a {:href "https://mastery.games/post/flexbox-order/" :target "_blank"} "How Flexbox Order Works"] "."]
+   [:p "Stopped at Flex Item Alignment. Four more sections & a summary...Yeesh. Fucking hate CSS"]
    ])
 

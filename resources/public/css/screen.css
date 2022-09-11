@@ -48,14 +48,21 @@ li time {
   font-size: 0.75em;
   color: rgba(0, 0, 0, 0.5);
 }
+span.warning {
+  -webkit-text-stroke: 0.2px black; /* width and color */
+  color: red;
+  font-family: 'VT323';
+  font-weight: bold;
+  font-size: 1.6rem;
+}
 
 /* FLEXBOX LESSONS */
-.fb-tutorial-flex-container {
+.fb-flex-container {
   display: flex;
 }
 
 /* this selector selects all divs inside of .flex-container */
-.fb-tutorial-flex-container div {
+.fb-flex-container div {
   background: peachpuff;
   border: 4px solid brown;
   backgroud: lightblue;
@@ -63,28 +70,71 @@ li time {
   flex: 1;
 }
 
-.fb-tutorial-menu-container {
+.fb-menu-container {
   display: flex;
   justify-content: center;
   color: #fff;
-  background-color: #5995da; /* Blue */
+  background-color: #363636; /* Matches the site Header */
   padding: 20px 0;
 }
 
-.fb-tutorial-links {
-  border: 1px solid #fff; /* For debugging */
+.fb-links {
   display: flex;
   justify-content: flex-end;
 }
 
-.fb-tutorial-login {
+.fb-login {
   margin-left: 20px;
 }
 
-.fb-tutorial-menu {
+.fb-menu {
   /*This is also a container - be aware*/
   display: flex;
   justify-content: space-between;
-  border: 1px solid #fff; /* For debugging */
   width: 500px;
+}
+
+
+.fb-header-container {
+  color: #5995da;
+  background-color: #d6e9fe;
+  display: flex;
+  justify-content: center;
+}
+
+.fb-header {
+  align-items: center;
+  width: 900px;
+  height: 300px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.fb-photo-grid-container {
+  display: flex;
+  justify-content: center;
+}
+
+.fb-photo-grid {
+  width: 900px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.fb-photo-grid-item {
+  border: 1px solid #fff;
+  width: 300px;
+  height: 300px;
+}
+
+.first-item {
+  order: 1; /*moves first item to the end*/
+}
+
+.last-item {
+  order: -1; /*moves last item to the front*/
 }
