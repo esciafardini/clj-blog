@@ -4,8 +4,7 @@
    [clj-blog.blog-posts.utils :refer [codeblock]]
    [clojure.string :as string]
    [clojure.walk :as walk]
-   [goog.string.linkify :refer [EMAIL_RE_]]
-   [re-frame.core :as rf])
+   [goog.string.linkify :refer [EMAIL_RE_]])
   (:import
    [goog.math Integer]))
 
@@ -144,90 +143,11 @@
     (str (re-seq EMAIL_RE_ "Well what  haha annie@gmus.net is this utur@aol.com booter?"))]
    [:hr]])
 
-(defn css-quest-chapter-1 []
-  [:<>
-   [:div [:span.warning "WARNING: "]]
-   [:p "This Blogg Entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
-   [:h3 "The Box Model"]
-   [:p "When I want a holistic and therapeutic `learning to code` experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
-    " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
-   [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I embark on this treacherous quest."]
-   [:p "Odin told me: "
-    [:em "\"Unfortunately, many learners race through learning HTML and CSS to get to JavaScript and end up missing these fundamental concepts.
-         This leads to frustration and pain because all the JavaScript skills in the world are meaningless if you can’t stick
-         your elements on the page where you need them to be.\""]]
-   [:p "This describes my situation pretty well."]
-   [:p "I avoid CSS because whenever I deal with CSS -  I end up behaving this way:"]
-   [:img {:src "/img/belial.gif"}]
-   [:p "I don't want to BEHAVE this way anymore."]
-   [:p "This will be the first of many CSS posts with example codes and revelations peppered in.  I intend to begin at the Box Model and finish
-       with Bulma CSS - as this blog utilizes Bulma CSS and that's ultimately what I want to understand."]
-   [:p "God this is going to be dull.....LET'S GO!"]
-   [:div {:style {:border "2px solid red"}} "Every HTML element is a box.  This is a div....EVERY element is a BOX.  Ok?"]
-   [:div {:style {:padding "8px" :border "2px solid red"}} "PADDING example - Padding occurs inside the border."]
-   [:div {:style {:margin "8px" :border "2px solid red"}} "MARGIN example - Margin occurs outside of the border."]
-   [:div {:style {:width "100px" :border "2px solid red"}} "Width? Specifying Height & Width will specify height & width inside of padding"]
-   [:p "Here's a weird and annoying CSS-ism:  Margin is shared between elements."]
-   [:div {:style {:height "40px" :border "2px solid red"}} "This is an element with height 40px"]
-   [:div {:style {:margin "40px" :border "2px solid red"}} "A box element with 40px margin.."]
-   [:div {:style {:margin "40px" :border "2px solid red"}} "A box element with 40px margin..."]
-   [:p "As you can see - despite the two elements above having 40px margin - there is only 40px of space between them.  This is because margin collapses between two elements that are next to eachother."]
-   [:p "If one element has a larger margin, this larger margin will take precedence.  Pretty annoying, huh?"]
-   [:p "The concept of margins being `shared` also applies to negative margins.  If one shared margin is negative and one is postive, the resulting margin will be [positive margin] - [negative margin]"]
-   [:p "If there are two negative margins (i.e. -40 and -50) - the resulting margin will be -50 since that is the greater scalar quantity."]
-   [:p "This is weird & confusing...it's called `Margin Collapsing`.  It only happens to the top & bottom margins - NOT left & right."]
-   [:p "Why margin collapsing is good:"]
-   [:p "This prevents empty elements from adding extra, usually undesirable, vertical margin space. It keeps spacing consistent between header elements and paragraphs.
-        It applies to nested elements which prevents unreasonably large and unexpected margins between nested elements."]
-   [:p "Main takeaways:"]
-   [:p {:style {:margin "18px" :border "2px solid red"}} "Use margin to separate distinct elements from one another."]
-   [:p {:style {:padding "18px" :border "2px solid red"}} "Use padding to create space within an element."]
-   [:p "Setting box-sizing to `border-box` is common practice because it allows you to be explicit about height and width of elements."]
-   [:p {:style {:box-sizing "content-box" :height "300px" :width "300px" :padding "40px" :border "20px solid red"}}
-    "Default CSS box-sizing is set to \"content-box\" Observe this in Chrome dev tools. Even though height is set to 200px and width is set to 500px,
-    the actual height and width are higher because `content-box` adds padding and border to the height and width."]
-   [:p {:style {:box-sizing "border-box" :height "300px" :width "300px" :padding "40px" :border "20px solid red"}}
-    "This div has box-sizing set to \"border-box\".  This way, user defined height and width is not appended to with padding and margin."]
-   [:p "How do we do the mental math to find the actual height & width of an element with box-sizing set to `content-box`?
-       We disregard margin, as that spacing exists outside of height & width.  Padding must be added to height and width twice as it is added to all 4 sides of the element.
-       Border must also be added to height and width twice for the same reason."]
-   [:p "The following css codeblocks are identical.  Margin will fill in top & bottom or left & right if only two values are provided."]
-   [codeblock
-    ".box {margin: 0 1.5em;}"
-    false "css" hljs/androidstudio]
-   [:p "Notice that the code above is a condensed version of the code below."]
-   [codeblock
-    ".box {margin: 0 1.5em 0 1.5em;}"
-    false "css" hljs/androidstudio]
-   [:h3 "Inline vs. Block Elements"]
-   [:p "An inline element is one that does not break onto a new line - like `span` or `em`."]
-   [:p "A block element is one that does break onto a new line - like `div` or `p`."]
-   [:p "Using `display: inline-block` on an inline element will do something special.  The element will not break onto a new line - but height and width will be respected."]
-   [:h3 "Aligning Elements"]
-   [:p "In vanilla CSS, the following code will align items to the center:"]
-   [codeblock
-    ".box {\nmargin: 0 auto;\nwidth: 50%;\n}"
-    false "css" hljs/androidstudio]
-   [:p "It is very important to set a width when aligning this way, otherwise it will not work. This is because the default width of a block element is 100% of the page."]
-   [:p {:style {:margin "0 auto" :width "50%" :border "2px solid red" :text-align "center"}} "am I middling?"]
-   [:h3 "CSS Bulma"]
-   [:p {:style {:margin-top "1rem"}} "Since Bulma is available here, we can use Bulma columns to right align:"]
-   [codeblock
-    "[:div.columns
-      [:div.column.is-one-third]
-      [:div.column \"Am I middling?\"]
-      [:div.column.is-one-third]]"]
-   [:div.columns {:style {:margin-top "5px"}}
-    [:div.column.is-one-third]
-    [:div.column
-     {:style {:border "2px solid red" :text-align "center"}} "Am I middling?"]
-    [:div.column.is-one-third]]])
-
 (defn flex-box-navbar-example []
   [:div.fb-menu-container
    [:div.fb-menu
     [:div.fb-title "FLEXBOX BLOGG"]
-    [:div]
+    #_[:div]
     [:div.fb-links
      [:div.fb-signup "Sign Up"]
      [:div.fb-login "Login"]]]])
@@ -255,11 +175,104 @@
     [:div {:class "fb-photo-grid-item last-item"}
      [:img {:src "/img/five.svg"}]]]])
 
-(defn css-quest-chapter-2  []
+(defn flex-box-footer []
+  [:div {:class "fb-footer"}
+   [:div {:class "fb-footer-item fb-footer-one"} "Flex: initial"]
+   [:div {:class "fb-footer-item fb-footer-two"} "Flex: 1"]
+   [:div {:class "fb-footer-item fb-footer-three"} "Flex: initial"]])
+
+(defn css-quest []
   [:<>
+   [:p "Here are some Flexbox resources:"]
+   [:ul
+    [:li
+     [:a {:href "https://css-tricks.com/snippets/css/a-guide-to-flexbox/"
+          :target "_blank"} "Flexbox Illustrated Guide"]]
+    [:li
+     [:a {:href "https://mastery.games/post/flexboxzombies2/"
+          :target "_blank"} "Flexbox Zombies Game"]]
+    [:li
+     [:a {:href "https://flexbox.malven.co/"
+          :target "_blank"} "More Flexbox Illustrations"]]]
+
    [:div [:span.warning "WARNING: "]]
    [:p "This Blogg Entry is pretty sloppy and entirely self serving.  Proceed and your own risk."]
-   [:h3 "Flexbox"]
+
+   [:p "When I want a holistic and therapeutic 'learning to code' experience, I turn to " [:a {:href "https://www.theodinproject.com"} "The Odin Project"]
+    " because it's a warm and friendly place with fantastic reading material and a great community of people ready to answer any questions that may arise."]
+   [:p "I am turning to Odin for help with CSS because I hate it and I need a friend to tell me it's going to be okay as I embark on this treacherous quest."]
+   [:p "Odin told me: "
+    [:em "\"Unfortunately, many learners race through learning HTML and CSS to get to JavaScript and end up missing these fundamental concepts.
+         This leads to frustration and pain because all the JavaScript skills in the world are meaningless if you can’t stick
+         your elements on the page where you need them to be.\""]]
+   [:p "This describes my situation pretty well."]
+   [:p "I avoid CSS because whenever I deal with CSS -  I end up behaving this way:"]
+   [:img {:src "/img/belial.gif"}]
+   [:p "I don't want to BEHAVE this way anymore."]
+   [:p "This will be the first of two CSS blogg posts with example codes and revelations peppered in.  I intend to begin with more generic CSS (part 1) and move on to
+       Bulma CSS (part 2) as this blog utilizes Bulma CSS and that's ultimately what I want to understand."]
+   [:p "God this is going to be dull.....LET'S GO!"]
+   [:h1 "Chapter 1: The Box Model"]
+   [:div {:style {:border "2px solid red"}} "Every HTML element is a box.  This is a div....EVERY element is a BOX.  Ok?"]
+   [:div {:style {:padding "8px" :border "2px solid red"}} "PADDING example - Padding occurs inside the border."]
+   [:div {:style {:margin "8px" :border "2px solid red"}} "MARGIN example - Margin occurs outside of the border."]
+   [:div {:style {:width "100px" :border "2px solid red"}} "Width? Specifying Height & Width will specify height & width inside of padding"]
+   [:p "Here's a weird and annoying CSS-ism:  Margin is shared between elements."]
+   [:div {:style {:height "40px" :border "2px solid red"}} "This is an element with height 40px"]
+   [:div {:style {:margin "40px" :border "2px solid red"}} "A box element with 40px margin.."]
+   [:div {:style {:margin "40px" :border "2px solid red"}} "A box element with 40px margin..."]
+   [:p "As you can see - despite the two elements above having 40px margin - there is only 40px of space between them.  This is because margin collapses between two elements that are next to eachother."]
+   [:p "If one element has a larger margin, this larger margin will take precedence.  Pretty annoying, huh?"]
+   [:p "The concept of margins being 'shared' also applies to negative margins.  If one shared margin is negative and one is postive, the resulting margin will be [positive margin] - [negative margin]"]
+   [:p "If there are two negative margins (i.e. -40 and -50) - the resulting margin will be -50 since that is the greater scalar quantity."]
+   [:p "This is weird & confusing...it's called 'Margin Collapsing'.  It only happens to the top & bottom margins - NOT left & right."]
+   [:p "Why margin collapsing is good:"]
+   [:p "This prevents empty elements from adding extra, usually undesirable, vertical margin space. It keeps spacing consistent between header elements and paragraphs.
+        It applies to nested elements which prevents unreasonably large and unexpected margins between nested elements."]
+   [:p "Main takeaways:"]
+   [:p {:style {:margin "18px" :border "2px solid red"}} "Use margin to separate distinct elements from one another."]
+   [:p {:style {:padding "18px" :border "2px solid red"}} "Use padding to create space within an element."]
+   [:p "Setting box-sizing to 'border-box' is common practice because it allows you to be explicit about height and width of elements."]
+   [:p {:style {:box-sizing "content-box" :height "300px" :width "300px" :padding "40px" :border "20px solid red"}}
+    "Default CSS box-sizing is set to \"content-box\" Observe this in Chrome dev tools. Even though height is set to 200px and width is set to 500px,
+    the actual height and width are higher because 'content-box' adds padding and border to the height and width."]
+   [:p {:style {:box-sizing "border-box" :height "300px" :width "300px" :padding "40px" :border "20px solid red"}}
+    "This div has box-sizing set to \"border-box\".  This way, user defined height and width is not appended to with padding and margin."]
+   [:p "How do we do the mental math to find the actual height & width of an element with box-sizing set to 'content-box'?
+       We disregard margin, as that spacing exists outside of height & width.  Padding must be added to height and width twice as it is added to all 4 sides of the element.
+       Border must also be added to height and width twice for the same reason."]
+   [:p "The following css codeblocks are identical.  Margin will fill in top & bottom or left & right if only two values are provided."]
+   [codeblock
+    ".box {margin: 0 1.5em;}"
+    false "css" hljs/androidstudio]
+   [:p "Notice that the code above is a condensed version of the code below."]
+   [codeblock
+    ".box {margin: 0 1.5em 0 1.5em;}"
+    false "css" hljs/androidstudio]
+   [:h3 "Inline vs. Block Elements"]
+   [:p "An inline element is one that does not break onto a new line - like 'span' or 'em'."]
+   [:p "A block element is one that does break onto a new line - like 'div' or 'p'."]
+   [:p "Using 'display: inline-block' on an inline element will do something special.  The element will not break onto a new line - but height and width will be respected."]
+   [:h3 "Aligning Elements"]
+   [:p "In vanilla CSS, the following code will align items to the center:"]
+   [codeblock
+    ".box {\nmargin: 0 auto;\nwidth: 50%;\n}"
+    false "css" hljs/androidstudio]
+   [:p "It is very important to set a width when aligning this way, otherwise it will not work. This is because the default width of a block element is 100% of the page."]
+   [:p {:style {:margin "0 auto" :width "50%" :border "2px solid red" :text-align "center"}} "am I middling?"]
+   [:h3 "CSS Bulma"]
+   [:p {:style {:margin-top "1rem"}} "Since Bulma is available here, we can use Bulma columns to center align:"]
+   [codeblock
+    "[:div.columns
+      [:div.column.is-one-third]
+      [:div.column \"Am I middling?\"]
+      [:div.column.is-one-third]]"]
+   [:div.columns {:style {:margin-top "5px"}}
+    [:div.column.is-one-third]
+    [:div.column
+     {:style {:border "2px solid red" :text-align "center"}} "Am I middling?"]
+    [:div.column.is-one-third]]
+   [:h1 "Chapter 2: Flexbox"]
    [:p "Flexbox is the modern way to move things around on a webpage. There is a key distinction between containers and items within said containers."]
    [:p "The first step to flexboxing is to set the container to have " [:em "display: flex;"] ". Flex Items can be Flex Containers - which is a little weird but very utilitarian.
        Also worth noting: The display property is the same one we used to set to " [:em "block"] " and " [:em "inline"] ". This is a new use case for the display property."]
@@ -288,21 +301,38 @@
     [:li "Changing the width of an element will undo all flexbox rules (why?)"]
     [:li "Justify Content <- justifies horizontally ->"]
     [:li "Align Items \\/ aligns vertically /\\"]
-    [:li "Flex containers only define rules for their children - not their grandchildren.  The rules only apply to elements one level deep."]]
+    [:li "Flex containers only define rules for their children - not their grandchildren.  The rules only apply to elements one level deep."]
+
+    [:li "Setting align-self will override the alignment in the flex container for individual elements."]]
 
    [:p "I will now go thru the god damn wrapping example.  This post really needs some polish lol."]
    [flex-box-wrapping-example]
 
-
-   [:p "Here is what I learned from the process (gotchas included): "]
+   [:p "Here is what I learned from the process: "]
    [:ul
     [:li "Wrapping flex-box items allows us to easily handle over-flowing elements."]
     [:li "Justify Content & Align Items mean different things depending on what flex-direction is set to (column || row)."]
-    [:li "It's easy to reverse order of elements with flex-direction (row-reverse || column-reverse)."]
+    [:li "It's easy to reverse order of elements with :flex-direction (row-reverse || column-reverse)."]
     [:li "The default value for 'order' is set to 0 on all flexbox items.  This can be modified on an individual basis to change order of elements."]
     [:li "Giving a flexbox item a value of 1 for 'order' will move it to the end."]
-    [:li "Giving a flexbox item a value of -1 for 'order' will move it to the front."] ]
-   [:p "The order values in flexbox items isn't very well explained in the tutorial linked above, so here is a little more depth: " [:a {:href "https://mastery.games/post/flexbox-order/" :target "_blank"} "How Flexbox Order Works"] "."]
-   [:p "Stopped at Flex Item Alignment. Four more sections & a summary...Yeesh. Fucking hate CSS"]
-   ])
+    [:li "Giving a flexbox item a value of -1 for 'order' will move it to the front."]]
 
+   [:p "The order values in flexbox items aren't very well explained in the tutorial linked above, so here is a little more depth: " [:a {:href "https://mastery.games/post/flexbox-order/" :target "_blank"} "How Flexbox Order Works"] "."]
+   [:h3 "Flexible Items"]
+   [:div "Here we can see what happens when we set the 'flex' value.  Initial will fall back to default. Since width is set to 100px, the outer-most elements will remain fixed and the middle item
+         will be flexible in size when the page width is changed."]
+   [flex-box-footer]
+   [:h3 "The Flex Shorthand"]
+   [:p "When flex is set, there are three properties being set. Setting 'flex: 1' is shorthand for 'flex: 1 1 0'."]
+   [:h4 "flex-grow AKA growth rate"]
+   [:p "This is called the flex item's 'growth factor' and determines how quickly it will grow. Just setting flex to 2 will set flex-grow to 2."]
+
+   [:h4 "flex-shrink AKA shrink rate"]
+   [:p "This is the same idea as flex-grow, but determines the rate at which the element shrinks when the page width is decreasing.  This also defaults to whatever you set 'flex' to, like flex-grow."]
+   [:p "Setting flex-shrink to 0 will keep the element from decreasing below it's set width. Note: set widths are a minimum value.  If the element can, it will grow larger than the set width."]
+
+   [:h4 "flex-basis AKA ideal size"]
+   [:p "Flex-basis sets the initial size of the flexbox item. Setting this to auto will make the element adhere to a width."]
+   [:p "According to Odin, generally flex is set to integers (shorthand notation) and sometimes flex-shrink is set to 0 to prevent items from shrinking."]
+   [:p "Complete the assignments in the last thing"]
+   [:p "For landing page project, add a sidebar to blog that splits to the bottom on mobile, and maybe an image as background instead of solid color of navbar"]])
