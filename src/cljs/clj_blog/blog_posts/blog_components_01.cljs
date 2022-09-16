@@ -292,7 +292,7 @@
     [:div]]
    [:p]
    [:p "The navbar at the top of this Blogg was made using Bulma CSS...but let's look at how to build a navbar with Flexbox"]
-   [:p "I will be following this tutorial: " [:a [:href "https://www.internetingishard.com/html-and-css/flexbox/"]]]
+   [:p "I will be following this tutorial: " [:a {:href "https://www.internetingishard.com/html-and-css/flexbox/"}]]
    [:p "Flexbox containers hold flexbox items and manage how they are laid out on the page. These decisions are made by the CONTAINER."]
    [flex-box-navbar-example]
    [flex-box-header-example]

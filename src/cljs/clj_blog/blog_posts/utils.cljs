@@ -5,6 +5,17 @@
    ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
    [zprint.core :as zp]))
 
+(defn sleep [f ms]
+  (js/setTimeout f ms))
+
+(defn loading-indicator
+  "Cute Sonic The Hedgehog loading indicator hiccup"
+  []
+  [:div [:img {:src "/img/loading.gif" :style {:width "10rem"}}]
+   [:div
+    {:style {:text-align "center"}}
+    [:span.warning  "# LOADING #"]]])
+
 (defn inst->date-str
   "Takes an inst and returns a human-readable string after
    converting it into a js/Date object."

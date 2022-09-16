@@ -1,10 +1,10 @@
 (ns clj-blog.core
   (:require
+   [clj-blog.ajax :as ajax]
    [clj-blog.routes.app :refer [app-routes]]
    [clj-blog.views.navbar :as navbar]
    [mount.core :as mount]
    [re-frame.core :as rf]
-   [clj-blog.ajax :as ajax] ;;CAREFUL - this needs to be here even tho LSP thinks it doesn't
    [reagent.dom :as dom]
    [reitit.coercion.spec :as reitit-spec]
    [reitit.frontend :as reitit-fe]
