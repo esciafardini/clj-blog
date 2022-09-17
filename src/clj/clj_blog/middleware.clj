@@ -54,21 +54,14 @@
 ;wrap-base ties all the common middleware together in the order of dependency
 ;also adds ring defaults
 (defn wrap-base [handler]
-  (let [config-file (:conf (source/from-system-props))]
-   (-> ((:middleware defaults) handler)
+  (-> ((:middleware defaults) handler)
       (wrap-defaults
-       (-> site-defaults
-           (assoc-in [:security :anti-forgery] false)
-           (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
-           ;Enable HTTPS redirect...
-           ;TODO - look into these settings and what they mean:
-           (assoc :proxy (if (= config-file "dev-config.edn")
-                                         false
-                                         true))
-           (assoc-in [:security :hsts] (if (= config-file "dev-config.edn")
-                                         false
-                                         true))
-           (assoc-in [:security :ssl-redirect] (if (= config-file "dev-config.edn")
-                                                 false
-                                                 true))))
-      wrap-internal-error)))
+        (-> site-defaults
+            (assoc-in [:security :anti-forgery] false)
+            (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
+            ;Enable HTTPS redirect...
+            ;TODO - look into these settings and what they mean:
+            (assoc-in [:security :hsts] (get defaults :hsts true))
+            (assoc-in [:security :ssl-redirect] (get defaults :ssl-redirect true))
+            (assoc-in [:proxy] (get defaults :proxy true))))
+      wrap-internal-error))

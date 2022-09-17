@@ -12,4 +12,7 @@
    :stop
    (fn []
      (log/info "\n-=[clj-blog has shut down successfully]=-"))
-   :middleware wrap-dev})
+   :middleware wrap-dev
+   :hsts false
+   :ssl-redirect false
+   :proxy false})
