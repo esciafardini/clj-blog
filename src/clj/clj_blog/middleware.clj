@@ -1,13 +1,15 @@
 (ns clj-blog.middleware
   (:require
    [clj-blog.env :refer [defaults]]
-   [clojure.tools.logging :as log]
    [clj-blog.layout :refer [error-page]]
-   [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
    [clj-blog.middleware.formats :as formats]
+   [clojure.tools.logging :as log]
+   [cprop.source :as source]
    [muuntaja.middleware :refer [wrap-format wrap-params]]
    [ring-ttl-session.core :refer [ttl-memory-store]]
-   [ring.middleware.defaults :refer [site-defaults wrap-defaults]]))
+   [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
+   [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+   [ring.middleware.ssl :refer wrap-hsts]))
 
 ;This namespace is reserved for any wrapper functions that are used to modify the requests and responses
 ;a central place for handling common tasks such as CSRF protection
@@ -52,13 +54,21 @@
 ;wrap-base ties all the common middleware together in the order of dependency
 ;also adds ring defaults
 (defn wrap-base [handler]
-  (-> ((:middleware defaults) handler)
+  (let [config-file (:conf (source/from-system-props))]
+   (-> ((:middleware defaults) handler)
       (wrap-defaults
        (-> site-defaults
            (assoc-in [:security :anti-forgery] false)
            (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
            ;Enable HTTPS redirect...
            ;TODO - look into these settings and what they mean:
-           (assoc-in [:security :hsts] true)
-           (assoc-in [:security :ssl-redirect] true)))
-      wrap-internal-error))
+           (assoc :proxy (if (= config-file "dev-config.edn")
+                                         false
+                                         true))
+           (assoc-in [:security :hsts] (if (= config-file "dev-config.edn")
+                                         false
+                                         true))
+           (assoc-in [:security :ssl-redirect] (if (= config-file "dev-config.edn")
+                                                 false
+                                                 true))))
+      wrap-internal-error)))
