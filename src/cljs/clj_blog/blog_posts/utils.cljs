@@ -5,16 +5,23 @@
    ["react-syntax-highlighter/dist/esm/styles/hljs" :as hljs]
    [zprint.core :as zp]))
 
-(defn sleep [f ms]
+(defn sleep
+  "Was going to use this to delay rendering of Loading indicator"
+  [f ms]
   (js/setTimeout f ms))
 
+(comment
+  (sleep (fn [] (js/alert "5 seconds")) 5000))
+
 (defn loading-indicator
-  "Cute Sonic The Hedgehog loading indicator hiccup"
+  "Cute Sonic The Hedgehog loading indicator"
   []
-  [:div [:img {:src "/img/loading.gif" :style {:width "10rem"}}]
+  [:div {:style {:display "flex" :flex-direction "column" :align-items "center"}}
    [:div
-    {:style {:text-align "center"}}
-    [:span.warning  "# LOADING #"]]])
+    [:span.warning "~ PLEASE HOLD ~"]]
+   [:img {:src "/img/loading.gif" :style {:margin-right "2rem" :width "10rem"}}]
+   [:div
+    [:span.warning  "~ PAGE LOADING ~"]]])
 
 (defn inst->date-str
   "Takes an inst and returns a human-readable string after
@@ -32,7 +39,8 @@
        (drop-last 1) ;remove added \n
        string/join))
 
-(format-code "(def x 4) (def v 7)")
+(comment
+  (format-code "(def x 4) (def v 7)"))
 
 (defn codeblock
   "Adds syntax highlighting and formatting to code snippets for rendering"
