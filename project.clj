@@ -1,8 +1,8 @@
 (defproject clj-blog "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  
+  :description "A Blogg about Functional Programming"
+  :url "http://www.fpblogg.com"
+
   :dependencies [[ch.qos.logback/logback-classic "1.2.3"]
                  [cheshire "5.10.0"]
                  [clojure.java-time "0.3.2"]
@@ -44,8 +44,8 @@
 
   :min-lein-version "2.0.0"
 
-; I’ve figured this one out. The previous project.clj with the :cljsbuild config had its own :source-paths [“src/cljs”] entry. 
-; When switching over to shadow-cljs, we also have to add “src/cljs” to our lein :source-paths. 
+; I’ve figured this one out. The previous project.clj with the :cljsbuild config had its own :source-paths [“src/cljs”] entry.
+; When switching over to shadow-cljs, we also have to add “src/cljs” to our lein :source-paths.
 ; This isn’t called out in the current version of the book and might be worth including.
 ; Thanks
 

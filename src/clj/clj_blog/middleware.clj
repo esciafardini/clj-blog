@@ -52,12 +52,14 @@
 ;wrap-base ties all the common middleware together in the order of dependency
 ;also adds ring defaults
 (defn wrap-base [handler]
+  ;; defaults can come from two sources:
+  ;; env.clj for dev OR prod
   (-> ((:middleware defaults) handler)
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
             (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
-            (assoc-in [:security :hsts] (get defaults :hsts true))
-            (assoc-in [:security :ssl-redirect] (get defaults :ssl-redirect true))
-            (assoc-in [:proxy] (get defaults :proxy true))))
+            (assoc-in [:security :hsts] (get defaults :hsts))
+            (assoc-in [:security :ssl-redirect] (get defaults :ssl-redirect))
+            (assoc-in [:proxy] (get defaults :proxy))))
       wrap-internal-error))

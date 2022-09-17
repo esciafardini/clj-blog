@@ -1,4 +1,5 @@
 (ns clj-blog.env
+  "Dev defaults"
   (:require
     [selmer.parser :as parser]
     [clojure.tools.logging :as log]
@@ -13,6 +14,7 @@
    (fn []
      (log/info "\n-=[clj-blog has shut down successfully]=-"))
    :middleware wrap-dev
+   ;; do not re-direct http -> https in development environment
    :hsts false
    :ssl-redirect false
    :proxy false})
