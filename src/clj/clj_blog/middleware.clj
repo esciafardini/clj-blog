@@ -1,13 +1,13 @@
 (ns clj-blog.middleware
   (:require
-    [clj-blog.env :refer [defaults]]
-    [clojure.tools.logging :as log]
-    [clj-blog.layout :refer [error-page]]
-    [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
-    [clj-blog.middleware.formats :as formats]
-    [muuntaja.middleware :refer [wrap-format wrap-params]]
-    [ring-ttl-session.core :refer [ttl-memory-store]]
-    [ring.middleware.defaults :refer [site-defaults wrap-defaults]]))
+   [clj-blog.env :refer [defaults]]
+   [clojure.tools.logging :as log]
+   [clj-blog.layout :refer [error-page]]
+   [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
+   [clj-blog.middleware.formats :as formats]
+   [muuntaja.middleware :refer [wrap-format wrap-params]]
+   [ring-ttl-session.core :refer [ttl-memory-store]]
+   [ring.middleware.defaults :refer [site-defaults wrap-defaults]]))
 
 ;This namespace is reserved for any wrapper functions that are used to modify the requests and responses
 ;a central place for handling common tasks such as CSRF protection
@@ -33,12 +33,11 @@
 
 (defn wrap-csrf [handler]
   (wrap-anti-forgery
-    handler
-    {:error-response
-     (error-page
-       {:status 403
-        :title "Invalid anti-forgery token"})}))
-
+   handler
+   {:error-response
+    (error-page
+     {:status 403
+      :title "Invalid anti-forgery token"})}))
 
 (defn wrap-formats
   "The pattern is visible here as well.
@@ -55,7 +54,11 @@
 (defn wrap-base [handler]
   (-> ((:middleware defaults) handler)
       (wrap-defaults
-        (-> site-defaults
-            (assoc-in [:security :anti-forgery] false)
-            (assoc-in  [:session :store] (ttl-memory-store (* 60 30)))))
+       (-> site-defaults
+           (assoc-in [:security :anti-forgery] false)
+           (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
+           ;Enable HTTPS redirect...
+           ;TODO - look into these settings and what they mean:
+           (assoc-in [:security :hsts] true)
+           (assoc-in [:security :ssl-redirect] true)))
       wrap-internal-error))

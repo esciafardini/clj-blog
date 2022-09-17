@@ -3,6 +3,11 @@
    [ajax.core :refer [GET]]
    [re-frame.core :as rf]))
 
+; :ajax/get
+; {:url "/api/blog-posts"
+;  :success-path [:blog-list]
+;  :success-event [:blog-list/set]}
+
 (rf/reg-fx
  :ajax/get
  (fn [{:keys [url success-event error-event success-path]}] ;;success-path allows us to specify a path in the response we'd like to pas to our success-event
