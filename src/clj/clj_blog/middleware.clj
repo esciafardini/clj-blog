@@ -4,12 +4,10 @@
    [clj-blog.layout :refer [error-page]]
    [clj-blog.middleware.formats :as formats]
    [clojure.tools.logging :as log]
-   [cprop.source :as source]
    [muuntaja.middleware :refer [wrap-format wrap-params]]
    [ring-ttl-session.core :refer [ttl-memory-store]]
    [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
-   [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-   [ring.middleware.ssl :refer wrap-hsts]))
+   [ring.middleware.defaults :refer [site-defaults wrap-defaults]]))
 
 ;This namespace is reserved for any wrapper functions that are used to modify the requests and responses
 ;a central place for handling common tasks such as CSRF protection
@@ -59,8 +57,6 @@
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)
             (assoc-in [:session :store] (ttl-memory-store (* 60 30)))
-            ;Enable HTTPS redirect...
-            ;TODO - look into these settings and what they mean:
             (assoc-in [:security :hsts] (get defaults :hsts true))
             (assoc-in [:security :ssl-redirect] (get defaults :ssl-redirect true))
             (assoc-in [:proxy] (get defaults :proxy true))))
