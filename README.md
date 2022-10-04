@@ -3,7 +3,7 @@
 generated using Luminus version "3.91"
 
 SEE IT LIVE: <br>
-[FPBLOGG Website](https://fpblogg.com).
+[FPBLOGG Website](https://fpblogg.com)
 
 ## Deployment
 
