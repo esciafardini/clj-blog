@@ -30,14 +30,17 @@
   (.toLocaleDateString (js/Date. inst-ob) "en-US" #js {:dateStyle "long"}))
 
 (defn format-code [string]
-  (->> (zp/zprint string
-                  {:parse-string? true
-                   :map {:comma? false :sort? false :force-nl? true}
-                   :vector {:respect-nl? true}
-                   :list {:respect-nl? true}})
-       with-out-str
-       (drop-last 1) ;remove added \n
-       string/join))
+  (if (not= string "\n")
+    (->> (zp/zprint string
+                    {:parse-string? true
+                     :map {:comma? false :sort? false :force-nl? true}
+                     :vector {:respect-nl? true}
+                     :list {:respect-nl? true}
+                     :fn-map {"cond" :flow-body}})
+         with-out-str
+         (drop-last 1) ;remove added \n
+         string/join)
+    " "))
 
 (comment
   (format-code "(def x 4) (def v 7)"))
@@ -55,6 +58,17 @@
     (if format?
       (format-code code)
       code)]))
+
+(apply str (interpose "\n" ["the" "what" "fuck"]))
+
+(defn codeblocks
+  "yeah"
+  [language & code-strs]
+  [:> SyntaxHighlighter
+   {:language language
+    :showLineNumbers true
+    :style hljs/nightOwl}
+   (apply str (interpose "\n" (map #(format-code %) code-strs)))])
 
 ;; JS code
 ;;

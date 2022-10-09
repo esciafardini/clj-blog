@@ -7,4 +7,5 @@
   {"blog_components_01/first-entry" blog_components_01/first-entry
    "blog_components_01/higher-order-functions" blog_components_01/higher-order-functions
    "blog_components_01/css-quest" blog_components_01/css-quest
-   "blog_components_02/idioms" blog_components_02/idioms})
+   "blog_components_02/idioms" blog_components_02/idioms
+   "blog_components_02/little-schemer-chapter8" blog_components_02/little-schemer-chapter8})
