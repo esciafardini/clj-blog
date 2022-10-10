@@ -464,9 +464,9 @@
                             (fn [result-lat-from-idx0 evens-product-from-idx0 odds-sum-from-idx0]
                               (evens-only*&co remaining
                                               (fn [new-lat evens-product odds-sum]
-                                                (f (cons nl new-lat)
-                                                   (* ep evens-product)
-                                                   (+ os odds-sum))))))))))]
+                                                (f (cons result-lat-from-idx0 new-lat)
+                                                   (* evens-product evens-product)
+                                                   (+ odds-sum-from-idx0 odds-sum))))))))))]
 
    [:p "Alright...as far as I can tell everything makes sense up until the else block. Let's go step by step. For readability, the first element and the remaining elements
         are moved to let bindings.  When the base case occurs - meaning the sequence has been traversed entirely, we call the function on [lat 1 0] which makes sense:"]
@@ -495,19 +495,19 @@
 
    [:p "Which brings us to the else block...and oh what an else block it is...."]
    [:p "I swear to God I am going to understand this"]
-   [:p "We are cons'ing the nl to the new-lat which makes me think whatever nl is is the result of calling evens-only&co on the collection in idx0."]
+   [:p "We are cons'ing the result-lat-from-idx0 to the new-lat which makes me think whatever result-lat-from-idx0 is is the result of calling evens-oresult-lat-from-idx0nly&co on the collection in idx0."]
    [:p "Let's look at this thing again"]
    [codeblock (pr-str '(evens-only*&co idx0
                                        (fn [result-lat-from-idx0 evens-product-from-idx0 odds-sum-from-idx0]
                                          (evens-only*&co remaining
                                                          (fn [new-lat evens-product odds-sum]
-                                                           (f (cons nl new-lat)
-                                                              (* ep evens-product)
-                                                              (+ os odds-sum)))))))]
+                                                           (f (cons result-lat-from-idx0 new-lat)
+                                                              (* evens-product-from-idx0 evens-product)
+                                                              (+ odds-sum-from-idx0 odds-sum)))))))]
    [:blockquote
     "Imagine you have the results from removing, summing and adding the numbers in idx0 and call these result-lat-from-idx0, evens-product-from-idx0, and odds-sum-from-idx0; then imagine you have the results from doing the same
-        thing to remaining, and call them new-lat, evens-product and odds-sum. To your waiting continuation, give the values produced by consing nl and new-lat (since we're producing
-        a list of lists); multiplying together ep and evens-product; and adding os and odds-sum. Notice: each time we make a recursive call, we construct a new continuation for the recursive call, which closes over the current values of the argument, lat, and the return continuation -
+        thing to remaining, and call them new-lat, evens-product and odds-sum. To your waiting continuation, give the values produced by consing result-lat-from-idx0 and new-lat (since we're producing
+        a list of lists); multiplying together evens-product-from-idx0 and evens-product; and adding odds-sum-from-idx0 and odds-sum. Notice: each time we make a recursive call, we construct a new continuation for the recursive call, which closes over the current values of the argument, lat, and the return continuation -
         f, in other words, you can think of the chain of continuations which we build up during the recursion as modelling the call stack of a more conventionally written function!"]
    [:p {:style {:margin-left "2rem"}} "-Someone On StackOverflow"]
    [codeblock
