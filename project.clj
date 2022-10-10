@@ -71,8 +71,7 @@
    :test          [:project/dev :project/test :profiles/test]
 
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"]
-                  :dependencies [[binaryage/devtools "1.0.6"]
-                                 [day8.re-frame/re-frame-10x "1.4.1"]
+                  :dependencies [[day8.re-frame/re-frame-10x "1.4.1"]
                                  [day8.re-frame/tracing "0.6.2"]
                                  [pjstadig/humane-test-output "0.10.0"]
                                  [prone "2020-01-17"]

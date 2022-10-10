@@ -3,7 +3,8 @@
                 :output-dir "target/cljsbuild/public/js"
                 :asset-path "/js"
                 :modules {:app {:entries [clj-blog.app]}}
-                :devtools {:preloads [day8.re-frame-10x.preload]
+                :devtools {:preloads [day8.re-frame-10x.preload
+                                      devtools.preload]
                            :watch-dir "resources/public"}
                 :dev {:closure-defines
                       {re-frame.trace.trace-enabled?        true

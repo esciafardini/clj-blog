@@ -119,9 +119,9 @@
    [:div [:span.warning "WARNING: "]]
    [:p "This Blogg Entry assumes the reader understands recursion and higher order functions.  Also, it is probably only useful if you have read or are reading The Little Schemer...."]
 
-   [:p "What is The Little Schemer?  It's a book of recursion exercises in LISP.  I have been coding along with it in Clojure & it's been an illuminating experience.  Recursion never really clicked with me before and
-        after working through these exercises, I am beginning to have an intuitive understanding of it. Chapter 8 took me a while to work through and it was by far the most challenging.
-        I reached the end of it just barely getting all of the functions to work in my REPL. I will be traversing this chapter again in this blogg entry while stripping away
+   [:p "What is The Little Schemer?  It's a book of recursion exercises in LISP.  I have been coding along with it in Clojure & it's been an illuminating experience.
+        Recursion never really clicked with me but after working through these exercises, I am beginning to have an intuitive understanding of it.
+        Chapter 8 took me a while to work through and it was by far the most challenging. I will be traversing this chapter again in this blogg entry while stripping away
         the fat and focusing on the true essence of what is covered."]
 
    [:p "Let us begin at the beginning, my child - because it's all uphill from here.  The last function in particular was a real doozy: " [:em "evens-only*&co."]]
@@ -159,7 +159,7 @@
 
    [:p "This is how it's done in the else block. This will return a collection with the first instance of \"ok\" removed from it.  Okay....so maybe this chapter is teaching us how to build functions
         that we can call on collections to do things recursively.  As usual, the chapter title " [:b "Lambda The Ultimate"]
-    " doesn't reveal much. It seems the ultimate goal is to use this function as a base for removal functions.  Here is an example of what I mean:"]
+       " doesn't reveal much. It seems the ultimate goal is to use this function as a base for removal functions.  Here is an example of what I mean:"]
 
    [codeblocks "clojure"
     (pr-str
