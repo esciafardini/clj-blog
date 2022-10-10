@@ -561,6 +561,6 @@
     ";We have a function wrapping the results from the inner call to evens-only*&co that ties the values back to the outer function"]
 
    [:p "Pattern recognition tells me that the else block is the only call to evens-only*&co that calls evens-only*&co within the function passed into it.
-        It looks as though that inner call is building it's own arguments - in a turtles all the way down fashion.  Then we cons the result into newlat and
+        It looks as though that inner call is building it's own arguments - turtles all the way down style.  Then we cons the result into newlat and
         make sure all evens and odds are accounted for the ultimate return value."]
    [:p "But I don't really understand it.  I will surely be re-visiting this and revising if it starts to make more sense.  For now, continuation remains a semi-mystery."]])
