@@ -1,7 +1,6 @@
 (ns clj-blog.blog-posts.blog-components-02
   (:require
-   [clj-blog.blog-posts.utils :refer [codeblock codeblocks]]
-   [clj-blog.log :as log]))
+   [clj-blog.blog-posts.utils :refer [codeblock codeblocks]]))
 
 (def users
   [{:first-name "Alan"
@@ -115,19 +114,15 @@
 
 (defn little-schemer-chapter8 []
   [:<>
-   [:img {:src "/img/schemer.jpg" :style {:object-fit "cover" :width "120px" :height "auto"}}]
    [:div [:span.warning "WARNING: "]]
    [:p "This Blogg Entry assumes the reader understands recursion and higher order functions.  Also, it is probably only useful if you have read or are reading The Little Schemer...."]
 
-   [:p "What is The Little Schemer?  It's a book of recursion exercises in LISP.  I have been coding along with it in Clojure & it's been an illuminating experience.
-        Recursion never really clicked with me but after working through these exercises, I am beginning to have an intuitive understanding of it.
-        Chapter 8 took me a while to work through and it was by far the most challenging. I will be traversing this chapter again in this blogg entry while stripping away
-        the fat and focusing on the true essence of what is covered."]
-
-   [:p "Let us begin at the beginning, my child - because it's all uphill from here.  The last function in particular was a real doozy: " [:em "evens-only*&co."]]
+   [:p "Let us begin at the beginning (of chapter 8) because it's all uphill from here."]
 
    [:p "The chapter begins with some nonsense about the difference between eq? and equal? that we will disregard because Clojure has a perfectly fine equality check in the
-        form of (= x y). The first new function we come across is rember-f.  I am skipping ahead a few pages and observing the function in it's final form. Essence extracted:"]
+        form of (= x y). The first new function we come across is rember-f.  I am skipping ahead a few pages and observing the function in it's final form."]
+
+   [:p "Essence extracted:"]
 
    [codeblock
     (pr-str
@@ -135,7 +130,7 @@
         [test-f]
         (fn [a l]
           (cond
-            (not (seq l)) '()
+            (not (seq l)) (list)
 
             (test-f (first l) a)
             (rest l)
@@ -144,7 +139,7 @@
             (cons (first l) ((rember-f test-f) a (rest l)))))))]
 
    [:p "It's important to notice that this function returns a function.  The function takes a function & uses it in the cond statement.  How rember-f recurses
-        ultimately depends on the result of calling the passed in function on (first l) and a.  In this case, l stands for list or collection & a stands for atom or item in the list.
+        ultimately depends on the result of calling the passed in function on (first l) and a.  In this case, lower-case L stands for list or collection & a stands for atom or item in the list.
         The else statement is building a new list from an old list recursively.  If the test-f predicate returns true, (rest l) is returned and the recursion ends."]
 
    [:p "So there are two base cases in this function: "
@@ -159,7 +154,7 @@
 
    [:p "This is how it's done in the else block. This will return a collection with the first instance of \"ok\" removed from it.  Okay....so maybe this chapter is teaching us how to build functions
         that we can call on collections to do things recursively.  As usual, the chapter title " [:b "Lambda The Ultimate"]
-       " doesn't reveal much. It seems the ultimate goal is to use this function as a base for removal functions.  Here is an example of what I mean:"]
+    " doesn't reveal much. It seems the ultimate goal is to use this function as a base for removal functions.  Here is an example of what I mean:"]
 
    [codeblocks "clojure"
     (pr-str
@@ -241,8 +236,10 @@
    [:p "Reducing over the collection (1 2 3 4) and calling the curried function each time will result in calling line 19 above. This ONLY works because there are 4 nested functions
         and 4 items in the collection.  If the collection was [1 2 3] instead of [1 2 3 4], the result of reducing would be a function equivalent to line 15 above."]
 
-   [:p "I'm pretty new to the concept of currying, but as far as I can tell - it's not explicitly supported in Clojure.  We have something similar though, in the form of partial.  ANYWAY...
-        back to Chapter 8 of the Little Schemer"]
+   [:p "I'm pretty new to the concept of currying, but as far as I can tell - it's not explicitly supported in Clojure.  We have something similar though, in the form of "
+    [:a {:target "_blank"
+         :href "https://clojuredocs.org/clojure.core/partial"} "partial"]
+    ". ANYWAY... back to Chapter 8 of the Little Schemer"]
 
    [:p "Next is another exercise in returning a function based on a predicate in the form of insertL-f.  This is really the same exact idea as rember-f, but with a
         different modification of the collection.  With this fn, we are adding a new item to the left of the first occurance of another item."]
@@ -255,7 +252,7 @@
 
           (cond
             (not (seq lat))
-            '()
+            (list)
 
             (f old (first lat))
             (cons nu lat)
@@ -282,7 +279,7 @@
                [seq-fn]
                (fn [nu old l]
                  (cond
-                   (not (seq l)) '()
+                   (not (seq l)) (list)
 
                    (= old (first l)) (seq-fn nu old (rest l))
 
@@ -326,7 +323,7 @@
         [test-f]
         (fn [a lat]
           (cond
-            (not (seq lat)) '()
+            (not (seq lat)) (list)
 
             (test-f a (first lat))
             ((multi-rember-f test-f) a (rest lat))
@@ -362,7 +359,7 @@
                [test-f lat]
                (cond
                  (not (seq lat))
-                 '()
+                 (list)
 
                  (test-f (first lat))
                  (multi-rember-T test-f (rest lat))
@@ -386,7 +383,7 @@
                [a lat f]
                (cond
                  (not (seq lat))
-                 (f '() '())
+                 (f (list) (list))
 
                  (= (first lat) a)
                  (multi-rember&co a
@@ -537,7 +534,7 @@
             :else
             (evens-only*&co idx0
                             (fn [result-lat-from-idx0 evens-product-from-idx0 odds-sum-from-idx0]
-                              (evens-only*&co (r-spy remaining)
+                              (evens-only*&co remaining
                                               (fn [new-lat evens-product odds-sum]
                                                 (f (cons result-lat-from-idx0 new-lat)
                                                    (* evens-product-from-idx0 evens-product)
@@ -554,10 +551,10 @@
     "; Next is a collection so we move into else block...uh oh"
     (pr-str
      '(evens-only*&co [2 3] (fn [result-lat-from-idx0 evens-product-from-idx0 odds-sum-from-idx-0]
-                              (evens-only*&co '(4) (fn [new-lat evens-product odds-sum]
-                                                     (f (cons result-lat-from-idx0 new-lat)
-                                                        (* evens-product-from-idx0 evens-product)
-                                                        (+ odds-sum-from-idx0 odds-sum)))))))
+                              (evens-only*&co [4] (fn [new-lat evens-product odds-sum]
+                                                    (f (cons result-lat-from-idx0 new-lat)
+                                                       (* evens-product-from-idx0 evens-product)
+                                                       (+ odds-sum-from-idx0 odds-sum)))))))
     ";We have a function wrapping the results from the inner call to evens-only*&co that ties the values back to the outer function"]
 
    [:p "Pattern recognition tells me that the else block is the only call to evens-only*&co that calls evens-only*&co within the function passed into it.
