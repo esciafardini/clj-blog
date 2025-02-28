@@ -2,8 +2,7 @@
 
 generated using Luminus version "3.91"
 
-SEE IT LIVE: <br>
-[FPBLOGG Website](https://fpblogg.com)
+** NO LONGER AN ACTIVE WEBPAGE **
 
 ## Deployment
 
